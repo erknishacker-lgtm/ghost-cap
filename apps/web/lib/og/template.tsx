@@ -3,9 +3,9 @@ import type { CSSProperties, ReactNode } from "react";
 export const OG_WIDTH = 1200;
 export const OG_HEIGHT = 630;
 
-export const OG_BLUE = "#4785FF";
-export const OG_BLUE_DEEP = "#2E6FF2";
-export const OG_BLUE_LIGHT = "#ADC9FF";
+export const OG_BLUE = "#4a4a4a";
+export const OG_BLUE_DEEP = "#1a1a1a";
+export const OG_BLUE_LIGHT = "#c9c9c9";
 /** Dark ink for text on the light sky — deep navy so it stays on-palette. */
 export const OG_INK = "#122142";
 export const OG_INK_SOFT = "rgba(18,33,66,0.74)";

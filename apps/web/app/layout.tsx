@@ -43,31 +43,31 @@ const defaultFont = localFont({
 });
 
 export const metadata: Metadata = {
-	metadataBase: new URL("https://cap.so"),
-	title: "Cap — Beautiful screen recordings, owned by you.",
+	metadataBase: new URL("https://cap.zghost.uk"),
+	title: "Ghost Cap — Beautiful screen recordings, owned by you.",
 	description:
-		"Cap is the open source alternative to Loom. Lightweight, powerful, and cross-platform. Record and share in seconds.",
+		"Ghost Cap is the open source alternative to Loom. Lightweight, powerful, and cross-platform. Record and share in seconds.",
 	openGraph: {
-		title: "Cap — Beautiful screen recordings, owned by you.",
+		title: "Ghost Cap — Beautiful screen recordings, owned by you.",
 		description:
-			"Cap is the open source alternative to Loom. Lightweight, powerful, and cross-platform. Record and share in seconds.",
+			"Ghost Cap is the open source alternative to Loom. Lightweight, powerful, and cross-platform. Record and share in seconds.",
 		type: "website",
-		url: "https://cap.so",
-		siteName: "Cap",
+		url: "https://cap.zghost.uk",
+		siteName: "Ghost Cap",
 		images: [
 			{
 				url: "/api/og",
 				width: 1200,
 				height: 630,
-				alt: "Cap — Beautiful screen recordings, owned by you.",
+				alt: "Ghost Cap — Beautiful screen recordings, owned by you.",
 			},
 		],
 	},
 	twitter: {
 		card: "summary_large_image",
-		title: "Cap — Beautiful screen recordings, owned by you.",
+		title: "Ghost Cap — Beautiful screen recordings, owned by you.",
 		description:
-			"Cap is the open source alternative to Loom. Lightweight, powerful, and cross-platform. Record and share in seconds.",
+			"Ghost Cap is the open source alternative to Loom. Lightweight, powerful, and cross-platform. Record and share in seconds.",
 		images: ["/api/og"],
 	},
 };
@@ -97,10 +97,10 @@ export default function RootLayout({ children }: PropsWithChildren) {
 					href="/favicon-16x16.png"
 				/>
 				<link rel="manifest" href="/site.webmanifest" />
-				<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
+				<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#101010" />
 				<link rel="shortcut icon" href="/favicon.ico" />
-				<meta name="msapplication-TileColor" content="#da532c" />
-				<meta name="theme-color" content="#ffffff" />
+				<meta name="msapplication-TileColor" content="#101010" />
+				<meta name="theme-color" content="#101010" />
 			</head>
 			<body suppressHydrationWarning>
 				<Script src="/theme-script.js" strategy="beforeInteractive" />

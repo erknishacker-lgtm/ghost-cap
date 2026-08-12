@@ -350,7 +350,7 @@ export const Footer = () => {
 								title="Additional Links"
 								links={footerLinks.additional}
 							/>
-							<FooterColumn title="Cap" links={footerLinks.help} />
+							<FooterColumn title="Ghost Cap" links={footerLinks.help} />
 							<FooterColumn title="Use Cases" links={footerLinks.useCases} />
 							<FooterColumn
 								title="Tools"
@@ -364,7 +364,7 @@ export const Footer = () => {
 						<div className="flex flex-col gap-4">
 							<ComplianceBadges />
 							<p className="text-sm text-gray-9">
-								© Cap Software, Inc. {new Date().getFullYear()}.
+								© Ghost Cap {new Date().getFullYear()}.
 							</p>
 						</div>
 						<div className="flex flex-wrap gap-x-8 gap-y-2">
