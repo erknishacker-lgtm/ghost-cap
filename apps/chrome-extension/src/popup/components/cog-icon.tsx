@@ -3,9 +3,15 @@ import type { SVGProps } from "react";
 
 interface CogIconProps extends SVGProps<SVGSVGElement> {
 	size?: number;
+	title?: string;
 }
 
-const CogIcon = ({ className, size = 28, ...props }: CogIconProps) => (
+const CogIcon = ({
+	className,
+	size = 28,
+	title = "Settings",
+	...props
+}: CogIconProps) => (
 	<svg
 		xmlns="http://www.w3.org/2000/svg"
 		width={size}
@@ -22,7 +28,7 @@ const CogIcon = ({ className, size = 28, ...props }: CogIconProps) => (
 		)}
 		{...props}
 	>
-		<title>Settings</title>
+		<title>{title}</title>
 		<path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z" />
 		<path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
 		<path d="M12 2v2" />

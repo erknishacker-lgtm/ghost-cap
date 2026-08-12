@@ -1,9 +1,11 @@
 import { recoverRecordingSpoolSession } from "@cap/recorder-core";
+import { DEFAULT_LOCALE, getDictionary } from "../shared/i18n";
 import { isRecordingStatusBroadcast } from "../shared/messages";
 import { sendServiceWorkerMessage } from "../shared/runtime";
 import {
 	type FailedRecording,
 	loadFailedRecordings,
+	loadSettings,
 	loadSharedRecordingState,
 	RECORDING_STATE_KEY,
 } from "../shared/storage";
@@ -19,8 +21,9 @@ const REDIRECT_DELAY_MS = 1600;
 // worker), live broadcasts from the offscreen document decide the outcome.
 // Only declare failure if no fresh status shows up for this long.
 const RETRY_STATUS_TIMEOUT_MS = 45_000;
-const RETRY_SILENT_FAILURE_MESSAGE =
-	"The retry did not report any progress. It may still be running - check your Caps before retrying again.";
+
+// Portuguese by default; refined once loadSettings() resolves below.
+let t = getDictionary(DEFAULT_LOCALE);
 
 type ActiveStatus = Extract<
 	RecordingStatus,
@@ -97,18 +100,18 @@ const syncTabTitle = () => {
 	if (key === lastTitleKey) return;
 	lastTitleKey = key;
 	if (mode === "completed") {
-		document.title = "Ready - Cap";
+		document.title = t.uploading.titleReady;
 		return;
 	}
 	if (mode === "error") {
-		document.title = "Upload needs attention - Cap";
+		document.title = t.uploading.titleError;
 		return;
 	}
 	if (mode === "waiting") {
-		document.title = "Uploading - Cap";
+		document.title = t.uploading.titleUploading;
 		return;
 	}
-	document.title = `Uploading ${percent}% - Cap`;
+	document.title = t.uploading.titleUploadingPercent(percent);
 };
 
 const applyPercentDom = () => {
@@ -179,20 +182,12 @@ const renderActiveStatus = (status: ActiveStatus) => {
 
 	if (status.phase === "recording") {
 		setMode("uploading");
-		applyStageState(
-			"recording",
-			"Still recording",
-			"Your Cap streams to the cloud while you record.",
-		);
+		applyStageState("recording", t.uploading.recording, t.uploading.streaming);
 		return;
 	}
 	if (status.phase === "paused") {
 		setMode("uploading");
-		applyStageState(
-			"paused",
-			"Recording paused",
-			"What you've captured keeps uploading.",
-		);
+		applyStageState("paused", t.uploading.paused, t.uploading.pausedDetail);
 		return;
 	}
 
@@ -204,16 +199,16 @@ const renderActiveStatus = (status: ActiveStatus) => {
 		setMode("finalizing");
 		applyStageState(
 			"finalizing",
-			"Finishing up",
-			"Stitching everything together…",
+			t.uploading.finishing,
+			t.uploading.finishingDetail,
 		);
 		return;
 	}
 	setMode("uploading");
 	applyStageState(
 		"uploading",
-		"Uploading your Cap",
-		"We'll take you to it the moment it's ready.",
+		t.uploading.uploadingYours,
+		t.uploading.uploadingDetail,
 	);
 };
 
@@ -223,7 +218,7 @@ const renderCompleted = (
 	hideErrorActions();
 	targetPercent = 100;
 	setMode("completed");
-	applyStageState("completed", "Your Cap is ready", "Taking you there now…");
+	applyStageState("completed", t.uploading.ready, t.uploading.readyDetail);
 	metaElement.hidden = true;
 	shareLink.href = status.shareUrl;
 	shareLink.hidden = false;
@@ -264,11 +259,13 @@ const renderError = (status: ErrorStatus) => {
 	setMode("error");
 	applyStageState(
 		`error:${status.message}`,
-		"Upload needs attention",
-		status.message || "Something went wrong while uploading.",
+		t.uploading.needsAttention,
+		status.message || t.uploading.genericError,
 	);
 	const recordingId = status.videoId ?? urlVideoId;
-	metaElement.textContent = recordingId ? `Recording ID: ${recordingId}` : "";
+	metaElement.textContent = recordingId
+		? t.uploading.recordingId(recordingId)
+		: "";
 	metaElement.hidden = !recordingId;
 	// When the upload finished but the confirmation was lost, the video may
 	// still process server-side; the link lets the user verify.
@@ -285,7 +282,11 @@ const renderWaiting = () => {
 	hideErrorActions();
 	shareLink.hidden = true;
 	setMode("waiting");
-	applyStageState("waiting", "Connecting to your recording", "One moment…");
+	applyStageState(
+		"waiting",
+		t.uploading.connecting,
+		t.uploading.connectingDetail,
+	);
 };
 
 const clearRetryPending = () => {
@@ -308,13 +309,13 @@ const beginRetryPending = () => {
 		retryWatchdog = null;
 		if (!retryPendingFreshStatus) return;
 		retryPendingFreshStatus = false;
-		renderRetryFailure(RETRY_SILENT_FAILURE_MESSAGE);
+		renderRetryFailure(t.uploading.retrySilentFailure);
 	}, RETRY_STATUS_TIMEOUT_MS);
 };
 
 const renderRetryFailure = (message: string) => {
 	setMode("error");
-	applyStageState(`error:${message}`, "Upload needs attention", message);
+	applyStageState(`error:${message}`, t.uploading.needsAttention, message);
 	syncTabTitle();
 };
 
@@ -396,12 +397,12 @@ const downloadRecording = async () => {
 	downloadButton.disabled = true;
 	try {
 		const entry = await findFailedRecording(videoId);
-		if (!entry) throw new Error("The recorded data is no longer available.");
+		if (!entry) throw new Error(t.uploading.dataUnavailable);
 		// The spool lives in the extension-origin IndexedDB, which this page
 		// shares with the offscreen recorder.
 		const orphan = await recoverRecordingSpoolSession(entry.sessionId);
 		if (!orphan || orphan.blob.size === 0) {
-			throw new Error("The recorded data is no longer available.");
+			throw new Error(t.uploading.dataUnavailable);
 		}
 		const url = URL.createObjectURL(orphan.blob);
 		const anchor = document.createElement("a");
@@ -437,7 +438,7 @@ const pollStatus = async () => {
 		consecutivePollFailures += 1;
 	}
 	if (consecutivePollFailures >= 10 && mode === "waiting") {
-		detailElement.textContent = "Still trying to reach the Cap extension…";
+		detailElement.textContent = t.uploading.stillTrying;
 	}
 };
 
@@ -471,12 +472,27 @@ const shouldPoll = () => {
 	return true;
 };
 
-renderWaiting();
-syncTabTitle();
-ensureFrameLoop();
-void pollStatus();
-window.setInterval(() => {
-	if (shouldPoll()) {
-		void pollStatus();
-	}
-}, POLL_INTERVAL_MS);
+const start = () => {
+	shareLink.textContent = t.uploading.openRecording;
+	retryButton.textContent = t.uploading.tryAgain;
+	downloadButton.textContent = t.uploading.download;
+	const footnote = document.getElementById("uploading-footnote");
+	if (footnote) footnote.textContent = t.uploading.footnote;
+
+	renderWaiting();
+	syncTabTitle();
+	ensureFrameLoop();
+	void pollStatus();
+	window.setInterval(() => {
+		if (shouldPoll()) {
+			void pollStatus();
+		}
+	}, POLL_INTERVAL_MS);
+};
+
+void loadSettings()
+	.then((settings) => {
+		t = getDictionary(settings.locale);
+	})
+	.catch(() => undefined)
+	.finally(start);

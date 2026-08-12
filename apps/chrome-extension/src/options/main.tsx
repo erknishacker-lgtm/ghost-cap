@@ -4,8 +4,15 @@ import {
 } from "@cap/recorder-core";
 import { useCallback, useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { CapBrand, DoodleBoilFilter } from "../shared/cap-brand";
 import { formatRecordedDuration } from "../shared/format-duration";
+import { DoodleBoilFilter, GhostCapBrand } from "../shared/ghost-cap-brand";
+import {
+	type Dictionary,
+	getDictionary,
+	LOCALE_LABELS,
+	LOCALES,
+	type Locale,
+} from "../shared/i18n";
 import { mountPageNav } from "../shared/page-nav";
 import { sendServiceWorkerMessage } from "../shared/runtime";
 import {
@@ -50,7 +57,9 @@ const isActiveRecordingPhase = (phase: string | undefined) =>
 // listing pairs the failed-recording metadata with the spools that still
 // hold bytes, and also surfaces spools stranded by a crash before the
 // offscreen sweep could record them (those have no metadata yet).
-const loadRecoveredRecordings = async (): Promise<FailedRecording[]> => {
+const loadRecoveredRecordings = async (
+	t: Dictionary,
+): Promise<FailedRecording[]> => {
 	const [failed, spools, recordingState] = await Promise.all([
 		loadFailedRecordings(),
 		recoverOrphanedRecordingSpools(),
@@ -80,7 +89,7 @@ const loadRecoveredRecordings = async (): Promise<FailedRecording[]> => {
 				fps: null,
 				totalBytes: spool.totalBytes,
 				createdAt: spool.updatedAt,
-				message: "The recording was interrupted before its upload finished.",
+				message: t.offscreen.recordingInterrupted,
 			});
 		}
 	}
@@ -94,17 +103,17 @@ type RecoveryNotice = {
 	shareUrl?: string;
 };
 
-function RecoveredRecordingsSection() {
+function RecoveredRecordingsSection({ t }: { t: Dictionary }) {
 	const [entries, setEntries] = useState<FailedRecording[]>([]);
 	const [busySession, setBusySession] = useState<string | null>(null);
 	const [retryingSession, setRetryingSession] = useState<string | null>(null);
 	const [notice, setNotice] = useState<RecoveryNotice | null>(null);
 
 	const refresh = useCallback(() => {
-		loadRecoveredRecordings()
+		loadRecoveredRecordings(t)
 			.then(setEntries)
 			.catch(() => setEntries([]));
-	}, []);
+	}, [t]);
 
 	useEffect(() => {
 		refresh();
@@ -147,7 +156,7 @@ function RecoveredRecordingsSection() {
 			);
 			if (!spool || spool.blob.size === 0) {
 				refresh();
-				throw new Error("The recorded data is no longer available.");
+				throw new Error(t.options.recovered.dataUnavailable);
 			}
 			const url = URL.createObjectURL(spool.blob);
 			const anchor = document.createElement("a");
@@ -188,7 +197,7 @@ function RecoveredRecordingsSection() {
 			}
 			return {
 				kind: "success",
-				message: "Upload finished.",
+				message: t.options.recovered.uploadFinished,
 				shareUrl:
 					response.status?.phase === "completed"
 						? response.status.shareUrl
@@ -201,11 +210,8 @@ function RecoveredRecordingsSection() {
 
 	return (
 		<section className="card card-3">
-			<h2>Recovered recordings</h2>
-			<p className="recovery-lede">
-				These recordings never finished uploading. Their captured data is still
-				on this device, so you can download it or retry the upload.
-			</p>
+			<h2>{t.options.recovered.heading}</h2>
+			<p className="recovery-lede">{t.options.recovered.lede}</p>
 			<ul className="recovery-list">
 				{entries.map((entry) => (
 					<li key={entry.sessionId} className="recovery-item">
@@ -218,7 +224,9 @@ function RecoveredRecordingsSection() {
 								{entry.durationMs > 0
 									? ` · ${formatRecordedDuration(entry.durationMs)}`
 									: ""}
-								{entry.videoId ? "" : " · interrupted before upload"}
+								{entry.videoId
+									? ""
+									: ` · ${t.options.recovered.interruptedBeforeUpload}`}
 							</span>
 						</div>
 						<div className="recovery-actions">
@@ -230,8 +238,8 @@ function RecoveredRecordingsSection() {
 									onClick={() => retry(entry)}
 								>
 									{retryingSession === entry.sessionId
-										? "Uploading…"
-										: "Retry upload"}
+										? t.options.recovered.retrying
+										: t.options.recovered.retry}
 								</button>
 							)}
 							<button
@@ -240,7 +248,7 @@ function RecoveredRecordingsSection() {
 								disabled={busySession !== null}
 								onClick={() => void download(entry)}
 							>
-								Download
+								{t.options.recovered.download}
 							</button>
 							<button
 								type="button"
@@ -248,7 +256,7 @@ function RecoveredRecordingsSection() {
 								disabled={busySession !== null}
 								onClick={() => void remove(entry)}
 							>
-								Delete
+								{t.options.recovered.delete}
 							</button>
 						</div>
 					</li>
@@ -270,7 +278,7 @@ function RecoveredRecordingsSection() {
 							target="_blank"
 							rel="noreferrer"
 						>
-							Open video
+							{t.options.recovered.openVideo}
 						</a>
 					)}
 				</p>
@@ -312,6 +320,11 @@ function App() {
 	const [auth, setAuth] = useState<ExtensionAuth | null>(null);
 	const [saved, setSaved] = useState(false);
 	const [error, setError] = useState<string | null>(null);
+	const t = getDictionary(settings.locale);
+
+	useEffect(() => {
+		document.title = t.options.pageTitle;
+	}, [t]);
 
 	useEffect(() => {
 		let disposed = false;
@@ -330,6 +343,19 @@ function App() {
 			disposed = true;
 		};
 	}, []);
+
+	// Language takes effect immediately (this page's own text updates as you
+	// pick it) instead of waiting behind the "Save changes" button.
+	const changeLocale = async (locale: Locale) => {
+		const next = { ...settings, locale };
+		setSettings(next);
+		await saveSettings(next);
+		await sendServiceWorkerMessage({
+			target: "service-worker",
+			type: "settings-updated",
+			settings: next,
+		}).catch(() => undefined);
+	};
 
 	const save = async () => {
 		setError(null);
@@ -369,7 +395,7 @@ function App() {
 		<>
 			<main className="stage">
 				<header className="brand">
-					<CapBrand />
+					<GhostCapBrand />
 				</header>
 				<svg className="doodle" viewBox="0 0 120 104" aria-hidden="true">
 					<defs>
@@ -407,16 +433,14 @@ function App() {
 						</g>
 					</g>
 				</svg>
-				<h1>Recorder options</h1>
-				<p className="lede">
-					Tune where Cap uploads and how your camera shows up by default.
-				</p>
+				<h1>{t.options.title}</h1>
+				<p className="lede">{t.options.subtitle}</p>
 
 				<div className="sheet">
 					<section className="card card-1">
-						<h2>Connection</h2>
+						<h2>{t.options.connectionHeading}</h2>
 						<label className="field">
-							<span>Cap URL</span>
+							<span>{t.options.apiUrlLabel}</span>
 							<input
 								type="url"
 								value={settings.apiBaseUrl}
@@ -428,13 +452,28 @@ function App() {
 								}
 							/>
 						</label>
+						<label className="field">
+							<span>{t.options.languageLabel}</span>
+							<select
+								value={settings.locale}
+								onChange={(event) =>
+									void changeLocale(event.currentTarget.value as Locale)
+								}
+							>
+								{LOCALES.map((locale) => (
+									<option key={locale} value={locale}>
+										{LOCALE_LABELS[locale]}
+									</option>
+								))}
+							</select>
+						</label>
 					</section>
 
 					<section className="card card-2">
-						<h2>Recording defaults</h2>
+						<h2>{t.options.recordingDefaultsHeading}</h2>
 						<div className="field-grid">
 							<label className="field">
-								<span>Camera size</span>
+								<span>{t.options.cameraSizeLabel}</span>
 								<input
 									type="number"
 									min="120"
@@ -452,7 +491,7 @@ function App() {
 								/>
 							</label>
 							<label className="field">
-								<span>Position</span>
+								<span>{t.options.positionLabel}</span>
 								<select
 									value={settings.webcam.position}
 									onChange={(event) =>
@@ -466,14 +505,20 @@ function App() {
 										})
 									}
 								>
-									<option value="bottom-right">Bottom right</option>
-									<option value="bottom-left">Bottom left</option>
-									<option value="top-right">Top right</option>
-									<option value="top-left">Top left</option>
+									<option value="bottom-right">
+										{t.options.positionBottomRight}
+									</option>
+									<option value="bottom-left">
+										{t.options.positionBottomLeft}
+									</option>
+									<option value="top-right">
+										{t.options.positionTopRight}
+									</option>
+									<option value="top-left">{t.options.positionTopLeft}</option>
 								</select>
 							</label>
 							<label className="field">
-								<span>Shape</span>
+								<span>{t.options.shapeLabel}</span>
 								<select
 									value={settings.webcam.shape}
 									onChange={(event) =>
@@ -487,13 +532,13 @@ function App() {
 										})
 									}
 								>
-									<option value="round">Round</option>
-									<option value="square">Square</option>
-									<option value="full">Full</option>
+									<option value="round">{t.options.shapeRound}</option>
+									<option value="square">{t.options.shapeSquare}</option>
+									<option value="full">{t.options.shapeFull}</option>
 								</select>
 							</label>
 							<label className="field">
-								<span>Countdown</span>
+								<span>{t.options.countdownLabel}</span>
 								<select
 									value={String(settings.countdown.seconds)}
 									disabled={!settings.countdown.enabled}
@@ -507,15 +552,15 @@ function App() {
 										})
 									}
 								>
-									<option value="3">3 seconds</option>
-									<option value="5">5 seconds</option>
-									<option value="10">10 seconds</option>
+									<option value="3">{t.options.countdownSeconds(3)}</option>
+									<option value="5">{t.options.countdownSeconds(5)}</option>
+									<option value="10">{t.options.countdownSeconds(10)}</option>
 								</select>
 							</label>
 						</div>
 						<div className="checks">
 							<DoodleCheckbox
-								label="Show camera preview by default"
+								label={t.options.showCameraPreview}
 								checked={settings.webcam.enabled}
 								onChange={(checked) =>
 									setSettings({
@@ -528,7 +573,7 @@ function App() {
 								}
 							/>
 							<DoodleCheckbox
-								label="Enable microphone by default"
+								label={t.options.enableMicrophone}
 								checked={settings.microphone.enabled}
 								onChange={(checked) =>
 									setSettings({
@@ -541,7 +586,7 @@ function App() {
 								}
 							/>
 							<DoodleCheckbox
-								label="Enable system audio by default"
+								label={t.options.enableSystemAudio}
 								checked={settings.systemAudio.enabled}
 								onChange={(checked) =>
 									setSettings({
@@ -554,7 +599,7 @@ function App() {
 								}
 							/>
 							<DoodleCheckbox
-								label="Play recording sounds"
+								label={t.options.playSounds}
 								checked={settings.sounds.enabled}
 								onChange={(checked) =>
 									setSettings({
@@ -567,7 +612,7 @@ function App() {
 								}
 							/>
 							<DoodleCheckbox
-								label="Show countdown before recording"
+								label={t.options.showCountdown}
 								checked={settings.countdown.enabled}
 								onChange={(checked) =>
 									setSettings({
@@ -580,7 +625,7 @@ function App() {
 								}
 							/>
 							<DoodleCheckbox
-								label="Warn about microphone issues"
+								label={t.options.warnMicrophoneIssues}
 								checked={settings.microphoneWarning.enabled}
 								onChange={(checked) =>
 									setSettings({
@@ -593,7 +638,7 @@ function App() {
 								}
 							/>
 							<DoodleCheckbox
-								label="Mirror webcam"
+								label={t.options.mirrorWebcam}
 								checked={settings.webcam.mirror}
 								onChange={(checked) =>
 									setSettings({
@@ -608,11 +653,11 @@ function App() {
 						</div>
 					</section>
 
-					<RecoveredRecordingsSection />
+					<RecoveredRecordingsSection t={t} />
 
 					<div className="actions">
 						<button type="button" className="cta" onClick={() => void save()}>
-							Save changes
+							{t.options.saveChanges}
 						</button>
 						<button
 							type="button"
@@ -620,7 +665,7 @@ function App() {
 							disabled={!auth}
 							onClick={() => void signOut()}
 						>
-							Sign out
+							{t.options.signOut}
 						</button>
 						{saved && (
 							<p className="paper-pill success">
@@ -635,16 +680,14 @@ function App() {
 										d="M 4 13 L 9.5 18 L 20 6"
 									/>
 								</svg>
-								Saved
+								{t.options.saved}
 							</p>
 						)}
 					</div>
 					{error && <p className="paper-pill error">{error}</p>}
 				</div>
 			</main>
-			<p className="footnote">
-				Changes apply the next time you open the recorder.
-			</p>
+			<p className="footnote">{t.options.footnote}</p>
 		</>
 	);
 }

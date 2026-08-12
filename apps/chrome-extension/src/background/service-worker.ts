@@ -5,6 +5,7 @@ import {
 	parseAuthResponse,
 	revokeAuth,
 } from "../shared/api";
+import { getDictionary } from "../shared/i18n";
 import {
 	isRecordingStatusBroadcast,
 	isServiceWorkerRequest,
@@ -210,7 +211,8 @@ const createOffscreenDocument = () =>
 			{
 				url: OFFSCREEN_URL,
 				reasons: ["USER_MEDIA", "DISPLAY_MEDIA", "BLOBS", "AUDIO_PLAYBACK"],
-				justification: "Record and upload Cap videos from an extension page.",
+				justification:
+					"Record and upload Ghost Cap videos from an extension page.",
 			},
 			() => {
 				const error = chrome.runtime.lastError;
@@ -530,14 +532,18 @@ const setActionTitle = (title: string) =>
 		chrome.action.setTitle({ title }, () => resolve());
 	});
 
-const updateActionForStatus = (nextStatus: RecordingStatus) => {
+const updateActionForStatus = async (nextStatus: RecordingStatus) => {
 	const isCapturing = isCapturingRecordingStatus(nextStatus);
+	const settings = await loadSettings();
+	const t = getDictionary(settings.locale);
 	return Promise.all([
 		// The recorder renders inside the page, so the action never opens a popup.
 		setActionPopup(""),
 		setActionBadgeText(isCapturing ? "REC" : ""),
 		setActionTitle(
-			isCapturing ? "Stop Cap recording" : "Record your screen with Cap",
+			isCapturing
+				? t.serviceWorker.stopRecording
+				: t.serviceWorker.recordScreen,
 		),
 	]).then(() => undefined);
 };
@@ -1071,7 +1077,9 @@ const loadSignedInState = async () => {
 const requireSignedInState = async () => {
 	const state = await loadSignedInState();
 	if (!state.auth || !state.bootstrap) {
-		throw new Error("Sign in to Cap first");
+		throw new Error(
+			getDictionary(state.settings.locale).serviceWorker.signInFirst,
+		);
 	}
 	return state as {
 		settings: ExtensionSettings;
@@ -1168,7 +1176,9 @@ const performRecordingStart = async (mode: RecordingMode) => {
 		await saveSettings(recordingSettings);
 	}
 	if (mode === "camera" && !recordingSettings.webcam.deviceId) {
-		throw new Error("Select a camera before recording.");
+		throw new Error(
+			getDictionary(recordingSettings.locale).serviceWorker.selectCamera,
+		);
 	}
 	if (isWebcamPreviewEnabled(recordingSettings)) {
 		await saveWebcamPreviewDismissed(false);
@@ -1326,18 +1336,13 @@ const syncActivePreview = async (tabId?: number) => {
 	}
 };
 
-const launchWebAuthFlow = (url: string) =>
+const launchWebAuthFlow = (url: string, closedMessage: string) =>
 	new Promise<string>((resolve, reject) => {
 		chrome.identity.launchWebAuthFlow(
 			{ url, interactive: true },
 			(responseUrl) => {
 				if (chrome.runtime.lastError || !responseUrl) {
-					reject(
-						new Error(
-							chrome.runtime.lastError?.message ??
-								"The sign-in window was closed",
-						),
-					);
+					reject(new Error(chrome.runtime.lastError?.message ?? closedMessage));
 					return;
 				}
 				resolve(responseUrl);
@@ -1374,7 +1379,10 @@ const beginAuthFlow = async (settings: ExtensionSettings) => {
 	// window: the minted key only travels in the intercepted redirect, never
 	// through a regular tab's URL bar, browser history, or the tabs API that
 	// co-installed extensions can observe.
-	void launchWebAuthFlow(authStart.url)
+	void launchWebAuthFlow(
+		authStart.url,
+		getDictionary(settings.locale).serviceWorker.signInWindowClosed,
+	)
 		.then(async (responseUrl) => {
 			const auth = parseAuthResponse(responseUrl, authStart.state);
 			// Server-minted keys never expire, so a re-auth would otherwise leave
@@ -1479,7 +1487,7 @@ const handleRequest = async (
 				const status = error instanceof ApiRequestError ? error.status : null;
 				if (status === null || status >= 500) {
 					throw new Error(
-						"Could not reach Cap to revoke this sign-in. Check your connection and try again.",
+						getDictionary(settings.locale).serviceWorker.couldNotReach,
 					);
 				}
 			}

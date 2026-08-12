@@ -15,6 +15,7 @@ import {
 	useState,
 } from "react";
 import { createRoot } from "react-dom/client";
+import { DEFAULT_LOCALE, type Dictionary, getDictionary } from "../shared/i18n";
 import { isOverlayMessage } from "../shared/messages";
 import { sendServiceWorkerMessage } from "../shared/runtime";
 import {
@@ -368,9 +369,11 @@ const isPanelFrameMessage = (value: unknown): value is PanelFrameMessage => {
 };
 
 function RecorderPanelOverlay({
+	t,
 	onDismiss,
 	onOpenChange,
 }: {
+	t: Dictionary;
 	onDismiss: () => void;
 	onOpenChange: (open: boolean) => void;
 }) {
@@ -523,18 +526,18 @@ function RecorderPanelOverlay({
 			<button
 				type="button"
 				className="cap-extension-panel-backdrop"
-				aria-label="Dismiss Cap recorder"
+				aria-label={`${t.overlay.dismiss} ${t.overlay.recorderAriaLabel}`}
 				onClick={closePanel}
 			/>
 			<div
 				className="cap-extension-panel"
 				role="dialog"
-				aria-label="Cap recorder"
+				aria-label={t.overlay.recorderAriaLabel}
 				style={{ width: `${PANEL_WIDTH}px`, height: `${height}px` }}
 			>
 				<iframe
 					src={PANEL_SRC}
-					title="Cap recorder"
+					title={t.overlay.recorderAriaLabel}
 					allow="camera; microphone; autoplay"
 					className="cap-extension-panel-iframe"
 				/>
@@ -597,6 +600,7 @@ function OverlayApp() {
 	const lastFrameRef = useRef<WebcamPreviewFrame | null>(null);
 	const lastFrameSavedAtRef = useRef(0);
 	const startupReplayedRef = useRef(false);
+	const t = getDictionary(extensionSettings?.locale ?? DEFAULT_LOCALE);
 	const webcam = extensionSettings?.webcam ?? null;
 	const previewEnabled = Boolean(
 		webcam?.enabled && webcam.deviceId && previewOpen,
@@ -1729,7 +1733,7 @@ function OverlayApp() {
 							data-controls
 							className="cap-extension-camera-controls"
 							role="toolbar"
-							aria-label="Camera preview controls"
+							aria-label={t.overlay.cameraPreview.controlsAriaLabel}
 							onPointerDown={(event) => event.stopPropagation()}
 							onClick={(event) => event.stopPropagation()}
 							onKeyDown={(event) => {
@@ -1742,8 +1746,8 @@ function OverlayApp() {
 							<button
 								type="button"
 								className="cap-extension-camera-control"
-								aria-label="Close camera preview"
-								title="Close"
+								aria-label={t.overlay.cameraPreview.closeAriaLabel}
+								title={t.overlay.cameraPreview.close}
 								onClick={handleClose}
 							>
 								<X size={22} aria-hidden />
@@ -1754,8 +1758,8 @@ function OverlayApp() {
 									"cap-extension-camera-control",
 									webcam.size > 230 && "is-active",
 								)}
-								aria-label="Resize camera preview"
-								title="Resize"
+								aria-label={t.overlay.cameraPreview.resizeAriaLabel}
+								title={t.overlay.cameraPreview.resize}
 								onClick={updateSize}
 							>
 								<Maximize2 size={22} aria-hidden />
@@ -1766,8 +1770,8 @@ function OverlayApp() {
 									"cap-extension-camera-control",
 									webcam.shape !== "round" && "is-active",
 								)}
-								aria-label="Change camera preview shape"
-								title="Shape"
+								aria-label={t.overlay.cameraPreview.shapeAriaLabel}
+								title={t.overlay.cameraPreview.shape}
 								onClick={updateShape}
 							>
 								{webcam.shape === "round" ? (
@@ -1786,8 +1790,8 @@ function OverlayApp() {
 									"cap-extension-camera-control",
 									webcam.mirror && "is-active",
 								)}
-								aria-label="Mirror camera preview"
-								title="Mirror"
+								aria-label={t.overlay.cameraPreview.mirrorAriaLabel}
+								title={t.overlay.cameraPreview.mirror}
 								onClick={updateMirror}
 							>
 								<FlipHorizontal size={22} aria-hidden />
@@ -1798,11 +1802,11 @@ function OverlayApp() {
 									"cap-extension-camera-control",
 									isInPictureInPicture && "is-active",
 								)}
-								aria-label="Toggle Picture in Picture"
+								aria-label={t.overlay.cameraPreview.togglePip}
 								title={
 									parentPipSupported || pipSupported
-										? "Picture in Picture"
-										: "Picture in Picture is blocked on this page"
+										? t.overlay.cameraPreview.pipTooltip
+										: t.overlay.cameraPreview.pipBlockedTooltip
 								}
 								disabled={!parentPipSupported && !pipSupported}
 								onClick={handleTogglePictureInPicture}
@@ -1841,7 +1845,7 @@ function OverlayApp() {
 						<iframe
 							ref={iframeRef}
 							src={PREVIEW_SRC}
-							title="Cap camera preview"
+							title={t.overlay.cameraPreview.title}
 							allow="camera; microphone; autoplay; picture-in-picture"
 							className="cap-extension-camera-iframe"
 							onLoad={handlePreviewLoad}
@@ -1857,10 +1861,10 @@ function OverlayApp() {
 						{isInPictureInPicture ? (
 							<div className="cap-extension-camera-pip-active">
 								<div>
-									<span>Picture in Picture active</span>
+									<span>{t.overlay.cameraPreview.pipActive}</span>
 									<button
 										type="button"
-										aria-label="Exit Picture in Picture"
+										aria-label={t.overlay.cameraPreview.exitPip}
 										onClick={handleTogglePictureInPicture}
 									>
 										<X size={12} aria-hidden />
@@ -1880,8 +1884,8 @@ function OverlayApp() {
 									`is-${corner}`,
 									activeResizeCorner === corner && "is-active",
 								)}
-								aria-label={`Resize camera from ${corner}`}
-								title="Drag to resize camera"
+								aria-label={t.overlay.cameraPreview.resizeFrom(corner)}
+								title={t.overlay.cameraPreview.dragToResize}
 								data-camera-resize-handle
 								data-camera-resize-ne={corner === "ne" ? "" : undefined}
 								onPointerDown={handleCameraResizeStart(corner)}
@@ -1909,18 +1913,19 @@ function OverlayApp() {
 				controlsList="nodownload nofullscreen noremoteplayback"
 			/>
 			<RecorderPanelOverlay
+				t={t}
 				onDismiss={handleRecorderPanelDismiss}
 				onOpenChange={setRecorderPanelOpen}
 			/>
-			<RecordingBarOverlay recorderPanelOpen={recorderPanelOpen} />
-			<CountdownOverlay />
-			<ConfirmOverlay />
+			<RecordingBarOverlay t={t} recorderPanelOpen={recorderPanelOpen} />
+			<CountdownOverlay t={t} />
+			<ConfirmOverlay t={t} />
 			{isDragging ? (
 				<button
 					type="button"
 					className="cap-extension-drag-surface"
 					tabIndex={-1}
-					aria-label="Move camera preview"
+					aria-label={t.overlay.cameraPreview.move}
 					onPointerMove={(event) => moveDrag(event.clientX, event.clientY)}
 					onPointerUp={endDrag}
 					onPointerCancel={endDrag}

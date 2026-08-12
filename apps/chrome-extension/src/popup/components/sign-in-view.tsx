@@ -1,13 +1,16 @@
 import { type CSSProperties, useId } from "react";
-import { CapBrand, DoodleBoilFilter } from "../../shared/cap-brand";
+import { DoodleBoilFilter, GhostCapBrand } from "../../shared/ghost-cap-brand";
+import type { Dictionary } from "../../shared/i18n";
 
 interface SignInViewProps {
+	t: Dictionary;
 	authPending: boolean;
 	busy: boolean;
 	onSignIn: () => void;
 }
 
 export const SignInView = ({
+	t,
 	authPending,
 	busy,
 	onSignIn,
@@ -15,7 +18,7 @@ export const SignInView = ({
 	const boilId = useId();
 	return (
 		<div className="cap-signin">
-			<CapBrand className="cap-signin-brand cap-fade-up" />
+			<GhostCapBrand className="cap-signin-brand cap-fade-up" />
 			<svg
 				className="cap-signin-doodle cap-fade-up cap-fade-up-1"
 				viewBox="0 0 120 104"
@@ -51,19 +54,17 @@ export const SignInView = ({
 				</g>
 			</svg>
 			<h1 className="cap-fade-up cap-fade-up-2">
-				{authPending ? "Finish signing in" : "Sign in to record"}
+				{authPending ? t.popup.signIn.finishTitle : t.popup.signIn.startTitle}
 			</h1>
 			<p className="cap-signin-lede cap-fade-up cap-fade-up-3">
-				{authPending
-					? "Complete sign-in in the Cap window. This panel updates automatically."
-					: "Record your tab, screen or camera. Your video uploads while you record."}
+				{authPending ? t.popup.signIn.completing : t.popup.signIn.startLede}
 			</p>
 			{authPending ? (
 				<p className="cap-signin-wait cap-fade-up cap-fade-up-4">
 					<svg viewBox="0 0 24 24" aria-hidden="true">
 						<circle pathLength={1} cx="12" cy="12" r="9" />
 					</svg>
-					Waiting for the Cap sign-in window…
+					{t.popup.signIn.waiting}
 				</p>
 			) : null}
 			<button
@@ -76,7 +77,7 @@ export const SignInView = ({
 				disabled={busy}
 				onClick={onSignIn}
 			>
-				{authPending ? "Open the sign-in window again" : "Sign in to Cap"}
+				{authPending ? t.popup.signIn.reopen : t.popup.signIn.cta}
 			</button>
 			<p
 				className={
@@ -86,8 +87,8 @@ export const SignInView = ({
 				}
 			>
 				{authPending
-					? "The window closes by itself once it connects."
-					: "Your share link is ready the moment you stop."}
+					? t.popup.signIn.pendingFootnote
+					: t.popup.signIn.readyFootnote}
 			</p>
 		</div>
 	);

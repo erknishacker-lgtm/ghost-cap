@@ -26,6 +26,7 @@ import {
 	updateUploadProgress,
 } from "../shared/api";
 import { toCameraDevices, toMicrophoneDevices } from "../shared/devices";
+import { type Dictionary, getDictionary } from "../shared/i18n";
 import { isOffscreenRequest } from "../shared/messages";
 import {
 	loadAuth,
@@ -770,7 +771,9 @@ const startRecording = async (request: StartRecordingRequest) => {
 		// Thrown before this attempt owns anything, so the cleanup below must
 		// never run for it: a duplicate start would otherwise tear down — and
 		// delete server-side — the live recording it was rejected to protect.
-		throw new Error("Recording is already active");
+		throw new Error(
+			getDictionary(request.settings.locale).offscreen.alreadyInProgress,
+		);
 	}
 	startInProgress = true;
 	startCancelRequested = false;
@@ -806,7 +809,9 @@ const startRecording = async (request: StartRecordingRequest) => {
 		const { width, height, fps } = getStreamSize(mainStream);
 		const videoTracks = mainStream.getVideoTracks();
 		if (videoTracks.length === 0) {
-			throw new Error("No video track was captured");
+			throw new Error(
+				getDictionary(request.settings.locale).offscreen.noVideoTrack,
+			);
 		}
 		const recordingStream = new MediaStream(videoTracks);
 		const streams = microphoneStream
@@ -819,7 +824,10 @@ const startRecording = async (request: StartRecordingRequest) => {
 		});
 		const hasAudio = recordingStream.getAudioTracks().length > 0;
 		const pipeline = selectRecordingPipeline(hasAudio);
-		if (!pipeline) throw new Error("No supported recorder format is available");
+		if (!pipeline)
+			throw new Error(
+				getDictionary(request.settings.locale).offscreen.noSupportedFormat,
+			);
 
 		const { videoCodec, audioCodec } = describeRecordingCodecs(
 			pipeline.mimeType,
@@ -1400,12 +1408,14 @@ const resumeRecording = () => {
 // failed upload. A fresh multipart session is started for the same video and
 // the whole blob is re-sent.
 const retryFailedUpload = async (videoId: string): Promise<RecordingStatus> => {
+	const settings = await loadSettings();
+	const t = getDictionary(settings.locale);
 	if (activeRecording || startInProgress || retryInProgress) {
-		throw new Error("A recording is already in progress");
+		throw new Error(t.offscreen.alreadyInProgress);
 	}
 	retryInProgress = true;
 	try {
-		return await runFailedUploadRetry(videoId);
+		return await runFailedUploadRetry(videoId, settings, t);
 	} finally {
 		retryInProgress = false;
 	}
@@ -1413,23 +1423,25 @@ const retryFailedUpload = async (videoId: string): Promise<RecordingStatus> => {
 
 const runFailedUploadRetry = async (
 	videoId: string,
+	settings: ExtensionSettings,
+	t: Dictionary,
 ): Promise<RecordingStatus> => {
 	const failed = (await loadFailedRecordings()).find(
 		(entry) => entry.videoId === videoId,
 	);
 	if (!failed?.videoId) {
-		throw new Error("This recording is no longer available to retry.");
+		throw new Error(t.offscreen.retryUnavailable);
 	}
 
 	const orphan = await recoverRecordingSpoolSession(failed.sessionId);
 	if (!orphan || orphan.blob.size === 0) {
 		await removeFailedRecording(failed.sessionId).catch(() => undefined);
-		throw new Error("The recorded data is no longer available.");
+		throw new Error(t.offscreen.dataUnavailable);
 	}
 
-	const [settings, auth] = await Promise.all([loadSettings(), loadAuth()]);
+	const auth = await loadAuth();
 	if (!auth) {
-		throw new Error("Sign in to Cap to retry this upload.");
+		throw new Error(t.offscreen.signInToRetry);
 	}
 
 	const typedVideoId = failed.videoId as VideoId;

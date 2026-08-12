@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import type { Dictionary } from "../shared/i18n";
 import { isOverlayMessage } from "../shared/messages";
 import { sendServiceWorkerMessage } from "../shared/runtime";
 import type { MicrophoneWarningVariant } from "../shared/types";
@@ -9,27 +10,24 @@ type ConfirmRequest = {
 	variant: MicrophoneWarningVariant;
 };
 
-const COPY: Record<
-	MicrophoneWarningVariant,
-	{ title: string; message: string }
-> = {
+const getCopy = (
+	t: Dictionary,
+): Record<MicrophoneWarningVariant, { title: string; message: string }> => ({
 	"no-mic": {
-		title: "Record without a microphone?",
-		message:
-			"No microphone is selected, so this recording won't capture your voice.",
+		title: t.overlay.confirm.noMicTitle,
+		message: t.overlay.confirm.noMicMessage,
 	},
 	"no-sound": {
-		title: "No sound from your microphone",
-		message:
-			"We're not detecting any audio from the selected microphone. It may be muted or unplugged.",
+		title: t.overlay.confirm.noSoundTitle,
+		message: t.overlay.confirm.noSoundMessage,
 	},
-};
+});
 
 // Shared confirm prompt shown as a floating overlay in the middle of the
 // recorded/active tab before a recording starts. Every start path (the panel
 // and the floating bar) routes through the service worker, which blocks on the
 // decision reported back here.
-export function ConfirmOverlay() {
+export function ConfirmOverlay({ t }: { t: Dictionary }) {
 	const [request, setRequest] = useState<ConfirmRequest | null>(null);
 	const requestRef = useRef<ConfirmRequest | null>(null);
 	const confirmButtonRef = useRef<HTMLButtonElement>(null);
@@ -91,14 +89,14 @@ export function ConfirmOverlay() {
 
 	if (!request) return null;
 
-	const { title, message } = COPY[request.variant];
+	const { title, message } = getCopy(t)[request.variant];
 
 	return (
 		<div className="cap-extension-confirm">
 			<button
 				type="button"
 				className="cap-extension-confirm-backdrop"
-				aria-label="Cancel"
+				aria-label={t.overlay.confirm.cancel}
 				onClick={() => respond(request, false)}
 			/>
 			<div
@@ -132,7 +130,7 @@ export function ConfirmOverlay() {
 						className="cap-extension-confirm-button is-secondary"
 						onClick={() => respond(request, false)}
 					>
-						Cancel
+						{t.overlay.confirm.cancel}
 					</button>
 					<button
 						ref={confirmButtonRef}
@@ -140,7 +138,7 @@ export function ConfirmOverlay() {
 						className="cap-extension-confirm-button is-primary"
 						onClick={() => respond(request, true)}
 					>
-						Start anyway
+						{t.overlay.confirm.startAnyway}
 					</button>
 				</div>
 			</div>

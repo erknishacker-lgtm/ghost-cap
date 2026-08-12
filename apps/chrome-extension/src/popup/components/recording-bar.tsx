@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import type { ComponentProps } from "react";
 import { formatDuration } from "../../shared/format-duration";
+import type { Dictionary } from "../../shared/i18n";
 import type { RecordingStatus, UploadSummary } from "../../shared/types";
 
 const ActionButton = ({ className, ...props }: ComponentProps<"button">) => (
@@ -20,14 +21,20 @@ const ActionButton = ({ className, ...props }: ComponentProps<"button">) => (
 			"p-[0.25rem] rounded-lg transition-all",
 			"text-gray-11",
 			"h-8 w-8 flex items-center justify-center",
-			"hover:bg-gray-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-9",
+			"hover:bg-gray-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-12",
 			"disabled:opacity-50 disabled:cursor-not-allowed",
 			className,
 		)}
 	/>
 );
 
-const InlineChunkProgress = ({ upload }: { upload?: UploadSummary }) => {
+const InlineChunkProgress = ({
+	t,
+	upload,
+}: {
+	t: Dictionary;
+	upload?: UploadSummary;
+}) => {
 	if (!upload || upload.totalChunks === 0) {
 		return null;
 	}
@@ -50,13 +57,17 @@ const InlineChunkProgress = ({ upload }: { upload?: UploadSummary }) => {
 		? "text-[var(--red-11)]"
 		: completedCount === upload.totalChunks
 			? "text-[var(--green-11)]"
-			: "text-blue-9";
+			: "text-gray-12";
 
 	return (
 		<div className="inline-flex items-center gap-2 rounded-lg px-1.5 py-1 text-[12px] text-gray-12">
-			<div className="relative h-5 w-5" role="img" aria-label="Upload progress">
+			<div
+				className="relative h-5 w-5"
+				role="img"
+				aria-label={t.popup.recordingBar.uploadProgress}
+			>
 				<svg className="h-5 w-5 -rotate-90" viewBox="0 0 36 36">
-					<title>Upload progress</title>
+					<title>{t.popup.recordingBar.uploadProgress}</title>
 					<circle
 						className="fill-none stroke-gray-4"
 						strokeWidth={4}
@@ -97,6 +108,7 @@ type ActiveRecordingStatus = Extract<
 >;
 
 interface RecordingBarProps {
+	t: Dictionary;
 	status: ActiveRecordingStatus;
 	hasAudioTrack: boolean;
 	disabled: boolean;
@@ -105,6 +117,7 @@ interface RecordingBarProps {
 }
 
 export const RecordingBar = ({
+	t,
 	status,
 	hasAudioTrack,
 	disabled,
@@ -116,7 +129,7 @@ export const RecordingBar = ({
 	const showTimer = status.phase === "recording" || isPaused;
 	const statusText = showTimer
 		? formatDuration(status.durationMs)
-		: "Uploading";
+		: t.popup.recordingBar.uploading;
 	const canTogglePause = !disabled && status.phase !== "uploading";
 
 	return (
@@ -135,13 +148,13 @@ export const RecordingBar = ({
 				</button>
 
 				<div className="flex gap-3 items-center">
-					<InlineChunkProgress upload={status.upload} />
+					<InlineChunkProgress t={t} upload={status.upload} />
 					<div className="flex relative justify-center items-center w-8 h-8">
 						{hasAudioTrack ? (
 							<>
 								<Mic className="size-5 text-gray-12" />
 								<div className="absolute bottom-1 left-1 right-1 h-0.5 bg-gray-10 overflow-hidden rounded-full">
-									<div className="absolute inset-0 bg-blue-9" />
+									<div className="absolute inset-0 bg-gray-12" />
 								</div>
 							</>
 						) : (
@@ -152,7 +165,11 @@ export const RecordingBar = ({
 					<ActionButton
 						onClick={onPauseResume}
 						disabled={!canTogglePause}
-						aria-label={isPaused ? "Resume recording" : "Pause recording"}
+						aria-label={
+							isPaused
+								? t.popup.recordingBar.resume
+								: t.popup.recordingBar.pause
+						}
 					>
 						{isPaused ? (
 							<PlayCircle className="size-5" />
@@ -160,7 +177,7 @@ export const RecordingBar = ({
 							<PauseCircle className="size-5" />
 						)}
 					</ActionButton>
-					<ActionButton disabled aria-label="Restart recording">
+					<ActionButton disabled aria-label={t.popup.recordingBar.restart}>
 						<RotateCcw className="size-5" />
 					</ActionButton>
 				</div>

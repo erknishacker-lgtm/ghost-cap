@@ -1,11 +1,9 @@
-import {
-	NO_CAMERA,
-	NO_CAMERA_VALUE,
-} from "@cap/recorder-core/recorder-constants";
+import { NO_CAMERA_VALUE } from "@cap/recorder-core/recorder-constants";
 import clsx from "clsx";
 import { CameraIcon, CameraOffIcon } from "lucide-react";
 import type { KeyboardEvent, MouseEvent } from "react";
 import { useRef } from "react";
+import type { Dictionary } from "../../shared/i18n";
 import type { CameraDevice } from "../../shared/types";
 import { DEFAULT_CAMERA_DEVICE_ID } from "../../shared/types";
 import {
@@ -15,6 +13,7 @@ import {
 import { useMediaPermission } from "./use-media-permission";
 
 interface CameraSelectorProps {
+	t: Dictionary;
 	selectedCameraId: string | null;
 	availableCameras: CameraDevice[];
 	permissionGranted: boolean;
@@ -27,6 +26,7 @@ interface CameraSelectorProps {
 }
 
 export const CameraSelector = ({
+	t,
 	selectedCameraId,
 	availableCameras,
 	permissionGranted,
@@ -54,7 +54,7 @@ export const CameraSelector = ({
 	const currentValue = selectedCameraId ?? NO_CAMERA_VALUE;
 
 	const options: DeviceSelectOption[] = [
-		{ value: NO_CAMERA_VALUE, label: NO_CAMERA, icon: CameraOffIcon },
+		{ value: NO_CAMERA_VALUE, label: t.popup.camera.none, icon: CameraOffIcon },
 	];
 	if (
 		selectedCameraId === DEFAULT_CAMERA_DEVICE_ID &&
@@ -64,14 +64,14 @@ export const CameraSelector = ({
 	) {
 		options.push({
 			value: DEFAULT_CAMERA_DEVICE_ID,
-			label: "System default camera",
+			label: t.popup.camera.systemDefault,
 			icon: CameraIcon,
 		});
 	}
 	availableCameras.forEach((camera, index) => {
 		options.push({
 			value: camera.deviceId,
-			label: camera.label?.trim() || `Camera ${index + 1}`,
+			label: camera.label?.trim() || t.popup.camera.cameraN(index + 1),
 			icon: CameraIcon,
 		});
 	});
@@ -81,12 +81,12 @@ export const CameraSelector = ({
 	const TriggerIcon = selectedOption.icon;
 
 	const statusPillClassName = clsx(
-		"px-[0.375rem] h-[1.25rem] min-w-[2.5rem] rounded-full text-[0.75rem] leading-[1.25rem] flex items-center justify-center font-normal transition-colors duration-200 disabled:opacity-100 disabled:pointer-events-none focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:ring-[var(--blue-8)]",
+		"px-[0.375rem] h-[1.25rem] min-w-[2.5rem] rounded-full text-[0.75rem] leading-[1.25rem] flex items-center justify-center font-normal transition-colors duration-200 disabled:opacity-100 disabled:pointer-events-none focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:ring-[var(--gray-8)]",
 		statusPillDisabled ? "cursor-default" : "cursor-pointer",
 		shouldRequestPermission
 			? "bg-[var(--red-3)] text-[var(--red-11)]"
 			: cameraEnabled
-				? "bg-[var(--blue-3)] text-[var(--blue-11)] hover:bg-[var(--blue-4)]"
+				? "bg-[var(--gray-3)] text-[var(--gray-11)] hover:bg-[var(--gray-4)]"
 				: "bg-[var(--red-3)] text-[var(--red-11)]",
 	);
 
@@ -170,15 +170,16 @@ export const CameraSelector = ({
 					onKeyDown={handleStatusPillKeyDown}
 				>
 					{shouldRequestPermission
-						? "Request permission"
+						? t.popup.camera.requestPermission
 						: cameraEnabled
-							? "On"
-							: "Off"}
+							? t.common.on
+							: t.common.off}
 				</button>
 			</div>
 			{open && (
 				<DeviceSelectOverlay
-					title="Select camera"
+					t={t}
+					title={t.popup.camera.selectTitle}
 					options={options}
 					selectedValue={currentValue}
 					onSelect={(value) => {

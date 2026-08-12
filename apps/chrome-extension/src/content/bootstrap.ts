@@ -38,6 +38,7 @@ const isCapWebOrigin = () => {
 	return (
 		hostname === "cap.so" ||
 		hostname.endsWith(".cap.so") ||
+		hostname === "cap.zghost.uk" ||
 		hostname === "localhost" ||
 		hostname === "127.0.0.1" ||
 		hostname === "::1"

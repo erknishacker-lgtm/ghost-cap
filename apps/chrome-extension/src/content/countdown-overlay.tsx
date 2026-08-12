@@ -1,4 +1,5 @@
 import { type CSSProperties, useCallback, useEffect, useState } from "react";
+import type { Dictionary } from "../shared/i18n";
 import { isOverlayMessage } from "../shared/messages";
 import { sendServiceWorkerMessage } from "../shared/runtime";
 
@@ -22,7 +23,7 @@ const classNames = (...values: Array<string | false | null | undefined>) =>
 // recording starts. The offscreen recorder owns the timing and waits the same
 // duration, so this component is purely visual; pressing Escape cancels the
 // pending start.
-export function CountdownOverlay() {
+export function CountdownOverlay({ t }: { t: Dictionary }) {
 	const [countdown, setCountdown] = useState<ActiveCountdown | null>(null);
 	const [value, setValue] = useState(0);
 	const [leaving, setLeaving] = useState(false);
@@ -128,7 +129,7 @@ export function CountdownOverlay() {
 			onPointerDown={(event) => event.stopPropagation()}
 		>
 			<output className="cap-extension-countdown-sr">
-				{`Recording starts in ${value}`}
+				{t.overlay.countdown.srLabel(value)}
 			</output>
 			<div className="cap-extension-countdown-stage">
 				<svg
@@ -154,7 +155,9 @@ export function CountdownOverlay() {
 					{value}
 				</span>
 			</div>
-			<span className="cap-extension-countdown-hint">Press Esc to cancel</span>
+			<span className="cap-extension-countdown-hint">
+				{t.overlay.countdown.hint}
+			</span>
 		</div>
 	);
 }

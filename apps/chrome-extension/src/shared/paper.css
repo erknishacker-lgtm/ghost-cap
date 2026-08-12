@@ -38,9 +38,9 @@
 
 :root {
 	--paper: #fbfaf7;
-	--ink: #20242c;
-	--ink-soft: #8b8f98;
-	--accent: #4785ff;
+	--ink: #101010;
+	--ink-soft: #8b8b8b;
+	--accent: #4a4a4a;
 	--track: #dcdcd4;
 	--error: #e5484d;
 	--success: #2f9e69;
@@ -95,14 +95,21 @@ p {
 .page-nav-brand {
 	display: flex;
 	align-items: center;
+	gap: 8px;
 	border-radius: 9px;
-	line-height: 0;
 }
 
 .page-nav-brand .page-nav-logo {
 	display: block;
 	height: 24px;
-	width: auto;
+	width: 24px;
+	border-radius: 6px;
+}
+
+.page-nav-brand .page-nav-wordmark {
+	font-size: 15px;
+	font-weight: 700;
+	letter-spacing: -0.01em;
 	color: var(--ink);
 }
 
@@ -168,6 +175,26 @@ p {
 .brand-logo {
 	height: 26px;
 	width: auto;
+	color: var(--ink);
+}
+
+.brand-mark {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.brand-mark-icon {
+	display: block;
+	height: 26px;
+	width: 26px;
+	border-radius: 6px;
+}
+
+.brand-mark-word {
+	font-size: 19px;
+	font-weight: 700;
+	letter-spacing: -0.01em;
 	color: var(--ink);
 }
 

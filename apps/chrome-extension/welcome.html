@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-BR">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Welcome - Cap</title>
+		<title>Bem-vindo - Ghost Cap</title>
 	</head>
 	<body>
 		<div class="corner" aria-hidden="true">
@@ -49,35 +49,16 @@
 					</g>
 				</g>
 			</svg>
-			<p class="corner-hint">Cap hides up here</p>
+			<p id="corner-hint" class="corner-hint">
+				O Ghost Cap se esconde aqui em cima
+			</p>
 		</div>
 		<main id="stage" class="stage" data-mode="pin">
 			<header class="brand">
-				<svg
-					class="brand-logo"
-					xmlns="http://www.w3.org/2000/svg"
-					fill="none"
-					viewBox="0 0 103 40"
-					aria-label="Cap"
-				>
-					<title>Cap</title>
-					<path
-						fill="#4785FF"
-						d="M20 36c8.837 0 16-7.163 16-16S28.837 4 20 4 4 11.164 4 20s7.164 16 16 16"
-					></path>
-					<path
-						fill="#ADC9FF"
-						d="M20 33c7.18 0 13-5.82 13-13S27.18 7 20 7 7 12.82 7 20s5.82 13 13 13"
-					></path>
-					<path
-						fill="#fff"
-						d="M20 30c5.523 0 10-4.477 10-10s-4.477-10-10-10-10 4.477-10 10 4.477 10 10 10"
-					></path>
-					<path
-						fill="currentColor"
-						d="M58.416 30.448c-5.404 0-9.212-3.864-9.212-10.36 0-6.384 3.668-10.416 9.268-10.416 5.068 0 7.784 2.66 8.624 7.168l-3.808.196c-.476-2.604-2.072-4.2-4.816-4.2-3.388 0-5.488 2.828-5.488 7.252 0 4.48 2.156 7.196 5.46 7.196 2.94 0 4.508-1.708 4.956-4.564l3.808.196c-.784 4.676-3.752 7.532-8.792 7.532m16.23-.112c-3.137 0-5.209-1.484-5.209-4.088 0-2.576 1.596-3.948 4.872-4.592l4.956-.98c0-2.1-.98-3.192-2.856-3.192-1.764 0-2.716.812-3.052 2.324l-3.668-.168c.588-3.136 2.996-4.928 6.72-4.928 4.256 0 6.44 2.24 6.44 6.216v5.432c0 .812.28 1.036.84 1.036h.476V30c-.224.056-.812.112-1.288.112-1.624 0-2.828-.588-3.136-2.436-.728 1.596-2.632 2.66-5.096 2.66m.727-2.604c2.38 0 3.892-1.512 3.892-3.78v-.84l-3.864.784c-1.596.308-2.24.98-2.24 2.016 0 1.176.784 1.82 2.212 1.82M86.874 34.2V15.048h3.444l.056 2.212c.868-1.652 2.52-2.548 4.48-2.548 4.256 0 6.356 3.5 6.356 7.812s-2.128 7.812-6.384 7.812c-1.904 0-3.556-.924-4.368-2.38V34.2zm7.112-6.776c2.184 0 3.5-1.82 3.5-4.9s-1.316-4.9-3.5-4.9-3.528 1.652-3.528 4.9 1.316 4.9 3.528 4.9"
-					></path>
-				</svg>
+				<div class="brand-mark" role="img" aria-label="Ghost Cap">
+					<img class="brand-mark-icon" src="/icons/icon-128.png" alt="" />
+					<span class="brand-mark-word">Ghost Cap</span>
+				</div>
 			</header>
 			<svg class="doodle" viewBox="0 0 120 104" aria-hidden="true">
 				<defs>
@@ -133,9 +114,9 @@
 					</g>
 				</g>
 			</svg>
-			<h1>Pin Cap to your toolbar</h1>
-			<p class="lede">
-				Keep one-click recording within reach. It only takes a second.
+			<h1 id="welcome-title">Fixe o Ghost Cap na sua barra de ferramentas</h1>
+			<p id="welcome-lede" class="lede">
+				Mantenha a gravação de um clique sempre à mão. Leva só um segundo.
 			</p>
 			<ol class="steps">
 				<li class="step">
@@ -145,8 +126,8 @@
 							d="M 10 18 L 19 18 a 4.5 4.5 0 1 1 9 0 L 38 18 L 38 24 a 4.5 4.5 0 1 1 0 9 L 38 38 L 10 38 Z"
 						></path>
 					</svg>
-					<span class="step-count">Step 1</span>
-					<p>Click the puzzle piece next to the address bar.</p>
+					<span id="step-count-1" class="step-count">Passo 1</span>
+					<p id="step-text-1">Clique no ícone de quebra-cabeça ao lado da barra de endereço.</p>
 				</li>
 				<li class="step">
 					<svg class="step-doodle" viewBox="0 0 48 48" aria-hidden="true">
@@ -156,20 +137,22 @@
 						></path>
 						<path class="doodle-stroke-sm" d="M 24 28 L 24 40"></path>
 					</svg>
-					<span class="step-count">Step 2</span>
-					<p>Hit the pin beside Cap Screen Recorder.</p>
+					<span id="step-count-2" class="step-count">Passo 2</span>
+					<p id="step-text-2">Clique no alfinete ao lado do Ghost Cap Screen Recorder.</p>
 				</li>
 				<li class="step">
 					<svg class="step-doodle" viewBox="0 0 48 48" aria-hidden="true">
 						<circle class="doodle-stroke-sm" cx="24" cy="24" r="14"></circle>
 						<circle class="record-dot" cx="24" cy="24" r="5.5"></circle>
 					</svg>
-					<span class="step-count">Step 3</span>
-					<p>Click the Cap icon whenever you're ready to record.</p>
+					<span id="step-count-3" class="step-count">Passo 3</span>
+					<p id="step-text-3">
+						Clique no ícone do Ghost Cap sempre que quiser gravar.
+					</p>
 				</li>
 			</ol>
 			<div class="cta-row">
-				<button id="sign-in" class="cta" type="button">Sign in to Cap</button>
+				<button id="sign-in" class="cta" type="button">Entrar no Ghost Cap</button>
 				<p id="signed-in" class="paper-pill success" hidden>
 					<svg class="check-mini" viewBox="0 0 24 24" aria-hidden="true">
 						<path
@@ -178,14 +161,20 @@
 							d="M 4 13 L 9.5 18 L 20 6"
 						></path>
 					</svg>
-					You're signed in. Click the Cap icon to start recording.
+					<span id="signed-in-text"
+						>Você entrou. Clique no ícone do Ghost Cap para começar a
+						gravar.</span
+					>
 				</p>
 			</div>
 			<p id="cta-note" class="cta-note" hidden>
-				Finish signing in using the Cap tab. This page updates automatically.
+				Conclua o login usando a aba do Ghost Cap. Esta página atualiza
+				automaticamente.
 			</p>
 		</main>
-		<p class="footnote">You can close this tab once Cap is pinned.</p>
+		<p id="welcome-footnote" class="footnote">
+			Você pode fechar esta aba assim que o Ghost Cap estiver fixado.
+		</p>
 		<script type="module" src="/src/welcome/main.ts"></script>
 	</body>
 </html>

@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { toCameraDevices, toMicrophoneDevices } from "../shared/devices";
+import { getDictionary } from "../shared/i18n";
 import {
 	reconcileRememberedDevices,
 	rememberCameraSelection,
@@ -116,6 +117,7 @@ function App() {
 	const [failedRecordingsCount, setFailedRecordingsCount] = useState(0);
 	const settingsRef = useRef(defaultSettings);
 
+	const t = getDictionary(settings.locale);
 	const recordingActive = isRecordingStatus(status);
 	const isPro = Boolean(bootstrap?.plan.isPro);
 	const cameraRequired = mode === "camera" && !settings.webcam.deviceId;
@@ -473,7 +475,7 @@ function App() {
 	const start = () =>
 		run(async () => {
 			if (cameraRequired) {
-				throw new Error("Select a camera before recording.");
+				throw new Error(t.popup.selectCameraError);
 			}
 			const response = await sendServiceWorkerMessage({
 				target: "service-worker",
@@ -599,11 +601,12 @@ function App() {
 			>
 				{auth && (
 					<div className="absolute right-3 top-3 z-10 flex gap-2">
-						<DashboardButton onClick={openDashboard} />
-						<SettingsButton onClick={() => void openOptions()} />
+						<DashboardButton t={t} onClick={openDashboard} />
+						<SettingsButton t={t} onClick={() => void openOptions()} />
 					</div>
 				)}
 				<RecorderHeader
+					t={t}
 					isBusy={busy || recordingActive}
 					isPro={isPro}
 					showPlan={Boolean(auth)}
@@ -616,13 +619,14 @@ function App() {
 					<div className="flex flex-1 items-center justify-center">
 						<output
 							className="block size-6 animate-spin rounded-full border-2 border-gray-5 border-t-gray-10"
-							aria-label="Loading"
+							aria-label={t.common.loading}
 						/>
 					</div>
 				) : auth ? (
 					<>
 						<div className="cap-fade-up cap-fade-up-1">
 							<RecordingModeSelector
+								t={t}
 								mode={mode}
 								disabled={recordingActive || busy}
 								onModeChange={handleModeChange}
@@ -630,6 +634,7 @@ function App() {
 						</div>
 						<div className="cap-fade-up cap-fade-up-2">
 							<CameraSelector
+								t={t}
 								selectedCameraId={selectedCameraId}
 								availableCameras={cameraDevices}
 								permissionGranted={mediaAccess.camera}
@@ -648,6 +653,7 @@ function App() {
 						</div>
 						<div className="cap-fade-up cap-fade-up-3">
 							<MicrophoneSelector
+								t={t}
 								selectedMicId={selectedMicId}
 								availableMics={micDevices}
 								permissionGranted={mediaAccess.microphone}
@@ -667,6 +673,7 @@ function App() {
 						{mode !== "camera" && (
 							<div className="cap-fade-up cap-fade-up-4">
 								<SystemAudioToggle
+									t={t}
 									enabled={settings.systemAudio.enabled}
 									disabled={recordingActive || busy}
 									recordingMode={mode}
@@ -681,6 +688,7 @@ function App() {
 						)}
 						<div className="cap-fade-up cap-fade-up-5">
 							<RecordingButton
+								t={t}
 								isRecording={recordingActive}
 								disabled={busy || (!recordingActive && cameraRequired)}
 								onStart={() => void start()}
@@ -690,6 +698,7 @@ function App() {
 						{recordingBarStatus && (
 							<div className="cap-fade-up">
 								<RecordingBar
+									t={t}
 									status={recordingBarStatus}
 									hasAudioTrack={settings.microphone.enabled}
 									disabled={busy}
@@ -700,12 +709,12 @@ function App() {
 						)}
 						{status.phase === "error" && (
 							<div className="cap-fade-up rounded-md border border-red-6 bg-red-3/70 px-3 py-2 text-xs leading-snug text-red-12">
-								<span className="font-medium">Recording failed.</span>{" "}
+								<span className="font-medium">{t.popup.recordingFailed}</span>{" "}
 								{status.message}
 							</div>
 						)}
 						<div className="cap-fade-up cap-fade-up-6 flex justify-center">
-							<HowItWorksButton onClick={() => void openHowItWorks()} />
+							<HowItWorksButton t={t} onClick={() => void openHowItWorks()} />
 						</div>
 						{failedRecordingsCount > 0 && (
 							<div className="cap-fade-up cap-fade-up-6">
@@ -714,14 +723,16 @@ function App() {
 									onClick={() => void openOptions()}
 									className="flex w-full items-center justify-center gap-1 text-xs font-medium text-[var(--red-11)] transition-colors hover:text-[var(--red-12)]"
 								>
-									Recover {failedRecordingsCount}{" "}
-									{failedRecordingsCount === 1 ? "recording" : "recordings"}
+									{failedRecordingsCount === 1
+										? t.popup.recoverOne
+										: t.popup.recoverMany(failedRecordingsCount)}
 								</button>
 							</div>
 						)}
 					</>
 				) : (
 					<SignInView
+						t={t}
 						authPending={authPending}
 						busy={busy}
 						onSignIn={() => void signIn()}

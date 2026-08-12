@@ -1,16 +1,18 @@
 import { LayoutDashboardIcon } from "lucide-react";
+import type { Dictionary } from "../../shared/i18n";
 import { Button } from "../ui/button";
 
 interface DashboardButtonProps {
+	t: Dictionary;
 	onClick: () => void;
 }
 
-export const DashboardButton = ({ onClick }: DashboardButtonProps) => (
+export const DashboardButton = ({ t, onClick }: DashboardButtonProps) => (
 	<Button
 		type="button"
 		variant="outline"
 		size="icon"
-		aria-label="Open Cap dashboard"
+		aria-label={t.popup.dashboardAriaLabel}
 		className="!p-0"
 		onClick={onClick}
 	>

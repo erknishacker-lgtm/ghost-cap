@@ -1,10 +1,10 @@
 {
 	"manifest_version": 3,
-	"name": "Cap - Screen Recorder & Screen Capture",
-	"short_name": "Cap",
+	"name": "Ghost Cap - Screen Recorder & Screen Capture",
+	"short_name": "Ghost Cap",
 	"description": "Free, open source screen recorder. Capture your screen, tab, camera & mic in Chrome and share a video link the moment you stop.",
 	"version": "1.0.3",
-	"homepage_url": "https://cap.so",
+	"homepage_url": "https://louzadadigitalhub.com",
 	"minimum_chrome_version": "116",
 	"icons": {
 		"16": "icons/icon-16.png",
@@ -13,7 +13,7 @@
 		"128": "icons/icon-128.png"
 	},
 	"action": {
-		"default_title": "Record your screen with Cap",
+		"default_title": "Record your screen with Ghost Cap",
 		"default_icon": {
 			"16": "icons/icon-16.png",
 			"32": "icons/icon-32.png",

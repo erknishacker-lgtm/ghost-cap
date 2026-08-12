@@ -6,27 +6,30 @@ import {
 	useRef,
 	useState,
 } from "react";
+import type { Dictionary } from "../shared/i18n";
 
 // A bright, presentation-friendly palette: the warm/cool brights read well on
 // light pages and white covers dark slides. Red is the default ink.
-const DRAW_COLORS = [
-	{ name: "Red", value: "#ef4444" },
-	{ name: "Yellow", value: "#facc15" },
-	{ name: "Green", value: "#22c55e" },
-	{ name: "Blue", value: "#3b82f6" },
-	{ name: "White", value: "#ffffff" },
-] as const;
+const getDrawColors = (t: Dictionary) =>
+	[
+		{ name: t.overlay.draw.colorRed, value: "#ef4444" },
+		{ name: t.overlay.draw.colorYellow, value: "#facc15" },
+		{ name: t.overlay.draw.colorGreen, value: "#22c55e" },
+		{ name: t.overlay.draw.colorBlue, value: "#3b82f6" },
+		{ name: t.overlay.draw.colorWhite, value: "#ffffff" },
+	] as const;
 
 // Stroke width in CSS pixels paired with the diameter of the dot shown in the
 // toolbar, so the picker previews roughly what the brush draws.
-const BRUSH_SIZES = [
-	{ name: "Small", value: 4, dot: 6 },
-	{ name: "Medium", value: 9, dot: 10 },
-	{ name: "Large", value: 16, dot: 15 },
-] as const;
+const getBrushSizes = (t: Dictionary) =>
+	[
+		{ name: t.overlay.draw.small, value: 4, dot: 6 },
+		{ name: t.overlay.draw.medium, value: 9, dot: 10 },
+		{ name: t.overlay.draw.large, value: 16, dot: 15 },
+	] as const;
 
-const DEFAULT_COLOR = DRAW_COLORS[0].value;
-const DEFAULT_SIZE = BRUSH_SIZES[1].value;
+const DEFAULT_COLOR = "#ef4444";
+const DEFAULT_SIZE = 9;
 
 // Auto-fade keeps a completed stroke fully opaque for the delay, then fades it
 // out over the duration before it is dropped. Timed off the rAF clock
@@ -93,11 +96,14 @@ const paintStroke = (
 };
 
 type DrawingOverlayProps = {
+	t: Dictionary;
 	active: boolean;
 	onClose: () => void;
 };
 
-export function DrawingOverlay({ active, onClose }: DrawingOverlayProps) {
+export function DrawingOverlay({ t, active, onClose }: DrawingOverlayProps) {
+	const drawColors = getDrawColors(t);
+	const brushSizes = getBrushSizes(t);
 	const [color, setColor] = useState<string>(DEFAULT_COLOR);
 	const [size, setSize] = useState<number>(DEFAULT_SIZE);
 	const [autoFade, setAutoFade] = useState(true);
@@ -259,10 +265,10 @@ export function DrawingOverlay({ active, onClose }: DrawingOverlayProps) {
 			<div
 				className="cap-extension-draw-toolbar"
 				role="toolbar"
-				aria-label="Drawing tools"
+				aria-label={t.overlay.draw.ariaLabel}
 			>
 				<div className="cap-extension-draw-group">
-					{DRAW_COLORS.map((swatch) => (
+					{drawColors.map((swatch) => (
 						<button
 							key={swatch.value}
 							type="button"
@@ -280,7 +286,7 @@ export function DrawingOverlay({ active, onClose }: DrawingOverlayProps) {
 				</div>
 				<div className="cap-extension-draw-divider" aria-hidden />
 				<div className="cap-extension-draw-group">
-					{BRUSH_SIZES.map((brush) => (
+					{brushSizes.map((brush) => (
 						<button
 							key={brush.value}
 							type="button"
@@ -290,7 +296,7 @@ export function DrawingOverlay({ active, onClose }: DrawingOverlayProps) {
 							)}
 							aria-label={brush.name}
 							aria-pressed={size === brush.value}
-							title={`${brush.name} brush`}
+							title={t.overlay.draw.brushLabel(brush.name)}
 							onClick={() => setSize(brush.value)}
 						>
 							<span
@@ -308,12 +314,10 @@ export function DrawingOverlay({ active, onClose }: DrawingOverlayProps) {
 						"cap-extension-draw-icon-button",
 						autoFade && "is-active",
 					)}
-					aria-label="Auto-fade ink"
+					aria-label={t.overlay.draw.autoFadeOn}
 					aria-pressed={autoFade}
 					title={
-						autoFade
-							? "Ink fades after a few seconds (click to keep it)"
-							: "Ink stays on screen (click to make it fade)"
+						autoFade ? t.overlay.draw.autoFadeOn : t.overlay.draw.autoFadeOff
 					}
 					onClick={toggleAutoFade}
 				>
@@ -322,8 +326,8 @@ export function DrawingOverlay({ active, onClose }: DrawingOverlayProps) {
 				<button
 					type="button"
 					className="cap-extension-draw-icon-button"
-					aria-label="Clear drawing"
-					title="Clear drawing"
+					aria-label={t.overlay.draw.clear}
+					title={t.overlay.draw.clear}
 					onClick={clear}
 				>
 					<Trash2 size={17} aria-hidden />
@@ -332,8 +336,8 @@ export function DrawingOverlay({ active, onClose }: DrawingOverlayProps) {
 				<button
 					type="button"
 					className="cap-extension-draw-icon-button"
-					aria-label="Exit drawing"
-					title="Exit drawing"
+					aria-label={t.overlay.draw.exit}
+					title={t.overlay.draw.exit}
 					onClick={onClose}
 				>
 					<X size={18} aria-hidden />

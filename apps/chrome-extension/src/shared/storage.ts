@@ -1,3 +1,4 @@
+import { DEFAULT_LOCALE, isLocale } from "./i18n";
 import { RECORDING_STATE_KEY, SHARED_UI_STATE_KEY } from "./storage-keys";
 import type {
 	BootstrapData,
@@ -27,7 +28,7 @@ export const MEDIA_ACCESS_KEY = "cap-extension-media-access";
 export const FAILED_RECORDINGS_KEY = "cap-extension-failed-recordings";
 const OVERLAY_TOKENS_KEY = "cap-extension-overlay-tokens";
 const LAST_WEBCAM_PREVIEW_FRAME_KEY = "cap-extension-last-webcam-preview-frame";
-const PRODUCTION_API_BASE_URL = "https://cap.so";
+const PRODUCTION_API_BASE_URL = "https://cap.zghost.uk";
 const DEFAULT_API_BASE_URL =
 	import.meta.env.MODE === "development"
 		? "http://localhost:3000"
@@ -59,6 +60,7 @@ export type FailedRecording = {
 
 export const defaultSettings: ExtensionSettings = {
 	apiBaseUrl: DEFAULT_API_BASE_URL,
+	locale: DEFAULT_LOCALE,
 	capture: {
 		recordingMode: "fullscreen",
 		camera: null,
@@ -161,6 +163,7 @@ export const loadSettings = async () => {
 		...defaultSettings,
 		...saved,
 		apiBaseUrl,
+		locale: isLocale(saved.locale) ? saved.locale : DEFAULT_LOCALE,
 		capture: normalizeCapturePreferences(saved.capture),
 		webcam: normalizeWebcamSettings(saved.webcam),
 		microphone: normalizeMicrophoneSettings(saved.microphone),

@@ -1,11 +1,9 @@
-import {
-	NO_MICROPHONE,
-	NO_MICROPHONE_VALUE,
-} from "@cap/recorder-core/recorder-constants";
+import { NO_MICROPHONE_VALUE } from "@cap/recorder-core/recorder-constants";
 import clsx from "clsx";
 import { MicIcon, MicOffIcon } from "lucide-react";
 import type { KeyboardEvent, MouseEvent } from "react";
 import { useRef } from "react";
+import type { Dictionary } from "../../shared/i18n";
 import type { MicrophoneDevice } from "../../shared/types";
 import { DEFAULT_MICROPHONE_DEVICE_ID } from "../../shared/types";
 import {
@@ -15,6 +13,7 @@ import {
 import { useMediaPermission } from "./use-media-permission";
 
 interface MicrophoneSelectorProps {
+	t: Dictionary;
 	selectedMicId: string | null;
 	availableMics: MicrophoneDevice[];
 	permissionGranted: boolean;
@@ -27,6 +26,7 @@ interface MicrophoneSelectorProps {
 }
 
 export const MicrophoneSelector = ({
+	t,
 	selectedMicId,
 	availableMics,
 	permissionGranted,
@@ -54,7 +54,11 @@ export const MicrophoneSelector = ({
 	const currentValue = selectedMicId ?? NO_MICROPHONE_VALUE;
 
 	const options: DeviceSelectOption[] = [
-		{ value: NO_MICROPHONE_VALUE, label: NO_MICROPHONE, icon: MicOffIcon },
+		{
+			value: NO_MICROPHONE_VALUE,
+			label: t.popup.microphone.none,
+			icon: MicOffIcon,
+		},
 	];
 	if (
 		availableMics.length === 0 ||
@@ -62,14 +66,14 @@ export const MicrophoneSelector = ({
 	) {
 		options.push({
 			value: DEFAULT_MICROPHONE_DEVICE_ID,
-			label: "Default microphone",
+			label: t.popup.microphone.defaultMic,
 			icon: MicIcon,
 		});
 	}
 	availableMics.forEach((mic, index) => {
 		options.push({
 			value: mic.deviceId,
-			label: mic.label?.trim() || `Microphone ${index + 1}`,
+			label: mic.label?.trim() || t.popup.microphone.microphoneN(index + 1),
 			icon: MicIcon,
 		});
 	});
@@ -79,12 +83,12 @@ export const MicrophoneSelector = ({
 	const TriggerIcon = selectedOption.icon;
 
 	const statusPillClassName = clsx(
-		"px-[0.375rem] h-[1.25rem] min-w-[2.5rem] rounded-full text-[0.75rem] leading-[1.25rem] flex items-center justify-center font-normal transition-colors duration-200 disabled:opacity-100 disabled:pointer-events-none focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:ring-[var(--blue-8)]",
+		"px-[0.375rem] h-[1.25rem] min-w-[2.5rem] rounded-full text-[0.75rem] leading-[1.25rem] flex items-center justify-center font-normal transition-colors duration-200 disabled:opacity-100 disabled:pointer-events-none focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:ring-[var(--gray-8)]",
 		statusPillDisabled ? "cursor-default" : "cursor-pointer",
 		shouldRequestPermission
 			? "bg-[var(--red-3)] text-[var(--red-11)]"
 			: micEnabled
-				? "bg-[var(--blue-3)] text-[var(--blue-11)] hover:bg-[var(--blue-4)]"
+				? "bg-[var(--gray-3)] text-[var(--gray-11)] hover:bg-[var(--gray-4)]"
 				: "bg-[var(--red-3)] text-[var(--red-11)]",
 	);
 
@@ -182,15 +186,16 @@ export const MicrophoneSelector = ({
 					onKeyDown={handleStatusPillKeyDown}
 				>
 					{shouldRequestPermission
-						? "Request permission"
+						? t.popup.microphone.requestPermission
 						: micEnabled
-							? "On"
-							: "Off"}
+							? t.common.on
+							: t.common.off}
 				</button>
 			</div>
 			{open && (
 				<DeviceSelectOverlay
-					title="Select microphone"
+					t={t}
+					title={t.popup.microphone.selectTitle}
 					options={options}
 					selectedValue={currentValue}
 					onSelect={(value) => {

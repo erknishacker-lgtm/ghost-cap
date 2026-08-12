@@ -7,6 +7,7 @@ import {
 	useState,
 } from "react";
 import { formatDuration } from "../shared/format-duration";
+import type { Dictionary } from "../shared/i18n";
 import {
 	isOverlayMessage,
 	isRecordingStatusBroadcast,
@@ -51,6 +52,7 @@ type BarStatus = {
 type BarControl = "stop-recording" | "pause-recording" | "resume-recording";
 
 type RecordingBarOverlayProps = {
+	t: Dictionary;
 	recorderPanelOpen: boolean;
 };
 
@@ -85,6 +87,7 @@ const currentDurationMs = (status: BarStatus, now: number) =>
 		: status.durationMs;
 
 export function RecordingBarOverlay({
+	t,
 	recorderPanelOpen,
 }: RecordingBarOverlayProps) {
 	const [status, setStatus] = useState<BarStatus | null>(null);
@@ -453,7 +456,7 @@ export function RecordingBarOverlay({
 						isDragging && "is-dragging",
 					)}
 					role="toolbar"
-					aria-label="Cap recording controls"
+					aria-label={t.overlay.recordingBar.ariaLabel}
 					style={{
 						left: `${position?.x ?? EDGE_PADDING}px`,
 						top: position ? `${position.y}px` : "50%",
@@ -470,14 +473,14 @@ export function RecordingBarOverlay({
 						/>
 						<div className="cap-extension-control-bar-text">
 							<span className="cap-extension-control-bar-title">
-								Ready to record
+								{t.overlay.recordingBar.ready}
 							</span>
 							<span className="cap-extension-control-bar-subtitle">
 								<span
 									className="cap-extension-control-bar-dot is-ready"
 									aria-hidden
 								/>
-								Cap
+								Ghost Cap
 							</span>
 						</div>
 					</div>
@@ -490,7 +493,7 @@ export function RecordingBarOverlay({
 							onClick={startRecording}
 						>
 							<Play size={14} fill="currentColor" strokeWidth={0} aria-hidden />
-							Start recording
+							{t.overlay.recordingBar.startRecording}
 						</button>
 						<button
 							type="button"
@@ -498,9 +501,9 @@ export function RecordingBarOverlay({
 								"cap-extension-control-bar-icon-button",
 								drawing && "is-active",
 							)}
-							aria-label="Draw on the page"
+							aria-label={t.overlay.recordingBar.draw}
 							aria-pressed={drawing}
-							title="Draw on the page"
+							title={t.overlay.recordingBar.draw}
 							onClick={toggleDrawing}
 						>
 							<Pencil size={18} aria-hidden />
@@ -508,15 +511,15 @@ export function RecordingBarOverlay({
 						<button
 							type="button"
 							className="cap-extension-control-bar-icon-button is-quiet"
-							aria-label="Hide recording bar"
-							title="Hide bar"
+							aria-label={t.overlay.recordingBar.hide}
+							title={t.overlay.recordingBar.hide}
 							onClick={dismissReadyBar}
 						>
 							<X size={20} aria-hidden />
 						</button>
 					</div>
 				</div>
-				<DrawingOverlay active={drawing} onClose={stopDrawing} />
+				<DrawingOverlay t={t} active={drawing} onClose={stopDrawing} />
 			</>
 		);
 	}
@@ -543,7 +546,7 @@ export function RecordingBarOverlay({
 					actionsOpenLeft && "opens-left",
 				)}
 				role="toolbar"
-				aria-label="Cap recording controls"
+				aria-label={t.overlay.recordingBar.ariaLabel}
 				style={{
 					left: `${position?.x ?? EDGE_PADDING}px`,
 					top: position ? `${position.y}px` : "50%",
@@ -557,7 +560,7 @@ export function RecordingBarOverlay({
 						isWarning && "is-warning",
 					)}
 					data-drag-handle
-					title="Drag recording controls"
+					title={t.overlay.recordingBar.drag}
 				>
 					<GripVertical
 						className="cap-extension-recording-rail-grip"
@@ -581,8 +584,8 @@ export function RecordingBarOverlay({
 				<button
 					type="button"
 					className="cap-extension-control-bar-pill is-stop is-compact"
-					aria-label="Stop recording"
-					title="Stop recording"
+					aria-label={t.overlay.recordingBar.stop}
+					title={t.overlay.recordingBar.stop}
 					disabled={busy}
 					data-controls
 					onClick={() => sendControl("stop-recording")}
@@ -597,8 +600,16 @@ export function RecordingBarOverlay({
 					<button
 						type="button"
 						className="cap-extension-control-bar-icon-button is-compact"
-						aria-label={isPaused ? "Resume recording" : "Pause recording"}
-						title={isPaused ? "Resume" : "Pause"}
+						aria-label={
+							isPaused
+								? t.overlay.recordingBar.resume
+								: t.overlay.recordingBar.pause
+						}
+						title={
+							isPaused
+								? t.overlay.recordingBar.resumeShort
+								: t.overlay.recordingBar.pauseShort
+						}
 						disabled={busy}
 						data-recording-pause
 						onClick={() =>
@@ -622,16 +633,16 @@ export function RecordingBarOverlay({
 							"cap-extension-control-bar-icon-button is-compact",
 							drawing && "is-active",
 						)}
-						aria-label="Draw on the page"
+						aria-label={t.overlay.recordingBar.draw}
 						aria-pressed={drawing}
-						title="Draw on the page"
+						title={t.overlay.recordingBar.draw}
 						onClick={toggleDrawing}
 					>
 						<Pencil size={16} aria-hidden />
 					</button>
 				</div>
 			</div>
-			<DrawingOverlay active={drawing} onClose={stopDrawing} />
+			<DrawingOverlay t={t} active={drawing} onClose={stopDrawing} />
 		</>
 	);
 }

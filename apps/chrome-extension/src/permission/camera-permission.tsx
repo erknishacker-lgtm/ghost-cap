@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { CapBrand, DoodleBoilFilter } from "../shared/cap-brand";
 import { toCameraDevices } from "../shared/devices";
+import { DoodleBoilFilter, GhostCapBrand } from "../shared/ghost-cap-brand";
+import { DEFAULT_LOCALE, type Dictionary, getDictionary } from "../shared/i18n";
 import { mountPageNav } from "../shared/page-nav";
 import { rememberCameraSelection } from "../shared/preferences";
 import { sendServiceWorkerMessage } from "../shared/runtime";
@@ -18,24 +19,26 @@ mountPageNav("camera");
 
 type Status = "idle" | "requesting" | "ready" | "error";
 
-const headlines: Record<Status, { title: string; lede: string }> = {
+const getHeadlines = (
+	t: Dictionary,
+): Record<Status, { title: string; lede: string }> => ({
 	idle: {
-		title: "Camera & microphone access",
-		lede: "Allow access once so Cap can show your camera preview and record your voice.",
+		title: t.cameraPermission.idleTitle,
+		lede: t.cameraPermission.idleLede,
 	},
 	requesting: {
-		title: "Waiting for Chrome",
-		lede: "Click Allow in the browser prompt up by the address bar.",
+		title: t.cameraPermission.requestingTitle,
+		lede: t.cameraPermission.requestingLede,
 	},
 	ready: {
-		title: "You're all set",
-		lede: "Pick the camera Cap should use. It's remembered for every recording.",
+		title: t.cameraPermission.readyTitle,
+		lede: t.cameraPermission.readyLede,
 	},
 	error: {
-		title: "Cap needs access",
-		lede: "Allow access once so Cap can show your camera preview and record your voice.",
+		title: t.cameraPermission.errorTitle,
+		lede: t.cameraPermission.errorLede,
 	},
-};
+});
 
 const stopStream = (stream: MediaStream) => {
 	for (const track of stream.getTracks()) {
@@ -43,17 +46,17 @@ const stopStream = (stream: MediaStream) => {
 	}
 };
 
-const getCameraErrorMessage = (error: unknown) => {
-	if (!(error instanceof Error)) return "Camera unavailable";
+const getCameraErrorMessage = (error: unknown, t: Dictionary) => {
+	if (!(error instanceof Error)) return t.cameraPermission.unavailable;
 	if (
 		error.name === "NotAllowedError" ||
 		error.message.toLowerCase().includes("permission")
 	) {
-		return "Chrome did not grant camera access. Click Allow in the browser prompt.";
+		return t.cameraPermission.permissionDenied;
 	}
-	if (error.name === "NotFoundError") return "No camera was found.";
-	if (error.name === "NotReadableError") return "Camera is already in use.";
-	return error.message || "Camera unavailable";
+	if (error.name === "NotFoundError") return t.cameraPermission.notFound;
+	if (error.name === "NotReadableError") return t.cameraPermission.inUse;
+	return error.message || t.cameraPermission.unavailable;
 };
 
 const getPreferredDeviceId = (
@@ -81,6 +84,11 @@ function App() {
 	);
 	const [status, setStatus] = useState<Status>("idle");
 	const [error, setError] = useState<string | null>(null);
+	const t = getDictionary(settings?.locale ?? DEFAULT_LOCALE);
+
+	useEffect(() => {
+		document.title = t.cameraPermission.pageTitle;
+	}, [t]);
 
 	useEffect(() => {
 		let disposed = false;
@@ -141,7 +149,7 @@ function App() {
 		if (!settings) return;
 		if (!navigator.mediaDevices?.getUserMedia) {
 			setStatus("error");
-			setError("Camera access is not available in this browser.");
+			setError(t.cameraPermission.notAvailableInBrowser);
 			return;
 		}
 
@@ -179,7 +187,7 @@ function App() {
 			setStatus("ready");
 		} catch (err) {
 			setStatus("error");
-			setError(getCameraErrorMessage(err));
+			setError(getCameraErrorMessage(err, t));
 		}
 	};
 
@@ -188,13 +196,13 @@ function App() {
 		await saveCameraSelection(settings, devices, deviceId);
 	};
 
-	const { title, lede } = headlines[status];
+	const { title, lede } = getHeadlines(t)[status];
 
 	return (
 		<>
 			<main className="stage" data-mode={status}>
 				<header className="brand">
-					<CapBrand />
+					<GhostCapBrand />
 				</header>
 				<svg className="doodle" viewBox="0 0 120 104" aria-hidden="true">
 					<defs>
@@ -235,7 +243,7 @@ function App() {
 				{status === "ready" && devices.length > 0 && (
 					<div className="card device-card">
 						<label className="field">
-							<span>Camera Cap should use</span>
+							<span>{t.cameraPermission.cameraToUse}</span>
 							<select
 								value={selectedDeviceId}
 								onChange={(event) =>
@@ -261,7 +269,7 @@ function App() {
 									d="M 4 13 L 9.5 18 L 20 6"
 								/>
 							</svg>
-							Camera preview is enabled.
+							{t.cameraPermission.previewEnabled}
 						</p>
 					</div>
 				)}
@@ -278,10 +286,10 @@ function App() {
 						onClick={() => void requestAccess()}
 					>
 						{status === "requesting"
-							? "Waiting for Chrome…"
+							? t.cameraPermission.waitingForChrome
 							: status === "ready"
-								? "Re-check access"
-								: "Allow camera & microphone"}
+								? t.cameraPermission.recheckAccess
+								: t.cameraPermission.allowAccess}
 					</button>
 					{status === "ready" && (
 						<button
@@ -289,7 +297,7 @@ function App() {
 							className="cta ghost"
 							onClick={() => void requestAccess()}
 						>
-							Refresh list
+							{t.cameraPermission.refreshList}
 						</button>
 					)}
 				</div>
@@ -301,9 +309,7 @@ function App() {
 					/>
 				</svg>
 			</main>
-			<p className="footnote">
-				Chrome remembers this. Cap only uses your camera while you record.
-			</p>
+			<p className="footnote">{t.cameraPermission.footnote}</p>
 		</>
 	);
 }

@@ -13,6 +13,7 @@ const camera: CameraDevice = {
 
 const settings: ExtensionSettings = {
 	apiBaseUrl: "https://cap.so",
+	locale: "pt",
 	capture: {
 		recordingMode: "fullscreen",
 		camera: null,

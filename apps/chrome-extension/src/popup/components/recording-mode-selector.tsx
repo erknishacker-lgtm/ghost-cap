@@ -5,6 +5,7 @@ import {
 	MonitorIcon,
 	RectangleHorizontal,
 } from "lucide-react";
+import type { Dictionary } from "../../shared/i18n";
 import type { RecordingMode } from "../../shared/types";
 import {
 	SelectContent,
@@ -15,12 +16,14 @@ import {
 } from "../ui/select";
 
 interface RecordingModeSelectorProps {
+	t: Dictionary;
 	mode: RecordingMode;
 	disabled?: boolean;
 	onModeChange: (mode: RecordingMode) => void;
 }
 
 export const RecordingModeSelector = ({
+	t,
 	mode,
 	disabled = false,
 	onModeChange,
@@ -34,23 +37,23 @@ export const RecordingModeSelector = ({
 		}
 	> = {
 		fullscreen: {
-			label: "Full Screen (Recommended)",
-			displayLabel: "Full Screen",
+			label: t.popup.recordingMode.fullscreen,
+			displayLabel: t.popup.recordingMode.fullscreenShort,
 			icon: MonitorIcon,
 		},
 		window: {
-			label: "Window",
-			displayLabel: "Window",
+			label: t.popup.recordingMode.window,
+			displayLabel: t.popup.recordingMode.window,
 			icon: RectangleHorizontal,
 		},
 		tab: {
-			label: "Current tab",
-			displayLabel: "Current tab",
+			label: t.popup.recordingMode.tab,
+			displayLabel: t.popup.recordingMode.tab,
 			icon: Globe,
 		},
 		camera: {
-			label: "Camera only",
-			displayLabel: "Camera only",
+			label: t.popup.recordingMode.camera,
+			displayLabel: t.popup.recordingMode.camera,
 			icon: CameraIcon,
 		},
 	};
@@ -69,7 +72,7 @@ export const RecordingModeSelector = ({
 			>
 				<SelectTrigger className="relative flex flex-row items-center h-[2rem] px-[0.375rem] border border-gray-3 rounded-lg w-full max-w-[280px] disabled:text-gray-11 transition-colors overflow-hidden z-10 font-normal text-[0.875rem] bg-transparent hover:bg-transparent focus:bg-transparent focus:border-gray-3 hover:border-gray-3 text-[--text-primary] [&>svg]:hidden">
 					<SelectValue
-						placeholder="Select recording mode"
+						placeholder={t.popup.recordingMode.placeholder}
 						className="flex w-full items-center gap-[0.375rem] text-left truncate"
 					>
 						{selectedOption && SelectedIcon && (

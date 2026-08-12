@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { ArrowLeftIcon, CheckIcon, type LucideIcon } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
+import type { Dictionary } from "../../shared/i18n";
 
 export interface DeviceSelectOption {
 	value: string;
@@ -10,6 +11,7 @@ export interface DeviceSelectOption {
 }
 
 interface DeviceSelectOverlayProps {
+	t: Dictionary;
 	title: string;
 	options: DeviceSelectOption[];
 	selectedValue: string;
@@ -24,6 +26,7 @@ interface DeviceSelectOverlayProps {
  * scrollable list that always fits the panel bounds.
  */
 export const DeviceSelectOverlay = ({
+	t,
 	title,
 	options,
 	selectedValue,
@@ -60,8 +63,8 @@ export const DeviceSelectOverlay = ({
 					ref={backRef}
 					type="button"
 					onClick={onClose}
-					aria-label="Back"
-					className="flex size-7 items-center justify-center rounded-lg text-gray-11 transition-colors hover:bg-gray-3 hover:text-[--text-primary] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--blue-8)]"
+					aria-label={t.common.back}
+					className="flex size-7 items-center justify-center rounded-lg text-gray-11 transition-colors hover:bg-gray-3 hover:text-[--text-primary] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gray-8)]"
 				>
 					<ArrowLeftIcon className="size-4" aria-hidden />
 				</button>
@@ -82,23 +85,23 @@ export const DeviceSelectOverlay = ({
 									aria-pressed={selected}
 									title={option.label}
 									className={clsx(
-										"flex w-full items-center gap-[0.5rem] rounded-lg px-[0.625rem] py-[0.5rem] text-left text-[0.875rem] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--blue-8)]",
+										"flex w-full items-center gap-[0.5rem] rounded-lg px-[0.625rem] py-[0.5rem] text-left text-[0.875rem] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gray-8)]",
 										selected
-											? "bg-[var(--blue-3)] text-[var(--blue-11)]"
+											? "bg-[var(--gray-3)] text-[var(--gray-11)]"
 											: "text-[--text-primary] hover:bg-gray-3",
 									)}
 								>
 									<Icon
 										className={clsx(
 											"size-4 shrink-0",
-											selected ? "text-[var(--blue-11)]" : "text-gray-11",
+											selected ? "text-[var(--gray-11)]" : "text-gray-11",
 										)}
 										aria-hidden
 									/>
 									<span className="flex-1 truncate">{option.label}</span>
 									{selected && (
 										<CheckIcon
-											className="size-4 shrink-0 text-[var(--blue-11)]"
+											className="size-4 shrink-0 text-[var(--gray-11)]"
 											aria-hidden
 										/>
 									)}

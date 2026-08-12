@@ -2,7 +2,9 @@ import { PictureInPicture } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { toCameraDevices } from "../shared/devices";
+import { DEFAULT_LOCALE, getDictionary } from "../shared/i18n";
 import { sendServiceWorkerMessage } from "../shared/runtime";
+import { loadSettings } from "../shared/storage";
 import type {
 	CameraPreviewErrorReason,
 	CameraPreviewEvent,
@@ -238,6 +240,8 @@ const publishCameraDevices = async () => {
 
 function App() {
 	const [settings, setSettings] = useState<WebcamSettings | null>(null);
+	const [locale, setLocale] = useState(DEFAULT_LOCALE);
+	const t = getDictionary(locale);
 	const [isInPictureInPicture, setIsInPictureInPicture] = useState(false);
 	const videoRef = useRef<HTMLVideoElement>(null);
 	const streamRef = useRef<MediaStream | null>(null);
@@ -250,6 +254,12 @@ function App() {
 	const previewEnabled = Boolean(settings?.enabled && settings.deviceId);
 	const isPictureInPictureSupported =
 		typeof document !== "undefined" && document.pictureInPictureEnabled;
+
+	useEffect(() => {
+		void loadSettings()
+			.then((extensionSettings) => setLocale(extensionSettings.locale))
+			.catch(() => undefined);
+	}, []);
 
 	const publishPreviewFrame = useCallback(() => {
 		const currentVideo = videoRef.current;
@@ -628,8 +638,8 @@ function App() {
 					type="button"
 					className="camera-preview-pip-button"
 					data-pip-control
-					aria-label="Open Picture in Picture"
-					title="Picture in Picture"
+					aria-label={t.overlay.cameraPreview.togglePip}
+					title={t.overlay.cameraPreview.pipTooltip}
 					onClick={togglePictureInPicture}
 				>
 					<PictureInPicture size={20} aria-hidden />

@@ -5,6 +5,7 @@ import type {
 	VideoId,
 } from "@cap/recorder-core";
 import type { Extension, Video } from "@cap/web-domain";
+import type { Locale } from "./i18n";
 
 export const DEFAULT_CAMERA_DEVICE_ID = "__cap_default_camera__";
 export const DEFAULT_MICROPHONE_DEVICE_ID = "__cap_default_microphone__";
@@ -108,6 +109,7 @@ export type MicrophoneWarningVariant = "no-mic" | "no-sound";
 
 export type ExtensionSettings = {
 	apiBaseUrl: string;
+	locale: Locale;
 	capture: CapturePreferences;
 	webcam: WebcamSettings;
 	microphone: MicrophoneSettings;
