@@ -54,7 +54,7 @@ export const screenRecordWindowsContent: SeoPageContent = {
 		{
 			title: "Open Source & Privacy-First",
 			description:
-				"Cap is fully <a href='https://github.com/CapSoftware/Cap'>open source</a>. Your recordings stay on your machine unless you choose to share them. No telemetry, no tracking, no data harvesting — a transparent <a href='/loom-alternative'>Loom alternative</a> you can trust.",
+				"Your recordings stay on your machine unless you choose to share them. No telemetry, no tracking, no data harvesting — a transparent <a href='/loom-alternative'>Loom alternative</a> you can trust.",
 		},
 	],
 

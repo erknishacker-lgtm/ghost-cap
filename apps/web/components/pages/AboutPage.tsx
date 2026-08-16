@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@cap/ui";
-import { ArrowUpRight, Github } from "lucide-react";
 import { ReadyToGetStarted } from "../ReadyToGetStarted";
 
 export const AboutPage = () => {
@@ -87,41 +86,27 @@ export const AboutPage = () => {
 
 						<section>
 							<h2 className="mb-5 text-2xl md:text-3xl text-gray-12">
-								Open source, by design
+								Built for privacy, by design
 							</h2>
 							<div className="space-y-5 text-[1.0625rem] leading-[1.8] text-gray-11">
 								<p>
-									Cap is fully open source under the AGPL license. Every line of
-									code, from the Rust-powered recording engine to the web
-									sharing platform, is public and auditable. This isn't a
-									marketing decision. It's a core belief about how software
-									should be built.
+									Cap was built from the ground up with privacy and ownership as
+									core principles, from the Rust-powered recording engine to the
+									web sharing platform. This isn't a marketing decision. It's a
+									core belief about how software should be built.
 								</p>
 								<p>
-									Open source means you can verify exactly what Cap does with
-									your data. The community can contribute improvements, report
-									issues, and shape the product's direction. And Cap will never
-									disappear behind a paywall or pivot away from what makes it
-									useful.
+									You stay in control of exactly what happens with your data.
+									Recordings live where you choose, and Cap will never disappear
+									behind a paywall or pivot away from what makes it useful.
 								</p>
 								<p>
-									We've seen what happens when closed-source tools change their
-									pricing, shut down, or get acquired. Workflows break. Data
-									gets trapped. With Cap, that won't happen. You can self-host
-									the entire platform, fork the code, or simply trust that
-									thousands of developers are watching the codebase.
+									We've seen what happens when tools change their pricing, shut
+									down, or get acquired. Workflows break. Data gets trapped.
+									With Cap, that won't happen — you own your infrastructure and
+									your recordings, end to end.
 								</p>
 							</div>
-							<a
-								href="https://github.com/CapSoftware/Cap"
-								target="_blank"
-								rel="noopener noreferrer"
-								className="inline-flex items-center gap-2 mt-6 text-[1.0625rem] font-medium text-gray-12 hover:text-blue-9 transition-colors duration-200"
-							>
-								<Github className="size-5" />
-								View on GitHub
-								<ArrowUpRight className="size-4" />
-							</a>
 						</section>
 
 						<div className="h-px bg-gray-4" />
@@ -210,9 +195,7 @@ export const AboutPage = () => {
 									extract value, but to create it.
 								</p>
 								<p>
-									If that resonates with you, we'd love for you to try Cap,
-									contribute to the project, or follow along as we build in
-									public.
+									If that resonates with you, we'd love for you to try Cap.
 								</p>
 							</div>
 							<div className="flex flex-col gap-3 mt-8 sm:flex-row">
@@ -223,14 +206,6 @@ export const AboutPage = () => {
 									className="font-medium"
 								>
 									Download Cap
-								</Button>
-								<Button
-									href="https://github.com/CapSoftware/Cap"
-									variant="white"
-									size="lg"
-									className="font-medium"
-								>
-									Star on GitHub
 								</Button>
 							</div>
 							<p className="mt-12 text-[1.0625rem] text-gray-10">

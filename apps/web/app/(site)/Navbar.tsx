@@ -1,5 +1,4 @@
 import { Button, Logo } from "@cap/ui";
-import Image from "next/image";
 import Link from "next/link";
 import MobileMenu from "@/components/ui/MobileMenu";
 import { DesktopNavLinks } from "./DesktopNavLinks";
@@ -29,18 +28,6 @@ export const Navbar = ({ stars }: NavbarProps) => {
 						</div>
 					</div>
 					<div className="hidden items-center space-x-2 lg:flex">
-						<Button
-							variant="outline"
-							icon={
-								<Image src="/github.svg" alt="Github" width={16} height={16} />
-							}
-							target="_blank"
-							href="https://github.com/CapSoftware/Cap"
-							size="sm"
-							className="w-full font-medium sm:w-auto"
-						>
-							{`GitHub${stars ? ` (${stars})` : ""}`}
-						</Button>
 						<Button
 							variant="gray"
 							href="/login"

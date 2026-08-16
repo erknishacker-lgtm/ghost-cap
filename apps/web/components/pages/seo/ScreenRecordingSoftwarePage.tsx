@@ -48,7 +48,7 @@ export const screenRecordingSoftwareContent: SeoPageContent = {
 		{
 			title: "Open Source and Transparent",
 			description:
-				"Cap is fully open-source on <a href='https://github.com/CapSoftware/Cap'>GitHub</a>, giving you complete transparency into how your screen recording software works. Community-driven development means features are shaped by real users.",
+				"Cap gives you complete transparency into how your screen recording software works, with features shaped by real user feedback.",
 		},
 		{
 			title: "AI-Powered Captions",

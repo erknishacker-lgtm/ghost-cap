@@ -3,7 +3,6 @@
 import {
 	ArrowUpRight,
 	BookOpen,
-	Github,
 	Mail,
 	MessageCircle,
 } from "lucide-react";
@@ -48,17 +47,15 @@ const supportChannels: SupportChannel[] = [
 	{
 		title: "Report an issue",
 		description:
-			"Found a bug or want to request a feature? Cap is open source, so you can open an issue directly on GitHub.",
-		icon: Github,
-		href: "https://github.com/CapSoftware/Cap/issues",
-		cta: "Open an issue",
-		isExternal: true,
+			"Found a bug or want to request a feature? Send us an email and we'll take a look.",
+		icon: Mail,
+		href: "mailto:hello@cap.so",
+		cta: "Email us",
 	},
 ];
 
 const quickLinks = [
 	{ label: "FAQs", href: "/faq" },
-	{ label: "Self-hosting guide", href: "/self-hosting" },
 	{
 		label: "System status",
 		href: "https://cap.openstatus.dev/",

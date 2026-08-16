@@ -26,25 +26,15 @@ const footerLinks = {
 		{ label: "Pricing", href: "/pricing" },
 		{ label: "Download", href: "/download" },
 		{
-			label: "Open Source",
-			href: "https://github.com/CapSoftware/Cap",
-			isExternal: true,
-		},
-		{
 			label: "Join the community",
 			href: "https://discord.gg/y8gdQ3WRN3",
 			isExternal: true,
-		},
-		{
-			label: "OSS Friends",
-			href: "/oss-friends",
 		},
 	] as FooterLink[],
 	help: [
 		{ label: "About", href: "/about" },
 		{ label: "Testimonials", href: "/testimonials" },
 		{ label: "FAQs", href: "/faq" },
-		{ label: "Self-hosting", href: "/self-hosting" },
 		{ label: "Support", href: "/support" },
 		{ label: "Email Support", href: "mailto:hello@cap.so" },
 		{ label: "Trust Portal", href: "https://trust.cap.so" },
@@ -325,7 +315,7 @@ export const Footer = () => {
 						<div className="xl:w-[260px] xl:shrink-0">
 							<Logo className="w-[104px] h-auto" />
 							<p className="mt-5 max-w-sm text-sm leading-6 text-gray-11">
-								The open source alternative to Loom. Lightweight, powerful, and
+								The powerful alternative to Loom. Lightweight, secure, and
 								cross-platform — record and share in seconds.
 							</p>
 							<div className="flex gap-2.5 items-center mt-6">

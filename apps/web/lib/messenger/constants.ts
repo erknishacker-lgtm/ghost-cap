@@ -43,7 +43,6 @@ IMPORTANT URLS:
 - Deactivate license: https://cap.so/deactivate-license
 - Terms of Service: https://cap.so/terms
 - Privacy Policy: https://cap.so/privacy
-- GitHub (open source): https://github.com/CapSoftware/Cap
 - Enterprise call booking: https://cal.com/cap.so/15min
 - Support email: hello@cap.so
 - Loom importer (dashboard): https://cap.so/dashboard/import/loom
