@@ -58,6 +58,7 @@ const nextConfig = {
 			"date-fns",
 		],
 		turbopackFileSystemCacheForDev: true,
+		webpackMemoryOptimizations: true,
 	},
 	images: {
 		remotePatterns: [
