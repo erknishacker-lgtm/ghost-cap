@@ -83,10 +83,10 @@ export const MembersCard = ({ setIsInviteDialogOpen }: MembersCardProps) => {
 	const [deletingInviteId, setDeletingInviteId] = useState<string | null>(null);
 	const roleOptions = [
 		{ value: "admin", label: "Admin" },
-		{ value: "member", label: "Member" },
+		{ value: "member", label: "Membro" },
 	];
 	const showMemberManagerToast = () => {
-		toast.error("Only admins and owners can manage organization members");
+		toast.error("Apenas admins e proprietários podem gerenciar membros da organização");
 	};
 
 	const deleteInviteMutation = useMutation({
@@ -101,12 +101,12 @@ export const MembersCard = ({ setIsInviteDialogOpen }: MembersCardProps) => {
 			);
 		},
 		onSuccess: () => {
-			toast.success("Invite deleted successfully");
+			toast.success("Convite excluído com sucesso");
 			setDeletingInviteId(null);
 			router.refresh();
 		},
 		onError: () => {
-			toast.error("An error occurred while deleting invite");
+			toast.error("Ocorreu um erro ao excluir o convite");
 			setDeletingInviteId(null);
 		},
 	});
@@ -122,7 +122,7 @@ export const MembersCard = ({ setIsInviteDialogOpen }: MembersCardProps) => {
 			);
 		},
 		onSuccess: () => {
-			toast.success("Member removed successfully");
+			toast.success("Membro removido com sucesso");
 			setConfirmOpen(false);
 			setPendingMember(null);
 			router.refresh();
@@ -131,7 +131,7 @@ export const MembersCard = ({ setIsInviteDialogOpen }: MembersCardProps) => {
 			toast.error(
 				error instanceof Error
 					? error.message
-					: "An error occurred while removing member",
+					: "Ocorreu um erro ao remover o membro",
 			);
 		},
 	});
@@ -154,12 +154,12 @@ export const MembersCard = ({ setIsInviteDialogOpen }: MembersCardProps) => {
 			);
 		},
 		onSuccess: () => {
-			toast.success("Role updated");
+			toast.success("Função atualizada");
 			router.refresh();
 		},
 		onError: (error) => {
 			toast.error(
-				error instanceof Error ? error.message : "Failed to update role",
+				error instanceof Error ? error.message : "Falha ao atualizar a função",
 			);
 		},
 	});
@@ -182,12 +182,12 @@ export const MembersCard = ({ setIsInviteDialogOpen }: MembersCardProps) => {
 			);
 		},
 		onSuccess: (_data, { enable }) => {
-			toast.success(enable ? "Pro seat assigned" : "Pro seat removed");
+			toast.success(enable ? "Assento Pro atribuído" : "Assento Pro removido");
 			router.refresh();
 		},
 		onError: (error) => {
 			toast.error(
-				error instanceof Error ? error.message : "Failed to update Pro seat",
+				error instanceof Error ? error.message : "Falha ao atualizar o assento Pro",
 			);
 		},
 	});
@@ -213,14 +213,14 @@ export const MembersCard = ({ setIsInviteDialogOpen }: MembersCardProps) => {
 			<ConfirmationDialog
 				open={confirmOpen}
 				icon={<FontAwesomeIcon icon={faUser} />}
-				title="Remove member"
+				title="Remover membro"
 				description={
 					pendingMember
-						? `Are you sure you want to remove ${pendingMember.name} from your organization? This action cannot be undone.`
+						? `Tem certeza que deseja remover ${pendingMember.name} da sua organização? Esta ação não pode ser desfeita.`
 						: ""
 				}
-				confirmLabel={removeMemberMutation.isPending ? "Removing..." : "Remove"}
-				cancelLabel="Cancel"
+				confirmLabel={removeMemberMutation.isPending ? "Removendo..." : "Remover"}
+				cancelLabel="Cancelar"
 				loading={removeMemberMutation.isPending}
 				onConfirm={() => {
 					if (pendingMember) {
@@ -235,8 +235,8 @@ export const MembersCard = ({ setIsInviteDialogOpen }: MembersCardProps) => {
 			<Card>
 				<div className="flex flex-wrap gap-6 justify-between items-center w-full">
 					<CardHeader>
-						<CardTitle>Members</CardTitle>
-						<CardDescription>Manage your organization members.</CardDescription>
+						<CardTitle>Membros</CardTitle>
+						<CardDescription>Gerencie os membros da sua organização.</CardDescription>
 					</CardHeader>
 					<Button
 						type="button"
@@ -252,19 +252,19 @@ export const MembersCard = ({ setIsInviteDialogOpen }: MembersCardProps) => {
 						}}
 						disabled={!canManageMembers}
 					>
-						+ Invite users
+						+ Convidar usuários
 					</Button>
 				</div>
 				<Table className="mt-5">
 					<TableHeader>
 						<TableRow>
-							<TableHead>Member</TableHead>
-							<TableHead>Email</TableHead>
-							<TableHead>Role</TableHead>
+							<TableHead>Membro</TableHead>
+							<TableHead>E-mail</TableHead>
+							<TableHead>Função</TableHead>
 							{buildEnv.NEXT_PUBLIC_IS_CAP && <TableHead>Pro</TableHead>}
-							<TableHead>Joined</TableHead>
+							<TableHead>Entrou em</TableHead>
 							<TableHead>Status</TableHead>
-							<TableHead>Actions</TableHead>
+							<TableHead>Ações</TableHead>
 						</TableRow>
 					</TableHeader>
 					<TableBody>
@@ -301,11 +301,11 @@ export const MembersCard = ({ setIsInviteDialogOpen }: MembersCardProps) => {
 									<TableCell>{member.user.email}</TableCell>
 									<TableCell>
 										{memberIsOwner || memberRole === "owner" ? (
-											"Owner"
+											"Proprietário"
 										) : (
 											<Select
 												value={assignableRole ?? "member"}
-												placeholder="Role"
+												placeholder="Função"
 												options={roleOptions}
 												size="sm"
 												variant="gray"
@@ -326,7 +326,7 @@ export const MembersCard = ({ setIsInviteDialogOpen }: MembersCardProps) => {
 										<TableCell>
 											{memberIsOwner ? (
 												<span className="text-xs text-gray-10">
-													{activeOrganization.ownerIsPro ? "Included" : "Free"}
+													{activeOrganization.ownerIsPro ? "Incluído" : "Grátis"}
 												</span>
 											) : (
 												<div className="flex items-center gap-2">
@@ -349,7 +349,7 @@ export const MembersCard = ({ setIsInviteDialogOpen }: MembersCardProps) => {
 													{member.hasProSeat &&
 														!activeOrganization.hasActiveProSeatProvider && (
 															<span className="text-xs text-amber-600">
-																Inactive
+																Inativo
 															</span>
 														)}
 												</div>
@@ -361,8 +361,8 @@ export const MembersCard = ({ setIsInviteDialogOpen }: MembersCardProps) => {
 									</TableCell>
 									<TableCell>
 										{pendingInviteEmails.has(member.user.email.toLowerCase())
-											? "Pending"
-											: "Active"}
+											? "Pendente"
+											: "Ativo"}
 									</TableCell>
 									<TableCell>
 										{!memberIsOwner ? (
@@ -386,7 +386,7 @@ export const MembersCard = ({ setIsInviteDialogOpen }: MembersCardProps) => {
 												}}
 												disabled={!canRemoveMember}
 											>
-												Remove
+												Remover
 											</Button>
 										) : (
 											"-"
@@ -402,7 +402,7 @@ export const MembersCard = ({ setIsInviteDialogOpen }: MembersCardProps) => {
 							)
 							.map((invite) => (
 								<TableRow key={invite.id}>
-									<TableCell className="text-gray-10">Pending</TableCell>
+									<TableCell className="text-gray-10">Pendente</TableCell>
 									<TableCell>{invite.invitedEmail}</TableCell>
 									<TableCell>
 										{organizationRoleLabel(
@@ -412,7 +412,7 @@ export const MembersCard = ({ setIsInviteDialogOpen }: MembersCardProps) => {
 									</TableCell>
 									{buildEnv.NEXT_PUBLIC_IS_CAP && <TableCell>-</TableCell>}
 									<TableCell>-</TableCell>
-									<TableCell>Invited</TableCell>
+									<TableCell>Convidado</TableCell>
 									<TableCell>
 										<Button
 											type="button"
@@ -430,8 +430,8 @@ export const MembersCard = ({ setIsInviteDialogOpen }: MembersCardProps) => {
 											}
 										>
 											{deletingInviteId === invite.id
-												? "Deleting..."
-												: "Delete Invite"}
+												? "Excluindo..."
+												: "Excluir convite"}
 										</Button>
 									</TableCell>
 								</TableRow>

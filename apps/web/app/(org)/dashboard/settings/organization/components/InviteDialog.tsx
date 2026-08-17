@@ -32,7 +32,7 @@ type InviteEmail = {
 };
 
 const roleOptions = [
-	{ value: "member", label: "Member" },
+	{ value: "member", label: "Membro" },
 	{ value: "admin", label: "Admin" },
 ];
 
@@ -62,7 +62,7 @@ export const InviteDialog = ({ isOpen, setIsOpen }: InviteDialogProps) => {
 		const invalidEmails = newEmails.filter((email) => !emailRegex.test(email));
 		if (invalidEmails.length > 0) {
 			toast.error(
-				`Invalid email${invalidEmails.length > 1 ? "s" : ""}: ${invalidEmails.join(", ")}`,
+				`E-mail${invalidEmails.length > 1 ? "s" : ""} inválido${invalidEmails.length > 1 ? "s" : ""}: ${invalidEmails.join(", ")}`,
 			);
 			return null;
 		}
@@ -104,7 +104,7 @@ export const InviteDialog = ({ isOpen, setIsOpen }: InviteDialogProps) => {
 	const sendInvites = useMutation({
 		mutationFn: async (emails: InviteEmail[]) => {
 			if (!activeOrganization?.organization.id) {
-				throw new Error("No active organization");
+				throw new Error("Nenhuma organização ativa");
 			}
 			return await sendOrganizationInvites(
 				emails,
@@ -117,14 +117,14 @@ export const InviteDialog = ({ isOpen, setIsOpen }: InviteDialogProps) => {
 			if (result.failedEmails.length > 0) {
 				toast.warning(
 					sendEmailNotifications
-						? `Invites sent, but delivery failed for: ${result.failedEmails.join(", ")}`
-						: `Users added, but provisioning failed for: ${result.failedEmails.join(", ")}`,
+						? `Convites enviados, mas falhou o envio para: ${result.failedEmails.join(", ")}`
+						: `Usuários adicionados, mas falhou o provisionamento para: ${result.failedEmails.join(", ")}`,
 				);
 			} else {
 				toast.success(
 					sendEmailNotifications
-						? "Invites sent successfully"
-						: "Users added successfully",
+						? "Convites enviados com sucesso"
+						: "Usuários adicionados com sucesso",
 				);
 			}
 			setIsOpen(false);
@@ -135,7 +135,7 @@ export const InviteDialog = ({ isOpen, setIsOpen }: InviteDialogProps) => {
 			toast.error(
 				error instanceof Error
 					? error.message
-					: "An error occurred while sending invites",
+					: "Ocorreu um erro ao enviar os convites",
 			);
 		},
 	});
@@ -156,10 +156,10 @@ export const InviteDialog = ({ isOpen, setIsOpen }: InviteDialogProps) => {
 			<DialogContent className="p-0 w-full max-w-md rounded-xl border bg-gray-2 border-gray-4">
 				<DialogHeader
 					icon={<FontAwesomeIcon icon={faUserGroup} className="size-3.5" />}
-					description="Invite your teammates to join the organization"
+					description="Convide sua equipe para participar da organização"
 				>
 					<DialogTitle>
-						Invite to{" "}
+						Convidar para{" "}
 						<span className="font-medium text-gray-12">
 							{activeOrganization?.organization.name}
 						</span>
@@ -199,7 +199,7 @@ export const InviteDialog = ({ isOpen, setIsOpen }: InviteDialogProps) => {
 								</span>
 								<Select
 									value={invite.role}
-									placeholder="Role"
+									placeholder="Função"
 									options={roleOptions}
 									size="sm"
 									variant="gray"
@@ -221,7 +221,7 @@ export const InviteDialog = ({ isOpen, setIsOpen }: InviteDialogProps) => {
 									size="xs"
 									onClick={() => handleRemoveEmail(invite.email)}
 								>
-									Remove
+									Remover
 								</Button>
 							</div>
 						))}
@@ -229,10 +229,10 @@ export const InviteDialog = ({ isOpen, setIsOpen }: InviteDialogProps) => {
 					<div className="flex gap-3 justify-between items-center p-3 mt-4 rounded-lg border border-gray-4 bg-gray-1">
 						<div>
 							<p className="text-sm font-medium text-gray-12">
-								Send invite email
+								Enviar e-mail de convite
 							</p>
 							<p className="mt-1 text-xs text-gray-10">
-								Turn off to add users without emailing them.
+								Desative para adicionar usuários sem enviar e-mail.
 							</p>
 						</div>
 						<Switch
@@ -248,7 +248,7 @@ export const InviteDialog = ({ isOpen, setIsOpen }: InviteDialogProps) => {
 						variant="gray"
 						onClick={() => setIsOpen(false)}
 					>
-						Cancel
+						Cancelar
 					</Button>
 					<Button
 						type="button"
@@ -262,7 +262,7 @@ export const InviteDialog = ({ isOpen, setIsOpen }: InviteDialogProps) => {
 						data-invite-submit="true"
 						onClick={handleSendInvites}
 					>
-						{sendEmailNotifications ? "Send Invites" : "Add Users"}
+						{sendEmailNotifications ? "Enviar convites" : "Adicionar usuários"}
 					</Button>
 				</DialogFooter>
 			</DialogContent>

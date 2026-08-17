@@ -226,12 +226,18 @@ export function canRemoveSpaceMember({
 	return true;
 }
 
+const roleLabelsPt: Record<string, string> = {
+	owner: "Proprietário",
+	admin: "Admin",
+	member: "Membro",
+};
+
 export function organizationRoleLabel(role: OrganizationRole) {
-	return role[0]?.toUpperCase() + role.slice(1);
+	return roleLabelsPt[role] ?? role[0]?.toUpperCase() + role.slice(1);
 }
 
 export function spaceRoleLabel(role: SpaceRole) {
-	return role[0]?.toUpperCase() + role.slice(1);
+	return roleLabelsPt[role] ?? role[0]?.toUpperCase() + role.slice(1);
 }
 
 export function compareOrganizationRoles(
