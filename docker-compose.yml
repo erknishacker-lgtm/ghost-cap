@@ -33,6 +33,7 @@ services:
       APPLE_CLIENT_SECRET: ${APPLE_CLIENT_SECRET:-}
       MEDIA_SERVER_URL: http://media-server:3456
       MEDIA_SERVER_WEBHOOK_URL: http://cap-web:3000
+      DEBUG_DISABLE_OTEL_DRIZZLE: ${DEBUG_DISABLE_OTEL_DRIZZLE:-}
     ports:
       - "${CAP_PORT:-3000}:3000"
     healthcheck:
