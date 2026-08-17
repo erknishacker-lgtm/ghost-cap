@@ -46,11 +46,11 @@ export const metadata: Metadata = {
 	metadataBase: new URL("https://cap.zghost.uk"),
 	title: "Ghost Cap — Beautiful screen recordings, owned by you.",
 	description:
-		"Ghost Cap is the open source alternative to Loom. Lightweight, powerful, and cross-platform. Record and share in seconds.",
+		"Ghost Cap is a powerful alternative to Loom. Lightweight, secure, and cross-platform. Record and share in seconds.",
 	openGraph: {
 		title: "Ghost Cap — Beautiful screen recordings, owned by you.",
 		description:
-			"Ghost Cap is the open source alternative to Loom. Lightweight, powerful, and cross-platform. Record and share in seconds.",
+			"Ghost Cap is a powerful alternative to Loom. Lightweight, secure, and cross-platform. Record and share in seconds.",
 		type: "website",
 		url: "https://cap.zghost.uk",
 		siteName: "Ghost Cap",
@@ -67,7 +67,7 @@ export const metadata: Metadata = {
 		card: "summary_large_image",
 		title: "Ghost Cap — Beautiful screen recordings, owned by you.",
 		description:
-			"Ghost Cap is the open source alternative to Loom. Lightweight, powerful, and cross-platform. Record and share in seconds.",
+			"Ghost Cap is a powerful alternative to Loom. Lightweight, secure, and cross-platform. Record and share in seconds.",
 		images: ["/api/og"],
 	},
 };
