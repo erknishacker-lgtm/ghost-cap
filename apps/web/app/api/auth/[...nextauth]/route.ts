@@ -1,4 +1,6 @@
+import { db } from "@cap/database";
 import { authOptions } from "@cap/database/auth/auth-options";
+import { sql } from "drizzle-orm";
 import NextAuth from "next-auth";
 
 export const dynamic = "force-dynamic";
@@ -16,9 +18,7 @@ async function handler(req: Request, ctx: unknown) {
 			const out: Record<string, unknown> = {};
 			for (const key of Object.getOwnPropertyNames(e)) {
 				const value = (e as Record<string, unknown>)[key];
-				if (key === "cause" || key === "originalError" || key === "cause_") {
-					out[key] = dump(value, depth + 1);
-				} else if (typeof value === "object" && value !== null) {
+				if (typeof value === "object" && value !== null) {
 					out[key] = dump(value, depth + 1);
 				} else {
 					out[key] = value;
@@ -26,10 +26,38 @@ async function handler(req: Request, ctx: unknown) {
 			}
 			return out;
 		};
-		return new Response(JSON.stringify({ debugDump: dump(error) }, null, 2), {
-			status: 500,
-			headers: { "content-type": "application/json" },
-		});
+
+		let columns: unknown = null;
+		let columnsError: unknown = null;
+		try {
+			const result = await db().execute(sql`SHOW COLUMNS FROM users`);
+			columns = result;
+		} catch (e) {
+			columnsError = dump(e);
+		}
+
+		let rawQuery: unknown = null;
+		let rawQueryError: unknown = null;
+		try {
+			const result = await db().execute(
+				sql`select id, email from users where email = 'louzadaof@gmail.com' limit 1`,
+			);
+			rawQuery = result;
+		} catch (e) {
+			rawQueryError = dump(e);
+		}
+
+		return new Response(
+			JSON.stringify(
+				{ debugDump: dump(error), columns, columnsError, rawQuery, rawQueryError },
+				null,
+				2,
+			),
+			{
+				status: 500,
+				headers: { "content-type": "application/json" },
+			},
+		);
 	}
 }
 
