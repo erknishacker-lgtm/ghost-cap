@@ -39,12 +39,12 @@ export const OrganizationIcon = () => {
 			});
 		}),
 		onSuccess: () => {
-			toast.success("Organization icon updated successfully");
+			toast.success("Ícone da organização atualizado com sucesso");
 			router.refresh();
 		},
 		onError: (error) => {
 			toast.error(
-				error instanceof Error ? error.message : "Failed to upload icon",
+				error instanceof Error ? error.message : "Falha ao enviar o ícone",
 			);
 		},
 	});
@@ -56,13 +56,13 @@ export const OrganizationIcon = () => {
 				image: Option.none(),
 			}),
 		onSuccess: () => {
-			toast.success("Organization icon removed successfully");
+			toast.success("Ícone da organização removido com sucesso");
 			router.refresh();
 		},
 		onError: (error) => {
 			console.error("Error removing organization icon:", error);
 			toast.error(
-				error instanceof Error ? error.message : "Failed to remove icon",
+				error instanceof Error ? error.message : "Falha ao remover o ícone",
 			);
 		},
 	});
@@ -70,9 +70,9 @@ export const OrganizationIcon = () => {
 	return (
 		<div className="flex-1 space-y-4">
 			<div className="space-y-1">
-				<Label htmlFor="icon">Organization Icon</Label>
+				<Label htmlFor="icon">Ícone da organização</Label>
 				<CardDescription className="w-full">
-					Upload a custom logo or icon for your organization.
+					Envie uma logo ou ícone personalizado para sua organização.
 				</CardDescription>
 			</div>
 			<FileInput

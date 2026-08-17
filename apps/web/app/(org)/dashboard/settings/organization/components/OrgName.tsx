@@ -21,11 +21,11 @@ const OrgName = () => {
 				organizationName: orgName,
 				organizationId: activeOrganization.organization.id,
 			});
-			toast.success("Settings updated successfully");
+			toast.success("Configurações atualizadas com sucesso");
 			router.refresh();
 		} catch (error) {
 			console.error("Error updating settings:", error);
-			toast.error("An error occurred while updating settings");
+			toast.error("Ocorreu um erro ao atualizar as configurações");
 		} finally {
 			setSaveLoading(false);
 		}
@@ -34,10 +34,10 @@ const OrgName = () => {
 	return (
 		<div className="flex-1 space-y-4">
 			<div className="space-y-1">
-				<Label htmlFor="organizationName">Name</Label>
+				<Label htmlFor="organizationName">Nome</Label>
 				<p className="text-sm text-gray-10">
-					Changing the name will update how your organization appears to others
-					members.
+					Alterar o nome atualiza como sua organização aparece para os
+					outros membros.
 				</p>
 			</div>
 			<div className="flex flex-col gap-3 w-full md:items-center md:flex-row">
@@ -64,7 +64,7 @@ const OrgName = () => {
 						!orgName
 					}
 				>
-					{saveLoading ? null : "Save"}
+					{saveLoading ? null : "Salvar"}
 				</Button>
 			</div>
 		</div>

@@ -22,11 +22,11 @@ export const AccessEmailDomain = () => {
 				organizationId: activeOrganization?.organization
 					.id as Organisation.OrganisationId,
 			});
-			toast.success("Settings updated successfully");
+			toast.success("Configurações atualizadas com sucesso");
 			router.refresh();
 		} catch (error) {
 			console.error("Error updating settings:", error);
-			toast.error("An error occurred while updating settings");
+			toast.error("Ocorreu um erro ao atualizar as configurações");
 		} finally {
 			setSaveLoading(false);
 		}
@@ -35,31 +35,31 @@ export const AccessEmailDomain = () => {
 	return (
 		<div className="flex-1 space-y-4">
 			<div className="space-y-1">
-				<Label htmlFor="allowedEmailDomain">Email access restriction</Label>
+				<Label htmlFor="allowedEmailDomain">Restrição de acesso por e-mail</Label>
 				<p className="text-sm text-gray-10">
-					Restrict who can access public "anyone with the link" videos. Add
-					email domains (e.g.{" "}
+					Restrinja quem pode acessar vídeos públicos "qualquer pessoa com o
+					link". Adicione domínios de e-mail (ex.{" "}
 					<code className="text-xs bg-gray-3 px-1 py-0.5 rounded">
-						company.com
+						empresa.com
 					</code>
-					) or specific email addresses (e.g.{" "}
+					) ou e-mails específicos (ex.{" "}
 					<code className="text-xs bg-gray-3 px-1 py-0.5 rounded">
 						larry@google.com
 					</code>
-					), separated by commas.
+					), separados por vírgula.
 				</p>
 				<p className="text-sm text-gray-10">
-					Members of your organization and spaces can always access videos
-					shared with them, regardless of this setting.{" "}
+					Membros da sua organização e espaços sempre podem acessar vídeos
+					compartilhados com eles, independente dessa configuração.{" "}
 					<span className="font-medium text-gray-11">
-						Leave blank to allow anyone with the link.
+						Deixe em branco para permitir qualquer pessoa com o link.
 					</span>
 				</p>
 			</div>
 			<div className="flex flex-col gap-3 w-full h-fit">
 				<textarea
 					className="flex px-4 py-3 w-full font-thin transition-all duration-200 text-[16px] md:text-[13px] text-gray-12 bg-gray-1 border-gray-4 outline-0 focus:bg-gray-2 rounded-xl hover:bg-gray-2 border-[1px] focus:border-gray-5 placeholder:text-gray-8 ring-0 ring-gray-2 focus:ring-1 focus:ring-gray-12 focus:ring-offset-2 ring-offset-gray-3 hover:placeholder:text-gray-12 placeholder:duration-200 min-h-[72px] resize-y"
-					placeholder="e.g. company.com, partner.org, larry@google.com"
+					placeholder="ex. empresa.com, parceiro.org, larry@google.com"
 					value={emailDomain || ""}
 					id="allowedEmailDomain"
 					name="allowedEmailDomain"
@@ -81,7 +81,7 @@ export const AccessEmailDomain = () => {
 						}
 						onClick={handleEmailDomainSave}
 					>
-						{saveLoading ? null : "Save"}
+						{saveLoading ? null : "Salvar"}
 					</Button>
 				</div>
 			</div>

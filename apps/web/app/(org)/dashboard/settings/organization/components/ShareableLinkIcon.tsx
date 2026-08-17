@@ -48,14 +48,14 @@ export const ShareableLinkIcon = () => {
 			return uploadShareableLinkIcon(formData);
 		},
 		onSuccess: () => {
-			toast.success("Shareable link icon updated successfully");
+			toast.success("Ícone do link compartilhável atualizado com sucesso");
 			router.refresh();
 		},
 		onError: (error) => {
 			toast.error(
 				error instanceof Error
 					? error.message
-					: "Failed to upload shareable link icon",
+					: "Falha ao enviar o ícone do link compartilhável",
 			);
 		},
 	});
@@ -64,14 +64,14 @@ export const ShareableLinkIcon = () => {
 		mutationFn: (organizationId: Organisation.OrganisationId) =>
 			removeShareableLinkIcon(organizationId),
 		onSuccess: () => {
-			toast.success("Shareable link icon removed successfully");
+			toast.success("Ícone do link compartilhável removido com sucesso");
 			router.refresh();
 		},
 		onError: (error) => {
 			toast.error(
 				error instanceof Error
 					? error.message
-					: "Failed to remove shareable link icon",
+					: "Falha ao remover o ícone do link compartilhável",
 			);
 		},
 	});
@@ -89,7 +89,7 @@ export const ShareableLinkIcon = () => {
 				useOrganizationIcon,
 			}),
 		onSuccess: () => {
-			toast.success("Shareable link icon preference updated");
+			toast.success("Preferência de ícone do link compartilhável atualizada");
 			router.refresh();
 		},
 		onError: (error) => {
@@ -99,7 +99,7 @@ export const ShareableLinkIcon = () => {
 			toast.error(
 				error instanceof Error
 					? error.message
-					: "Failed to update shareable link icon preference",
+					: "Falha ao atualizar a preferência do ícone",
 			);
 		},
 	});
@@ -115,20 +115,20 @@ export const ShareableLinkIcon = () => {
 			<div className="flex-1 space-y-4">
 				<div className="space-y-1">
 					<div className="flex gap-1.5 items-center">
-						<Label htmlFor={iconInputId}>Shareable link icon</Label>
+						<Label htmlFor={iconInputId}>Ícone do link compartilhável</Label>
 						<p className="py-1 px-1.5 text-[10px] leading-none font-medium rounded-full text-white bg-blue-11">
 							Pro
 						</p>
 					</div>
 					<CardDescription className="w-full">
-						Use a custom logo or icon on your shareable link pages.
+						Use uma logo ou ícone personalizado nas páginas de link compartilhável.
 					</CardDescription>
 				</div>
 				<div className="flex items-center justify-between gap-4 rounded-xl border border-gray-3 bg-gray-2 p-4">
 					<div className="space-y-1">
-						<p className="text-sm text-gray-12">Use organization icon</p>
+						<p className="text-sm text-gray-12">Usar ícone da organização</p>
 						<p className="text-xs text-gray-10">
-							Use the organization icon when one is available.
+							Use o ícone da organização quando disponível.
 						</p>
 					</div>
 					<Switch

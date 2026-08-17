@@ -38,12 +38,12 @@ export function CustomDomain() {
 			),
 		onSuccess: () => {
 			setIsVerified(false);
-			toast.success("Custom domain removed");
+			toast.success("Domínio personalizado removido");
 			router.refresh();
 			setConfirmOpen(false);
 		},
 		onError: () => {
-			toast.error("Failed to remove domain");
+			toast.error("Falha ao remover o domínio");
 			setConfirmOpen(false);
 		},
 	});
@@ -72,12 +72,12 @@ export function CustomDomain() {
 			)}
 			<ConfirmationDialog
 				open={confirmOpen}
-				title="Remove custom domain"
+				title="Remover domínio personalizado"
 				icon={<FontAwesomeIcon icon={faGlobe} />}
-				description={`Are you sure you want to remove this custom domain: ${orgCustomDomain}?`}
+				description={`Tem certeza que deseja remover o domínio personalizado: ${orgCustomDomain}?`}
 				onConfirm={handleRemoveDomain}
-				confirmLabel={removeDomainMutation.isPending ? "Removing..." : "Remove"}
-				cancelLabel="Cancel"
+				confirmLabel={removeDomainMutation.isPending ? "Removendo..." : "Remover"}
+				cancelLabel="Cancelar"
 				loading={removeDomainMutation.isPending}
 				onCancel={() => setConfirmOpen(false)}
 			/>
@@ -94,21 +94,21 @@ export function CustomDomain() {
 					>
 						<div className="flex flex-col gap-1">
 							<h1 className="text-sm font-medium text-gray-12">
-								Custom Domain
+								Domínio personalizado
 							</h1>
 							<p className="w-full text-sm text-gray-10">
-								Setup a custom domain for your organization's shared caps.
+								Configure um domínio personalizado para as gravações compartilhadas da sua organização.
 							</p>
 						</div>
 					</div>
 					<div className="flex flex-1 gap-2 justify-between items-center w-full">
 						<div className="flex gap-2 justify-between items-center px-3 flex-1 h-[44px] rounded-xl border bg-gray-2 border-gray-3">
 							<p className="text-[13px] text-gray-8">
-								{orgCustomDomain || "No custom domain has been setup"}
+								{orgCustomDomain || "Nenhum domínio personalizado configurado"}
 							</p>
 							<div className="flex items-center">
 								{orgCustomDomain && isVerified ? (
-									<Tooltip content="Verified">
+									<Tooltip content="Verificado">
 										<div className="flex gap-2 items-center p-2 h-full text-xs rounded-full w-fit text-gray-10">
 											<FontAwesomeIcon
 												className="text-green-500 size-5"
@@ -119,7 +119,7 @@ export function CustomDomain() {
 								) : (
 									orgCustomDomain &&
 									!isVerified && (
-										<Tooltip content="Setup not complete">
+										<Tooltip content="Configuração incompleta">
 											<div className="flex gap-2 items-center p-2 h-full text-xs rounded-full w-fit text-gray-10">
 												<FontAwesomeIcon
 													className="text-red-500 size-5"
@@ -131,7 +131,7 @@ export function CustomDomain() {
 								)}
 
 								{orgCustomDomain && (
-									<Tooltip content="Remove custom domain">
+									<Tooltip content="Remover domínio personalizado">
 										<div
 											onClick={(e) => {
 												e.preventDefault();
@@ -160,7 +160,7 @@ export function CustomDomain() {
 									setShowCustomDomainDialog(true);
 								}}
 							>
-								Setup
+								Configurar
 							</Button>
 						)}
 					</div>
