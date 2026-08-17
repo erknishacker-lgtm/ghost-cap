@@ -31,29 +31,29 @@ const NOTIFICATION_TYPES: {
 }[] = [
 	{
 		key: "pauseComments",
-		title: "Comments",
+		title: "Comentários",
 		description:
-			"Email and in-app alert when someone comments on one of your Caps.",
+			"Aviso por e-mail e no app quando alguém comentar em uma das suas gravações.",
 	},
 	{
 		key: "pauseReplies",
-		title: "Replies",
-		description: "In-app alert when someone replies to a comment you left.",
+		title: "Respostas",
+		description: "Aviso no app quando alguém responder a um comentário seu.",
 	},
 	{
 		key: "pauseViews",
-		title: "Views",
-		description: "Alert when a signed-in viewer watches one of your Caps.",
+		title: "Visualizações",
+		description: "Aviso quando um espectador logado assistir uma das suas gravações.",
 	},
 	{
 		key: "pauseAnonViews",
-		title: "Anonymous views",
-		description: "Alert when an anonymous viewer watches one of your Caps.",
+		title: "Visualizações anônimas",
+		description: "Aviso quando um espectador anônimo assistir uma das suas gravações.",
 	},
 	{
 		key: "pauseReactions",
-		title: "Reactions",
-		description: "In-app alert when someone reacts to one of your Caps.",
+		title: "Reações",
+		description: "Aviso no app quando alguém reagir a uma das suas gravações.",
 	},
 ];
 
@@ -71,7 +71,7 @@ export const NotificationsSettings = () => {
 		mutationFn: (next: NotificationPreferences) =>
 			updatePreferences({ notifications: next }),
 		onSuccess: () => router.refresh(),
-		onError: () => toast.error("Failed to update notification preferences"),
+		onError: () => toast.error("Falha ao atualizar preferências de notificação"),
 	});
 
 	const toggle = (key: keyof NotificationPreferences) => {

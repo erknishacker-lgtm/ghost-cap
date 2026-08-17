@@ -76,14 +76,14 @@ export const ImportFilePage = () => {
 			: null;
 	const statusLabel = uploadStatus
 		? uploadStatus.status === "parsing"
-			? "Analyzing video..."
+			? "Analisando vídeo..."
 			: uploadStatus.status === "creating"
-				? "Preparing upload..."
+				? "Preparando envio..."
 				: uploadStatus.status === "uploadingVideo"
-					? `Uploading... ${progressPercent ?? 0}%`
+					? `Enviando... ${progressPercent ?? 0}%`
 					: uploadStatus.status === "serverProcessing"
-						? "Processing on server..."
-						: "Working..."
+						? "Processando no servidor..."
+						: "Trabalhando..."
 		: null;
 
 	return (
@@ -94,11 +94,11 @@ export const ImportFilePage = () => {
 					className="inline-flex gap-2 items-center text-sm text-gray-10 hover:text-gray-12 transition-colors mb-4"
 				>
 					<FontAwesomeIcon className="size-3" icon={faArrowLeft} />
-					Back to Import
+					Voltar para Importar
 				</Link>
-				<h1 className="text-2xl font-medium text-gray-12">Upload File</h1>
+				<h1 className="text-2xl font-medium text-gray-12">Enviar arquivo</h1>
 				<p className="mt-1 text-sm text-gray-10">
-					Upload a video or image file from your device.
+					Envie um vídeo ou imagem do seu dispositivo.
 				</p>
 			</div>
 
@@ -146,14 +146,14 @@ export const ImportFilePage = () => {
 						</span>
 						<span className="flex flex-col items-center gap-1">
 							<span className="text-sm font-medium text-gray-12">
-								Drag and drop your video or image here
+								Arraste e solte seu vídeo ou imagem aqui
 							</span>
 							<span className="text-xs text-gray-10">
-								MP4, MOV, AVI, MKV, WebM, JPG, or PNG
+								MP4, MOV, AVI, MKV, WebM, JPG ou PNG
 							</span>
 						</span>
 						<span className="inline-flex items-center justify-center mt-2 h-8 px-3 rounded-full bg-gray-12 text-sm font-medium text-gray-1">
-							Browse Files
+							Procurar arquivos
 						</span>
 					</span>
 				)}

@@ -8,9 +8,9 @@ export const ImportPage = () => {
 	return (
 		<div className="flex flex-col w-full h-full">
 			<div className="mb-8">
-				<h1 className="text-2xl font-medium text-gray-12">Import</h1>
+				<h1 className="text-2xl font-medium text-gray-12">Importar</h1>
 				<p className="mt-1 text-sm text-gray-10">
-					Import media from external sources or upload from your device.
+					Importe mídia de fontes externas ou envie do seu dispositivo.
 				</p>
 			</div>
 
@@ -26,10 +26,10 @@ export const ImportPage = () => {
 					</div>
 					<div className="flex flex-col gap-1 p-4">
 						<p className="text-sm font-medium text-left text-gray-12">
-							Upload File
+							Enviar arquivo
 						</p>
 						<p className="text-xs text-left text-gray-10">
-							Upload a video or image file from your device
+							Envie um vídeo ou imagem do seu dispositivo
 						</p>
 					</div>
 				</Link>
@@ -59,7 +59,7 @@ export const ImportPage = () => {
 					<div className="flex flex-col gap-1 p-4">
 						<p className="text-sm font-medium text-left text-gray-12">Loom</p>
 						<p className="text-xs text-left text-gray-10">
-							Import a Loom share link or bulk import from CSV
+							Importe um link do Loom ou em massa via CSV
 						</p>
 					</div>
 				</Link>
