@@ -2,6 +2,10 @@ import { ExternalLink } from "lucide-react";
 import type { Metadata } from "next";
 import { buildMarketingMetadata } from "@/lib/og/url";
 
+// Avoid static prerendering: this page depends on a flaky external fetch
+// (formbricks.com) that has intermittently broken CI builds.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = buildMarketingMetadata({
 	title: "OSS Friends — Cap",
 	description:
