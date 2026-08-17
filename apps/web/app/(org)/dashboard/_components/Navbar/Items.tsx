@@ -77,34 +77,34 @@ const AdminNavItems = ({ toggleMobileNav }: Props) => {
 
 	const manageNavigation = [
 		{
-			name: "My Caps",
+			name: "Minhas Gravações",
 			href: `/dashboard/caps`,
 			extraText: userCapsCount,
 			icon: <CapIcon />,
 			subNav: [],
 		},
 		{
-			name: "Analytics",
+			name: "Análises",
 			href: `/dashboard/analytics`,
 			matchChildren: true,
 			icon: <ChartLineIcon />,
 			subNav: [],
 		},
 		{
-			name: "Record a Cap",
+			name: "Gravar",
 			href: `/dashboard/caps/record`,
 			icon: <RecordIcon />,
 			subNav: [],
 		},
 		{
-			name: "Import Media",
+			name: "Importar mídia",
 			href: `/dashboard/import`,
 			matchChildren: true,
 			icon: <ImportIcon />,
 			subNav: [],
 		},
 		{
-			name: "Organization Settings",
+			name: "Configurações da organização",
 			href: `/dashboard/settings/organization`,
 			adminOnly: true,
 			matchChildren: true,
@@ -114,7 +114,7 @@ const AdminNavItems = ({ toggleMobileNav }: Props) => {
 		...(showDeveloperDashboard
 			? [
 					{
-						name: "Developers",
+						name: "Desenvolvedores",
 						href: `/dashboard/developers`,
 						ownerOnly: true,
 						matchChildren: true,
@@ -193,7 +193,7 @@ const AdminNavItems = ({ toggleMobileNav }: Props) => {
 						<Tooltip
 							disable={open || sidebarCollapsed === false}
 							position="right"
-							content={activeOrg?.organization.name ?? "No organization found"}
+							content={activeOrg?.organization.name ?? "Nenhuma organização encontrada"}
 						>
 							<PopoverTrigger suppressHydrationWarning asChild>
 								<motion.div
@@ -228,7 +228,7 @@ const AdminNavItems = ({ toggleMobileNav }: Props) => {
 													image={activeOrg?.organization.iconUrl}
 													name={
 														activeOrg?.organization.name ??
-														"No organization found"
+														"Nenhuma organização encontrada"
 													}
 													letterClass={clsx(
 														sidebarCollapsed ? "text-sm" : "text-[13px]",
@@ -244,7 +244,7 @@ const AdminNavItems = ({ toggleMobileNav }: Props) => {
 													{!sidebarCollapsed && (
 														<p className="text-sm truncate leading-0 text-gray-12">
 															{activeOrg?.organization.name ??
-																"No organization found"}
+																"Nenhuma organização encontrada"}
 														</p>
 													)}
 													{!sidebarCollapsed && (
@@ -278,7 +278,7 @@ const AdminNavItems = ({ toggleMobileNav }: Props) => {
 														<p className="w-full text-[11px] flex-1 duration-200 truncate leading-0 text-gray-11">
 															{isDomainSetupVerified
 																? activeOrg?.organization.customDomain
-																: "No custom domain set"}
+																: "Nenhum domínio personalizado"}
 														</p>
 													</Link>
 												)}
@@ -292,8 +292,8 @@ const AdminNavItems = ({ toggleMobileNav }: Props) => {
 										)}
 									>
 										<Command>
-											<CommandInput placeholder="Search organizations..." />
-											<CommandEmpty>No organizations found</CommandEmpty>
+											<CommandInput placeholder="Buscar organizações..." />
+											<CommandEmpty>Nenhuma organização encontrada</CommandEmpty>
 											<CommandGroup>
 												{orgData?.map((organization) => {
 													const isSelected =
@@ -350,7 +350,7 @@ const AdminNavItems = ({ toggleMobileNav }: Props) => {
 														className="flex gap-1 items-center my-2 w-[90%] mx-auto text-sm"
 													>
 														<Plus className="w-3.5 h-auto" />
-														New organization
+														Nova organização
 													</Button>
 												</DialogTrigger>
 											</CommandGroup>
@@ -439,12 +439,12 @@ const AdminNavItems = ({ toggleMobileNav }: Props) => {
 									href="/dashboard/refer"
 									className="text-sm underline text-gray-10 hover:text-gray-12"
 								>
-									Earn 40% Referral
+									Ganhe 40% de indicação
 								</Link>
 							</div>
 						)}
 						<p className="mt-2 text-xs text-center truncate text-gray-10">
-							Cap Software, Inc. {new Date().getFullYear()}.
+							© Ghost Cap {new Date().getFullYear()}.
 						</p>
 					</div>
 				</nav>
@@ -452,10 +452,10 @@ const AdminNavItems = ({ toggleMobileNav }: Props) => {
 			<DialogContent className="p-0 w-full max-w-md rounded-xl bg-gray-2">
 				<DialogHeader
 					icon={<FontAwesomeIcon icon={faBuilding} />}
-					description="A new organization to share caps with your team"
+					description="Uma nova organização para compartilhar gravações com sua equipe"
 				>
 					<DialogTitle className="text-lg text-gray-12">
-						Create New Organization
+						Criar nova organização
 					</DialogTitle>
 				</DialogHeader>
 				<div className="p-5">
@@ -468,7 +468,7 @@ const AdminNavItems = ({ toggleMobileNav }: Props) => {
 				</div>
 				<DialogFooter>
 					<Button variant="gray" size="sm" onClick={() => setDialogOpen(false)}>
-						Cancel
+						Cancelar
 					</Button>
 					<Button
 						variant="dark"
@@ -478,7 +478,7 @@ const AdminNavItems = ({ toggleMobileNav }: Props) => {
 						onClick={() => formRef.current?.requestSubmit()}
 						type="submit"
 					>
-						{createLoading ? "Creating..." : "Create"}
+						{createLoading ? "Criando..." : "Criar"}
 					</Button>
 				</DialogFooter>
 			</DialogContent>

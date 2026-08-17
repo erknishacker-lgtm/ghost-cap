@@ -59,26 +59,26 @@ const Top = () => {
 	const params = useParams();
 
 	const titles: Record<string, string> = {
-		"/dashboard/caps": "Caps",
-		"/dashboard/folder": "Caps",
-		"/dashboard/shared-caps": "Shared Caps",
-		"/dashboard/caps/record": "Record a Cap",
-		"/dashboard/settings/organization": "Organization Settings",
-		"/dashboard/settings/organization/preferences": "Organization Settings",
-		"/dashboard/settings/organization/content": "Organization Settings",
-		"/dashboard/settings/organization/billing": "Organization Settings",
-		"/dashboard/settings/organization/members": "Organization Settings",
-		"/dashboard/settings/account": "Account Settings",
-		"/dashboard/settings/notifications": "Notification Settings",
-		"/dashboard/spaces": "Spaces",
-		"/dashboard/spaces/browse": "Browse Spaces",
-		"/dashboard/analytics": "Analytics",
-		[`/dashboard/folder/${params.id}`]: "Caps",
-		[`/dashboard/analytics/s/${params.id}`]: "Analytics: Cap video title",
-		"/dashboard/developers": "Developers",
-		"/dashboard/developers/apps": "Developer Apps",
-		"/dashboard/developers/usage": "Developer Usage",
-		"/dashboard/developers/credits": "Developer Credits",
+		"/dashboard/caps": "Gravações",
+		"/dashboard/folder": "Gravações",
+		"/dashboard/shared-caps": "Gravações compartilhadas",
+		"/dashboard/caps/record": "Gravar",
+		"/dashboard/settings/organization": "Configurações da organização",
+		"/dashboard/settings/organization/preferences": "Configurações da organização",
+		"/dashboard/settings/organization/content": "Configurações da organização",
+		"/dashboard/settings/organization/billing": "Configurações da organização",
+		"/dashboard/settings/organization/members": "Configurações da organização",
+		"/dashboard/settings/account": "Configurações da conta",
+		"/dashboard/settings/notifications": "Configurações de notificação",
+		"/dashboard/spaces": "Espaços",
+		"/dashboard/spaces/browse": "Explorar espaços",
+		"/dashboard/analytics": "Análises",
+		[`/dashboard/folder/${params.id}`]: "Gravações",
+		[`/dashboard/analytics/s/${params.id}`]: "Análises: título do vídeo",
+		"/dashboard/developers": "Desenvolvedores",
+		"/dashboard/developers/apps": "Apps de desenvolvedor",
+		"/dashboard/developers/usage": "Uso do desenvolvedor",
+		"/dashboard/developers/credits": "Créditos do desenvolvedor",
 	};
 
 	const title = activeSpace ? activeSpace.name : titles[pathname] || "";
@@ -184,12 +184,12 @@ const User = () => {
 	const { theme, setThemeHandler } = useTheme();
 	const nextTheme = theme === "light" ? "dark" : "light";
 	const themeLabel =
-		theme === "light" ? "Toggle Dark Mode" : "Toggle Light Mode";
+		theme === "light" ? "Ativar modo escuro" : "Ativar modo claro";
 
 	const menuItems = useMemo(
 		() => [
 			{
-				name: "Homepage",
+				name: "Página inicial",
 				icon: <HomeIcon />,
 				href: "/home",
 				onClick: () => setMenuOpen(false),
@@ -197,7 +197,7 @@ const User = () => {
 				showCondition: true,
 			},
 			{
-				name: "Upgrade to Pro",
+				name: "Assinar o Pro",
 				icon: <ArrowUpIcon />,
 				onClick: () => {
 					setMenuOpen(false);
@@ -215,14 +215,14 @@ const User = () => {
 				showCondition: buildEnv.NEXT_PUBLIC_IS_CAP,
 			},
 			{
-				name: "Chat Support",
+				name: "Suporte via chat",
 				icon: <MessageCircleMoreIcon />,
 				onClick: () => window.open("https://cap.link/discord", "_blank"),
 				iconClassName: "text-gray-11 group-hover:text-gray-12",
 				showCondition: true,
 			},
 			{
-				name: "Download App",
+				name: "Baixar app",
 				icon: <DownloadIcon />,
 				onClick: () => window.open("https://cap.so/download", "_blank"),
 				iconClassName: "text-gray-11 group-hover:text-gray-12",
@@ -245,7 +245,7 @@ const User = () => {
 				showCondition: true,
 			},
 			{
-				name: "Settings",
+				name: "Configurações",
 				icon: <SettingsGearIcon />,
 				href: "/dashboard/settings/account",
 				onClick: () => setMenuOpen(false),
@@ -253,7 +253,7 @@ const User = () => {
 				showCondition: true,
 			},
 			{
-				name: "Sign Out",
+				name: "Sair",
 				icon: <LogoutIcon />,
 				onClick: () => {
 					setMenuOpen(false);
@@ -282,12 +282,12 @@ const User = () => {
 						<div className="flex items-center">
 							<SignedImageUrl
 								image={user.imageUrl}
-								name={user.name ?? "User"}
+								name={user.name ?? "Usuário"}
 								letterClass="text-xs lg:text-md"
 								className="flex-shrink-0 size-[24px] text-gray-12"
 							/>
 							<span className="ml-2 text-sm truncate lg:ml-2 lg:text-md text-gray-12">
-								{user.name ?? "User"}
+								{user.name ?? "Usuário"}
 							</span>
 						</div>
 						<MoreVertical
