@@ -92,8 +92,9 @@ export const SharingDialog: React.FC<SharingDialogProps> = ({
 	const [passwordValue, setPasswordValue] = useState("");
 	const [initialPasswordEnabled, setInitialPasswordEnabled] =
 		useState(hasPassword);
-	const tabs = ["Share", "Embed"] as const;
-	const [activeTab, setActiveTab] = useState<(typeof tabs)[number]>("Share");
+	const tabs = ["Compartilhar", "Incorporar"] as const;
+	const [activeTab, setActiveTab] =
+		useState<(typeof tabs)[number]>("Compartilhar");
 
 	const updateSharing = useMutation({
 		mutationFn: async ({
@@ -108,18 +109,18 @@ export const SharingDialog: React.FC<SharingDialogProps> = ({
 			const result = await shareCap({ capId, spaceIds, public: isPublic });
 
 			if (!result.success) {
-				throw new Error(result.error || "Failed to update sharing settings");
+				throw new Error(result.error || "Falha ao atualizar as configurações de compartilhamento");
 			}
 
 			if (passwordEnabled && passwordValue.trim()) {
 				const pwResult = await setVideoPassword(capId, passwordValue);
 				if (!pwResult.success) {
-					throw new Error(pwResult.error || "Failed to set password");
+					throw new Error(pwResult.error || "Falha ao definir a senha");
 				}
 			} else if (!passwordEnabled && initialPasswordEnabled) {
 				const pwResult = await removeVideoPassword(capId);
 				if (!pwResult.success) {
-					throw new Error(pwResult.error || "Failed to remove password");
+					throw new Error(pwResult.error || "Falha ao remover a senha");
 				}
 			}
 		},
@@ -150,7 +151,7 @@ export const SharingDialog: React.FC<SharingDialogProps> = ({
 				!passwordChanged
 			) {
 				toast.success(
-					publicToggle ? "Video is now public" : "Video is now private",
+					publicToggle ? "O vídeo agora é público" : "O vídeo agora é privado",
 				);
 			} else if (
 				passwordChanged &&
@@ -160,8 +161,8 @@ export const SharingDialog: React.FC<SharingDialogProps> = ({
 			) {
 				toast.success(
 					passwordEnabled
-						? "Password protection enabled"
-						: "Password protection removed",
+						? "Proteção por senha ativada"
+						: "Proteção por senha removida",
 				);
 			} else if (
 				addedSpaceIds.length === 1 &&
@@ -169,7 +170,7 @@ export const SharingDialog: React.FC<SharingDialogProps> = ({
 				!publicChanged &&
 				!passwordChanged
 			) {
-				toast.success(`Shared to ${getSpaceName(addedSpaceIds[0] as string)}`);
+				toast.success(`Compartilhado em ${getSpaceName(addedSpaceIds[0] as string)}`);
 			} else if (
 				removedSpaceIds.length === 1 &&
 				addedSpaceIds.length === 0 &&
@@ -177,7 +178,7 @@ export const SharingDialog: React.FC<SharingDialogProps> = ({
 				!passwordChanged
 			) {
 				toast.success(
-					`Unshared from ${getSpaceName(removedSpaceIds[0] as string)}`,
+					`Deixou de ser compartilhado em ${getSpaceName(removedSpaceIds[0] as string)}`,
 				);
 			} else if (
 				addedSpaceIds.length > 0 &&
@@ -185,35 +186,35 @@ export const SharingDialog: React.FC<SharingDialogProps> = ({
 				!publicChanged &&
 				!passwordChanged
 			) {
-				toast.success(`Shared to ${addedSpaceIds.length} spaces`);
+				toast.success(`Compartilhado em ${addedSpaceIds.length} espaços`);
 			} else if (
 				removedSpaceIds.length > 0 &&
 				addedSpaceIds.length === 0 &&
 				!publicChanged &&
 				!passwordChanged
 			) {
-				toast.success(`Unshared from ${removedSpaceIds.length} spaces`);
+				toast.success(`Deixou de ser compartilhado em ${removedSpaceIds.length} espaços`);
 			} else if (
 				addedSpaceIds.length > 0 ||
 				removedSpaceIds.length > 0 ||
 				publicChanged ||
 				passwordChanged
 			) {
-				toast.success("Sharing settings updated");
+				toast.success("Configurações de compartilhamento atualizadas");
 			} else {
-				toast.info("No changes to sharing settings");
+				toast.info("Nenhuma alteração nas configurações de compartilhamento");
 			}
 			onSharingUpdated(newSelectedSpaces);
 			onClose();
 		},
 		onError: () => {
-			toast.error("Failed to update sharing settings");
+			toast.error("Falha ao atualizar as configurações de compartilhamento");
 		},
 	});
 
 	const getSpaceName = (id: string) => {
 		const space = spacesData?.find((space) => space.id === id);
-		return space?.name || `Space ${id}`;
+		return space?.name || `Espaço ${id}`;
 	};
 
 	const handlePasswordToggle = (checked: boolean) => {
@@ -270,9 +271,9 @@ export const SharingDialog: React.FC<SharingDialogProps> = ({
 	const handleCopyEmbedCode = async () => {
 		try {
 			await navigator.clipboard.writeText(embedCode);
-			toast.success("Embed code copied to clipboard");
+			toast.success("Código de incorporação copiado");
 		} catch (_error) {
-			toast.error("Failed to copy embed code");
+			toast.error("Falha ao copiar o código de incorporação");
 		}
 	};
 
@@ -304,9 +305,9 @@ export const SharingDialog: React.FC<SharingDialogProps> = ({
 	);
 	const inheritedPasswordLabel =
 		selectedInheritedPasswordSources.length === 1
-			? `Required by ${selectedInheritedPasswordSources[0]?.name}`
+			? `Exigido por ${selectedInheritedPasswordSources[0]?.name}`
 			: selectedInheritedPasswordSources.length > 1
-				? `Required by ${selectedInheritedPasswordSources.length} spaces`
+				? `Exigido por ${selectedInheritedPasswordSources.length} espaços`
 				: null;
 
 	const filteredSpaces = searchTerm
@@ -321,13 +322,13 @@ export const SharingDialog: React.FC<SharingDialogProps> = ({
 				<DialogHeader
 					icon={<FontAwesomeIcon icon={faShareNodes} className="size-3.5" />}
 					description={
-						activeTab === "Share"
-							? "Select how you would like to share the cap"
-							: "Copy the embed code to share your cap"
+						activeTab === "Compartilhar"
+							? "Escolha como deseja compartilhar a gravação"
+							: "Copie o código de incorporação para compartilhar sua gravação"
 					}
 				>
 					<DialogTitle className="truncate w-full max-w-[320px]">
-						{activeTab === "Share" ? `Share ${capName}` : `Embed ${capName}`}
+						{activeTab === "Compartilhar" ? `Compartilhar ${capName}` : `Incorporar ${capName}`}
 					</DialogTitle>
 				</DialogHeader>
 
@@ -359,7 +360,7 @@ export const SharingDialog: React.FC<SharingDialogProps> = ({
 				</div>
 
 				<div className="p-5">
-					{activeTab === "Share" ? (
+					{activeTab === "Compartilhar" ? (
 						<>
 							{/* Public sharing toggle */}
 							<div className="flex justify-between items-center p-3 mb-4 rounded-lg border bg-gray-1 border-gray-4">
@@ -370,15 +371,15 @@ export const SharingDialog: React.FC<SharingDialogProps> = ({
 									<div>
 										<p className="text-sm font-medium text-gray-12">
 											{allowedEmailDomain?.trim()
-												? "Restricted link access"
-												: "Anyone with the link"}
+												? "Acesso restrito ao link"
+												: "Qualquer pessoa com o link"}
 										</p>
 										<p className="text-xs text-gray-10">
 											{!publicToggle
-												? "Only people with access can view"
+												? "Apenas pessoas com acesso podem ver"
 												: allowedEmailDomain?.trim()
-													? `Only users with matching ${allowedEmailDomain.trim().includes(",") ? "emails" : "email"} can view`
-													: "Anyone on the internet with the link can view"}
+													? `Apenas usuários com ${allowedEmailDomain.trim().includes(",") ? "os e-mails correspondentes" : "o e-mail correspondente"} podem ver`
+													: "Qualquer pessoa na internet com o link pode ver"}
 										</p>
 									</div>
 								</div>
@@ -396,7 +397,7 @@ export const SharingDialog: React.FC<SharingDialogProps> = ({
 										</div>
 										<div>
 											<p className="text-sm font-medium text-gray-12">
-												Password required
+												Senha exigida
 											</p>
 											<p className="text-xs text-gray-10">
 												{inheritedPasswordLabel}
@@ -422,18 +423,18 @@ export const SharingDialog: React.FC<SharingDialogProps> = ({
 											<p className="text-sm font-medium text-gray-12">
 												{passwordEnabled
 													? initialPasswordEnabled
-														? "Password protected"
-														: "Password protection"
+														? "Protegido por senha"
+														: "Proteção por senha"
 													: inheritedPasswordLabel
-														? "Add another password"
-														: "Add password"}
+														? "Adicionar outra senha"
+														: "Adicionar senha"}
 											</p>
 											<p className="text-xs text-gray-10">
 												{passwordEnabled
 													? inheritedPasswordLabel
-														? "Viewers can use this password or a space password"
-														: "Viewers must enter a password to view"
-													: "Restrict access with a password"}
+														? "Espectadores podem usar esta senha ou a senha do espaço"
+														: "Espectadores devem digitar uma senha para ver"
+													: "Restrinja o acesso com uma senha"}
 											</p>
 										</div>
 									</div>
@@ -448,15 +449,15 @@ export const SharingDialog: React.FC<SharingDialogProps> = ({
 											type="password"
 											placeholder={
 												initialPasswordEnabled
-													? "Enter new password"
-													: "Set a password"
+													? "Digite a nova senha"
+													: "Defina uma senha"
 											}
 											value={passwordValue}
 											onChange={(e) => setPasswordValue(e.target.value)}
 										/>
 										{initialPasswordEnabled && !passwordValue && (
 											<p className="mt-1.5 text-xs text-gray-9">
-												Leave blank to keep existing password
+												Deixe em branco para manter a senha atual
 											</p>
 										)}
 									</div>
@@ -466,7 +467,7 @@ export const SharingDialog: React.FC<SharingDialogProps> = ({
 							<div className="relative mb-3">
 								<Input
 									type="text"
-									placeholder="Search and add to spaces..."
+									placeholder="Buscar e adicionar a espaços..."
 									value={searchTerm}
 									className="pr-8"
 									onChange={(e) => setSearchTerm(e.target.value)}
@@ -493,8 +494,8 @@ export const SharingDialog: React.FC<SharingDialogProps> = ({
 									<div className="flex col-span-5 gap-2 justify-center items-center text-sm">
 										<p className="text-gray-12">
 											{allShareableItems && allShareableItems.length > 0
-												? "No spaces match your search"
-												: "No spaces available"}
+												? "Nenhum espaço encontrado"
+												: "Nenhum espaço disponível"}
 										</p>
 									</div>
 								)}
@@ -513,17 +514,17 @@ export const SharingDialog: React.FC<SharingDialogProps> = ({
 								onClick={handleCopyEmbedCode}
 							>
 								<FontAwesomeIcon icon={faCopy} className="size-3.5 mr-1" />
-								Copy embed code
+								Copiar código de incorporação
 							</Button>
 						</div>
 					)}
 				</div>
 
 				<DialogFooter className="p-5 border-t border-gray-4">
-					{activeTab === "Share" ? (
+					{activeTab === "Compartilhar" ? (
 						<>
 							<Button size="sm" variant="gray" onClick={onClose}>
-								Cancel
+								Cancelar
 							</Button>
 							<Button
 								spinner={updateSharing.isPending}
@@ -536,7 +537,7 @@ export const SharingDialog: React.FC<SharingDialogProps> = ({
 										!initialPasswordEnabled &&
 										!passwordValue.trim()
 									) {
-										toast.error("Please enter a password");
+										toast.error("Digite uma senha");
 										return;
 									}
 									updateSharing.mutate({
@@ -548,12 +549,12 @@ export const SharingDialog: React.FC<SharingDialogProps> = ({
 									});
 								}}
 							>
-								{updateSharing.isPending ? "Saving..." : "Save"}
+								{updateSharing.isPending ? "Salvando..." : "Salvar"}
 							</Button>
 						</>
 					) : (
 						<Button size="sm" variant="gray" onClick={onClose}>
-							Close
+							Fechar
 						</Button>
 					)}
 				</DialogFooter>
@@ -586,7 +587,7 @@ const SpaceCard = ({
 		<Tooltip
 			content={
 				isSharedViaOrganization
-					? `${space.name} (shared via organization)`
+					? `${space.name} (compartilhado via organização)`
 					: space.name
 			}
 		>
