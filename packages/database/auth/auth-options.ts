@@ -73,6 +73,10 @@ export const authOptions = (): NextAuthOptions => {
 			if (_providers) return _providers;
 			const appleClientId = serverEnv().APPLE_CLIENT_ID;
 			const appleClientSecret = serverEnv().APPLE_CLIENT_SECRET;
+			const googleClientId = serverEnv().GOOGLE_CLIENT_ID;
+			const googleClientSecret = serverEnv().GOOGLE_CLIENT_SECRET;
+			const workosClientId = serverEnv().WORKOS_CLIENT_ID;
+			const workosApiKey = serverEnv().WORKOS_API_KEY;
 			_providers = [
 				...(appleClientId && appleClientSecret
 					? [
@@ -82,33 +86,41 @@ export const authOptions = (): NextAuthOptions => {
 							}),
 						]
 					: []),
-				GoogleProvider({
-					clientId: serverEnv().GOOGLE_CLIENT_ID as string,
-					clientSecret: serverEnv().GOOGLE_CLIENT_SECRET as string,
-					authorization: {
-						params: {
-							scope: [
-								"https://www.googleapis.com/auth/userinfo.email",
-								"https://www.googleapis.com/auth/userinfo.profile",
-							].join(" "),
-							prompt: "select_account",
-						},
-					},
-				}),
-				WorkOSProvider({
-					clientId: serverEnv().WORKOS_CLIENT_ID as string,
-					clientSecret: serverEnv().WORKOS_API_KEY as string,
-					profile(profile) {
-						return {
-							id: profile.id,
-							name: profile.first_name
-								? `${profile.first_name} ${profile.last_name || ""}`
-								: profile.email?.split("@")[0] || profile.id,
-							email: profile.email,
-							image: profile.profile_picture_url,
-						};
-					},
-				}),
+				...(googleClientId && googleClientSecret
+					? [
+							GoogleProvider({
+								clientId: googleClientId,
+								clientSecret: googleClientSecret,
+								authorization: {
+									params: {
+										scope: [
+											"https://www.googleapis.com/auth/userinfo.email",
+											"https://www.googleapis.com/auth/userinfo.profile",
+										].join(" "),
+										prompt: "select_account",
+									},
+								},
+							}),
+						]
+					: []),
+				...(workosClientId && workosApiKey
+					? [
+							WorkOSProvider({
+								clientId: workosClientId,
+								clientSecret: workosApiKey,
+								profile(profile) {
+									return {
+										id: profile.id,
+										name: profile.first_name
+											? `${profile.first_name} ${profile.last_name || ""}`
+											: profile.email?.split("@")[0] || profile.id,
+										email: profile.email,
+										image: profile.profile_picture_url,
+									};
+								},
+							}),
+						]
+					: []),
 				EmailProvider({
 					// next-auth defaults to 24h, but the code is 6 digits and the
 					// verify path has no attempt limiting, so a day-long window is a
