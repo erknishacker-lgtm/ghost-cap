@@ -3,9 +3,8 @@ name: cap
 services:
   cap-web:
     container_name: cap-web
-    build:
-      context: .
-      dockerfile: apps/web/Dockerfile
+    image: ghcr.io/erknishacker-lgtm/ghost-cap-web:latest
+    pull_policy: always
     restart: unless-stopped
     depends_on:
       mysql:
