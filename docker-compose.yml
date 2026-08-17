@@ -34,6 +34,8 @@ services:
       MEDIA_SERVER_URL: http://media-server:3456
       MEDIA_SERVER_WEBHOOK_URL: http://cap-web:3000
       DEBUG_DISABLE_OTEL_DRIZZLE: ${DEBUG_DISABLE_OTEL_DRIZZLE:-}
+      DEBUG_MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-}
+      DEBUG_MYSQL_CAP_PASSWORD: ${MYSQL_PASSWORD:-}
     ports:
       - "${CAP_PORT:-3000}:3000"
     healthcheck:
