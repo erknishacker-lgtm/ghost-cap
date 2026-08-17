@@ -38,36 +38,36 @@ const options: {
 	pro?: boolean;
 }[] = [
 	{
-		label: "Enable comments",
+		label: "Ativar comentários",
 		value: "disableComments",
-		description: "Allow viewers to comment on this cap",
+		description: "Permite que espectadores comentem nesta gravação",
 	},
 	{
-		label: "Enable summary",
+		label: "Ativar resumo",
 		value: "disableSummary",
-		description: "Show AI-generated summary (requires transcript)",
+		description: "Mostra resumo gerado por IA (requer transcrição)",
 		pro: true,
 	},
 	{
-		label: "Enable captions",
+		label: "Ativar legendas",
 		value: "disableCaptions",
-		description: "Allow viewers to use captions for this cap",
+		description: "Permite que espectadores usem legendas nesta gravação",
 	},
 	{
-		label: "Enable chapters",
+		label: "Ativar capítulos",
 		value: "disableChapters",
-		description: "Show AI-generated chapters (requires transcript)",
+		description: "Mostra capítulos gerados por IA (requer transcrição)",
 		pro: true,
 	},
 	{
-		label: "Enable reactions",
+		label: "Ativar reações",
 		value: "disableReactions",
-		description: "Allow viewers to react to this cap",
+		description: "Permite que espectadores reajam a esta gravação",
 	},
 	{
-		label: "Enable transcript",
+		label: "Ativar transcrição",
 		value: "disableTranscript",
-		description: "Enabling this also allows summary and chapters",
+		description: "Ativar isso também libera resumo e capítulos",
 		pro: true,
 	},
 ];
@@ -118,12 +118,12 @@ export const SettingsDialog = ({
 				Object.entries(settings).filter(([, v]) => v !== undefined),
 			) as Partial<OrganizationSettings>;
 			await updateVideoSettings(capId, payload);
-			toast.success("Settings updated successfully");
+			toast.success("Configurações atualizadas com sucesso");
 			onClose();
 			onSaved?.();
 		} catch (error) {
 			console.error("Error updating video settings:", error);
-			toast.error("Failed to update settings");
+			toast.error("Falha ao atualizar as configurações");
 		} finally {
 			setSaveLoading(false);
 		}
@@ -169,8 +169,8 @@ export const SettingsDialog = ({
 	const getInheritedLabel = (key: ViewerSettingKey) => {
 		const sources = inheritedSpaceSettings?.[key];
 		if (!sources || sources.length === 0) return null;
-		if (sources.length === 1) return `Required by ${sources[0]?.name}`;
-		return `Required by ${sources.length} spaces`;
+		if (sources.length === 1) return `Exigido por ${sources[0]?.name}`;
+		return `Exigido por ${sources.length} espaços`;
 	};
 
 	const handleSpeedChange = (speed: number) =>
@@ -185,10 +185,10 @@ export const SettingsDialog = ({
 		<Dialog open={isOpen} onOpenChange={onClose}>
 			<DialogContent className="max-w-md min-w-fit">
 				<DialogHeader
-					description="Manage the settings for this cap"
+					description="Gerencie as configurações desta gravação"
 					icon={<FontAwesomeIcon icon={faGear} className="size-3.5" />}
 				>
-					<DialogTitle>Settings</DialogTitle>
+					<DialogTitle>Configurações</DialogTitle>
 				</DialogHeader>
 				<div className="grid grid-cols-2 gap-3 p-5">
 					{options.map((option) => {
@@ -217,7 +217,7 @@ export const SettingsDialog = ({
 										{effectiveValue && (
 											<p className="py-1 px-1.5 text-[10px] leading-none font-medium rounded-full text-gray-11 bg-gray-5">
 												{inheritedLabel ??
-													`Org ${orgValue ? "disabled" : "enabled"}`}
+													`Org ${orgValue ? "desativado" : "ativado"}`}
 											</p>
 										)}
 									</div>
@@ -241,16 +241,16 @@ export const SettingsDialog = ({
 					<div className="flex flex-col gap-3 p-4 rounded-xl border border-gray-3 bg-gray-1">
 						<div className="flex flex-col gap-1">
 							<div className="flex gap-1.5 items-center flex-wrap">
-								<p className="text-sm text-gray-12">Default playback speed</p>
+								<p className="text-sm text-gray-12">Velocidade de reprodução padrão</p>
 								{isInheritingSpeed && (
 									<p className="py-1 px-1.5 text-[10px] leading-none font-medium rounded-full text-gray-11 bg-gray-5">
-										Org default {orgSpeed ?? DEFAULT_PLAYBACK_SPEED}×
+										Padrão da org {orgSpeed ?? DEFAULT_PLAYBACK_SPEED}×
 									</p>
 								)}
 							</div>
 							<p className="text-xs text-gray-10">
-								The speed this cap starts playing at. Viewers can still change
-								it.
+								A velocidade em que esta gravação começa a tocar. Espectadores
+								ainda podem alterar.
 							</p>
 						</div>
 						<div className="flex flex-wrap gap-1 items-center p-1 w-fit rounded-lg border bg-gray-2 border-gray-3">
@@ -280,7 +280,7 @@ export const SettingsDialog = ({
 						onClick={onClose}
 						disabled={saveLoading}
 					>
-						Cancel
+						Cancelar
 					</Button>
 					<Button
 						variant="dark"
@@ -289,7 +289,7 @@ export const SettingsDialog = ({
 						spinner={saveLoading}
 						disabled={saveLoading}
 					>
-						{saveLoading ? "Saving..." : "Save"}
+						{saveLoading ? "Salvando..." : "Salvar"}
 					</Button>
 				</DialogFooter>
 			</DialogContent>
