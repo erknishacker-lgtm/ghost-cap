@@ -24,10 +24,10 @@ interface ConfirmationDialogProps {
 
 export function ConfirmationDialog({
 	open,
-	title = "Are you sure?",
+	title = "Tem certeza?",
 	description,
-	confirmLabel = "Confirm",
-	cancelLabel = "Cancel",
+	confirmLabel = "Confirmar",
+	cancelLabel = "Cancelar",
 	confirmVariant = "dark",
 	loading = false,
 	icon,

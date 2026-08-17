@@ -32,10 +32,10 @@ export const EmptyCapState: React.FC<EmptyCapStateProps> = ({ userName }) => {
 				</div>
 				<div className="flex flex-col items-center px-5">
 					<p className="mb-1 text-xl font-semibold text-gray-12">
-						Hey{userName ? ` ${userName}` : ""}! Record your first Cap
+						Oi{userName ? ` ${userName}` : ""}! Grave sua primeira gravação
 					</p>
 					<p className="max-w-md text-gray-10 text-md">
-						Craft your narrative with Cap - get projects done quicker.
+						Conte sua história com o Ghost Cap - conclua projetos mais rápido.
 					</p>
 				</div>
 				<div className="flex flex-wrap gap-3 justify-center items-center mt-4">
@@ -45,19 +45,19 @@ export const EmptyCapState: React.FC<EmptyCapStateProps> = ({ userName }) => {
 						variant="primary"
 					>
 						<FontAwesomeIcon className="size-3.5" icon={faDownload} />
-						Download Cap
+						Baixar o Ghost Cap
 					</Button>
-					<p className="text-sm text-gray-10">or</p>
+					<p className="text-sm text-gray-10">ou</p>
 					<WebRecorderDialog />
 					{showChromeButton && (
 						<>
-							<p className="text-sm text-gray-10">or</p>
+							<p className="text-sm text-gray-10">ou</p>
 							<ChromeRecorderButton
 								className={`${CHROME_EXTENSION_BUTTON_CLASS} font-medium`}
 							/>
 						</>
 					)}
-					<p className="text-sm text-gray-10">or</p>
+					<p className="text-sm text-gray-10">ou</p>
 					<UploadCapButton />
 				</div>
 			</div>
