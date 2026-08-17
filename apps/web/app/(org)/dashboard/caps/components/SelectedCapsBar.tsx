@@ -64,7 +64,7 @@ export const SelectedCapsBar = ({
 								value={selectedCaps.length}
 								className="tabular-nums text-md text-gray-12"
 							/>
-							cap{selectedCaps.length !== 1 ? "s" : ""} selected
+							{selectedCaps.length === 1 ? "gravação selecionada" : "gravações selecionadas"}
 						</div>
 						<div className="flex gap-2 ml-4">
 							{moveLocation && moveRootLabel && (
@@ -75,7 +75,7 @@ export const SelectedCapsBar = ({
 									size="sm"
 								>
 									<FolderInput className="size-4" />
-									Move
+									Mover
 								</Button>
 							)}
 							<Button
@@ -84,7 +84,7 @@ export const SelectedCapsBar = ({
 								className="text-sm"
 								size="sm"
 							>
-								Cancel
+								Cancelar
 							</Button>
 							{deleteSelectedCaps && (
 								<>
@@ -103,14 +103,14 @@ export const SelectedCapsBar = ({
 									<ConfirmationDialog
 										open={confirmOpen}
 										icon={<FontAwesomeIcon icon={faFilm} />}
-										title="Delete selected Caps"
-										description={`Are you sure you want to delete ${
+										title="Excluir gravações selecionadas"
+										description={`Tem certeza que deseja excluir ${
 											selectedCaps.length
-										} cap${
-											selectedCaps.length === 1 ? "" : "s"
-										}? This action cannot be undone.`}
-										confirmLabel={isDeleting ? "Deleting..." : "Delete"}
-										cancelLabel="Cancel"
+										} ${
+											selectedCaps.length === 1 ? "gravação" : "gravações"
+										}? Esta ação não pode ser desfeita.`}
+										confirmLabel={isDeleting ? "Excluindo..." : "Excluir"}
+										cancelLabel="Cancelar"
 										confirmVariant="dark"
 										loading={isDeleting}
 										onConfirm={handleConfirmDelete}
