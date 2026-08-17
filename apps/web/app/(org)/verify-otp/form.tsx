@@ -78,7 +78,7 @@ export function VerifyOTPForm({
 	const handleVerify = useMutation({
 		mutationFn: async (pastedCode?: string) => {
 			const otpCode = pastedCode ?? code.join("");
-			if (otpCode.length !== 6) throw "Please enter a complete 6-digit code";
+			if (otpCode.length !== 6) throw "Digite o código completo de 6 dígitos";
 			const nextPath = getNextPath();
 
 			await fetch(
@@ -90,7 +90,7 @@ export function VerifyOTPForm({
 			if (!session?.user) {
 				setCode(["", "", "", "", "", ""]);
 				inputRefs.current[0]?.focus();
-				throw "Invalid code. Please try again.";
+				throw "Código inválido. Tente novamente.";
 			}
 		},
 		onSuccess: async () => {
@@ -102,7 +102,7 @@ export function VerifyOTPForm({
 			if (typeof e === "string") {
 				toast.error(e);
 			} else {
-				toast.error("An error occurred. Please try again.");
+				toast.error("Ocorreu um erro. Tente novamente.");
 			}
 		},
 	});
@@ -118,7 +118,7 @@ export function VerifyOTPForm({
 						(waitTime - timeSinceLastRequest) / 1000,
 					);
 
-					throw `Please wait ${remainingSeconds} seconds before requesting a new code`;
+					throw `Aguarde ${remainingSeconds} segundos antes de pedir um novo código`;
 				}
 			}
 
@@ -129,11 +129,11 @@ export function VerifyOTPForm({
 
 			if (result?.error) {
 				// NextAuth returns generic "EmailSignin" error for all email errors
-				throw "Please wait 30 seconds before requesting a new code";
+				throw "Aguarde 30 segundos antes de pedir um novo código";
 			}
 		},
 		onSuccess: () => {
-			toast.success("A new code has been sent to your email!");
+			toast.success("Um novo código foi enviado para o seu e-mail!");
 			setCode(["", "", "", "", "", ""]);
 			inputRefs.current[0]?.focus();
 			setLastResendTime(Date.now());
@@ -142,7 +142,7 @@ export function VerifyOTPForm({
 			if (typeof e === "string") {
 				toast.error(e);
 			} else {
-				toast.error("An error occurred. Please try again.");
+				toast.error("Ocorreu um erro. Tente novamente.");
 			}
 		},
 	});
@@ -160,7 +160,7 @@ export function VerifyOTPForm({
 				className="absolute top-5 left-5 z-20 flex gap-2 items-center py-1.5 px-3 text-gray-12 bg-transparent border border-gray-4 rounded-full hover:bg-gray-1 transition-colors duration-300"
 			>
 				<FontAwesomeIcon className="w-2" icon={faArrowLeft} />
-				<p className="text-xs">Back</p>
+				<p className="text-xs">Voltar</p>
 			</Link>
 
 			<Link className="flex mx-auto size-fit" href="/">
@@ -169,10 +169,10 @@ export function VerifyOTPForm({
 
 			<div className="flex flex-col justify-center items-center my-7 text-center">
 				<h1 className="text-xl font-semibold text-gray-12">
-					Enter verification code
+					Digite o código de verificação
 				</h1>
 				<p className="text-sm text-gray-10">
-					We sent a 6-digit code to {normalizedEmail}
+					Enviamos um código de 6 dígitos para {normalizedEmail}
 				</p>
 			</div>
 
@@ -212,7 +212,7 @@ export function VerifyOTPForm({
 				onClick={() => handleVerify.mutate(code.join(""))}
 				disabled={code.some((digit) => !digit) || isVerifying}
 			>
-				{isVerifying ? "Verifying..." : "Verify Code"}
+				{isVerifying ? "Verificando..." : "Verificar código"}
 			</Button>
 
 			<div className="mt-4 text-center">
@@ -223,28 +223,27 @@ export function VerifyOTPForm({
 					className="text-sm underline transition-colors text-gray-10 hover:text-gray-12"
 				>
 					{handleResend.isPending
-						? "Sending..."
-						: "Didn't receive the code? Resend"}
+						? "Enviando..."
+						: "Não recebeu o código? Reenviar"}
 				</button>
 			</div>
 
 			<p className="mt-6 text-xs text-center text-gray-9">
-				By entering your email, you acknowledge that you have both read and
-				agree to Cap's{" "}
+				Ao digitar seu e-mail, você confirma que leu e concorda com os{" "}
 				<Link
 					href="/terms"
 					target="_blank"
 					className="text-xs font-semibold text-gray-12 hover:text-blue-300"
 				>
-					Terms of Service
+					Termos de Serviço
 				</Link>{" "}
-				and{" "}
+				e{" "}
 				<Link
 					href="/privacy"
 					target="_blank"
 					className="text-xs font-semibold text-gray-12 hover:text-blue-300"
 				>
-					Privacy Policy
+					Política de Privacidade
 				</Link>
 				.
 			</p>

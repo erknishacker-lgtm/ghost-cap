@@ -26,7 +26,7 @@ export function OrganizationInvite({
 	return (
 		<Html>
 			<Head />
-			<Preview>Invitation to join {organizationName} on Cap</Preview>
+			<Preview>Convite para participar de {organizationName} no Ghost Cap</Preview>
 			<Tailwind>
 				<Body className="mx-auto my-auto bg-gray-1 font-sans">
 					<Container className="mx-auto my-10 max-w-[500px] rounded border border-solid border-gray-200 px-10 py-5">
@@ -35,29 +35,29 @@ export function OrganizationInvite({
 								src={CAP_LOGO_URL}
 								width="40"
 								height="40"
-								alt="Cap"
+								alt="Ghost Cap"
 								className="mx-auto my-0"
 							/>
 						</Section>
 						<Heading className="mx-0 my-7 p-0 text-center text-xl font-semibold text-black">
-							You're invited to join {organizationName}
+							Você foi convidado para {organizationName}
 						</Heading>
-						<Text className="text-sm leading-6 text-black">Hello,</Text>
+						<Text className="text-sm leading-6 text-black">Olá,</Text>
 						<Text className="text-sm leading-6 text-black">
-							You've been invited to join the {organizationName} organization on
-							Cap. Click the button below to accept the invitation and join the
-							team.
+							Você foi convidado para participar da organização {organizationName}
+							no Ghost Cap. Clique no botão abaixo para aceitar o convite e entrar
+							para a equipe.
 						</Text>
 						<Section className="my-8 text-center">
 							<Link
 								className="rounded-full bg-black px-6 py-3 text-center text-[12px] font-semibold text-white no-underline"
 								href={url}
 							>
-								Join Organization
+								Entrar na organização
 							</Link>
 						</Section>
 						<Text className="text-sm leading-6 text-black">
-							or copy and paste this URL into your browser:
+							ou copie e cole este link no seu navegador:
 						</Text>
 						<Text className="max-w-sm flex-wrap break-words font-medium text-purple-600 no-underline">
 							{url.replace(/^https?:\/\//, "")}

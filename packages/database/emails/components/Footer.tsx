@@ -14,30 +14,30 @@ export default function Footer({
 			<Hr className="mx-0 my-6 w-full border border-gray-200" />
 			{manageNotificationsUrl && (
 				<Text className="text-[12px] leading-6 text-gray-500">
-					Don't want to receive these notifications?{" "}
+					Não quer mais receber essas notificações?{" "}
 					<a href={manageNotificationsUrl} className="text-gray-600 underline">
-						Disable this notification
+						Desativar esta notificação
 					</a>
 					.
 				</Text>
 			)}
 			{marketing ? (
 				<Text className="text-[12px] leading-6 text-gray-500">
-					This email was intended for{" "}
-					<span className="text-black">{email}</span>. If you were not expecting
-					this email, you can ignore this email. If you don't want to receive
-					emails like this in the future, you can{" "}
+					Este e-mail foi enviado para{" "}
+					<span className="text-black">{email}</span>. Se você não esperava
+					este e-mail, pode ignorá-lo. Se não quiser mais receber
+					e-mails como este,{" "}
 					<a href="{{{RESEND_UNSUBSCRIBE_URL}}}" className="text-gray-600">
-						unsubscribe here
+						clique aqui para cancelar
 					</a>
 					.
 				</Text>
 			) : (
 				<Text className="text-[12px] leading-6 text-gray-500">
-					This email was intended for{" "}
-					<span className="text-black">{email}</span>. If you were not expecting
-					this email, you can ignore this email. If you are concerned about your
-					account's safety, please reply to this email to get in touch with us.
+					Este e-mail foi enviado para{" "}
+					<span className="text-black">{email}</span>. Se você não esperava
+					este e-mail, pode ignorá-lo. Se estiver preocupado com a
+					segurança da sua conta, responda este e-mail para falar com a gente.
 				</Text>
 			)}
 		</Tailwind>

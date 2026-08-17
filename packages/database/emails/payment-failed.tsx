@@ -30,8 +30,8 @@ export function PaymentFailed({
 			<Head />
 			<Preview>
 				{finalAttempt
-					? "Your Cap Pro subscription will be canceled unless we can collect payment"
-					: "We could not collect your Cap Pro payment. Your access is unaffected while we retry."}
+					? "Sua assinatura Ghost Cap Pro será cancelada se não conseguirmos cobrar o pagamento"
+					: "Não conseguimos cobrar seu pagamento do Ghost Cap Pro. Seu acesso continua normal enquanto tentamos de novo."}
 			</Preview>
 			<Tailwind>
 				<Body className="mx-auto my-auto bg-gray-1 font-sans">
@@ -41,33 +41,33 @@ export function PaymentFailed({
 								src={CAP_LOGO_URL}
 								width="40"
 								height="40"
-								alt="Cap"
+								alt="Ghost Cap"
 								className="mx-auto my-0"
 							/>
 						</Section>
 						<Heading className="mx-0 my-7 p-0 text-center text-xl font-semibold text-black">
 							{finalAttempt
-								? "Last chance to keep Cap Pro"
-								: "Your payment didn't go through"}
+								? "Última chance de manter o Ghost Cap Pro"
+								: "Seu pagamento não foi processado"}
 						</Heading>
 						<Text className="text-sm leading-6 text-black">
-							We tried to charge your card for Cap Pro but the payment failed.
-							This is usually an expired card or a one-off bank decline.
+							Tentamos cobrar seu cartão pelo Ghost Cap Pro, mas o pagamento falhou.
+							Isso geralmente é um cartão vencido ou uma recusa pontual do banco.
 						</Text>
 						{finalAttempt ? (
 							<Text className="text-sm leading-6 text-black">
-								This was our last automatic retry. If the payment can't be
-								collected, your subscription will be canceled and you'll lose
-								Pro features like unlimited recording length, Cap AI, and custom
-								domains.
+								Esta foi nossa última tentativa automática. Se o pagamento não
+								puder ser cobrado, sua assinatura será cancelada e você perderá
+								recursos Pro como gravação sem limite de tempo, Ghost Cap AI e
+								domínios personalizados.
 							</Text>
 						) : (
 							<Text className="text-sm leading-6 text-black">
-								Your Pro features are still active
+								Seus recursos Pro continuam ativos
 								{nextRetryDate
-									? `, and we'll automatically retry on ${nextRetryDate}`
-									: ", and we'll retry automatically"}
-								. The quickest fix is updating your payment method:
+									? `, e tentaremos cobrar novamente em ${nextRetryDate}`
+									: ", e tentaremos novamente automaticamente"}
+								. A forma mais rápida de resolver é atualizar sua forma de pagamento:
 							</Text>
 						)}
 						<Section className="my-8 text-center">
@@ -75,12 +75,12 @@ export function PaymentFailed({
 								className="rounded-full bg-black px-6 py-3 text-center text-[12px] font-semibold text-white no-underline"
 								href={billingUrl}
 							>
-								Update payment method
+								Atualizar forma de pagamento
 							</Link>
 						</Section>
 						<Text className="text-sm leading-6 text-black">
-							If you've already updated your card, you can ignore this email.
-							Reply if anything looks wrong and we'll sort it out.
+							Se você já atualizou seu cartão, pode ignorar este e-mail.
+							Responda se algo parecer errado que resolvemos.
 						</Text>
 						<Footer email={email} />
 					</Container>

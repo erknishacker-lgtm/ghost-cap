@@ -33,37 +33,37 @@ export function FirstShareableLink({
 								src={CAP_LOGO_URL}
 								width="40"
 								height="40"
-								alt="Cap"
+								alt="Ghost Cap"
 								className="mx-auto my-0"
 							/>
 						</Section>
 						<Heading className="mx-0 my-7 p-0 text-center text-xl font-semibold text-black">
-							You created your first Cap link! 🥳
+							Você criou seu primeiro link! 🥳
 						</Heading>
 						<Text className="text-sm leading-6 text-black">
-							Your video "{videoName}" is now ready to share with anyone.
+							Seu vídeo "{videoName}" já está pronto para compartilhar com qualquer pessoa.
 						</Text>
 						<Text className="text-sm leading-6 text-black">
-							Click the button below to view your Cap and share it with others.
+							Clique no botão abaixo para ver sua gravação e compartilhá-la.
 						</Text>
 						<Section className="my-8 text-center">
 							<Link
 								className="rounded-full bg-black px-6 py-3 text-center text-[12px] font-semibold text-white no-underline"
 								href={url}
 							>
-								View Your Cap
+								Ver sua gravação
 							</Link>
 						</Section>
 						<Text className="text-sm leading-6 text-black">
-							or copy and paste this URL into your browser:
+							ou copie e cole este link no seu navegador:
 						</Text>
 						<Text className="max-w-sm flex-wrap break-words font-medium text-purple-600 no-underline">
 							{url.replace(/^https?:\/\//, "")}
 						</Text>
 						<Text className="text-sm leading-6 text-black mt-6">
-							With Cap, you can easily share your screen recordings, get
-							feedback, and collaborate with others. We're excited to see what
-							you create!
+							Com o Ghost Cap, você compartilha gravações de tela facilmente,
+							recebe feedback e colabora com outras pessoas. Estamos
+							animados para ver o que você vai criar!
 						</Text>
 						<Footer email={email} marketing={true} />
 					</Container>

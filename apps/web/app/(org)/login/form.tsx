@@ -81,14 +81,14 @@ export function LoginForm() {
 			if (error === "OAuthAccountNotLinked" && !errorDesc) {
 				setOauthError(true);
 				return toast.error(
-					"This email is already associated with a different sign-in method",
+					"Este e-mail já está associado a outro método de login",
 				);
 			} else if (
 				error === "profile_not_allowed_outside_organization" &&
 				!errorDesc
 			) {
 				return toast.error(
-					"Your email domain is not authorized for SSO access. Please use your work email or contact your administrator.",
+					"O domínio do seu e-mail não está autorizado para acesso via SSO. Use seu e-mail de trabalho ou fale com o administrador.",
 				);
 			} else if (error && errorDesc) {
 				return toast.error(errorDesc);
@@ -193,14 +193,14 @@ export function LoginForm() {
 			if (!loginFormMounted.current) return;
 			setOrganizationId(mobileOrganizationId);
 			setShowOrgInput(true);
-			toast.error("Organization not found or SSO not configured");
+			toast.error("Organização não encontrada ou SSO não configurado");
 		});
 	}, [handleAppleSignIn, handleGoogleSignIn, handleWorkosSignIn, searchParams]);
 
 	const handleOrganizationLookup = async (e: React.FormEvent) => {
 		e.preventDefault();
 		if (!organizationId) {
-			toast.error("Please enter an organization ID");
+			toast.error("Digite o ID da organização");
 			return;
 		}
 
@@ -208,7 +208,7 @@ export function LoginForm() {
 			await handleWorkosSignIn(organizationId);
 		} catch (error) {
 			console.error("Lookup Error:", error);
-			toast.error("Organization not found or SSO not configured");
+			toast.error("Organização não encontrada ou SSO não configurado");
 		}
 	};
 
@@ -235,7 +235,7 @@ export function LoginForm() {
 			>
 				<FontAwesomeIcon className="w-2" icon={faArrowLeft} />
 				<motion.p layout="position" className="text-xs text-inherit">
-					Back
+					Voltar
 				</motion.p>
 			</motion.div>
 			<MotionLink layout="position" className="flex mx-auto size-fit" href="/">
@@ -250,14 +250,14 @@ export function LoginForm() {
 					layout="position"
 					className="text-2xl font-semibold text-gray-12"
 				>
-					Sign in to Ghost Cap
+					Entrar no Ghost Cap
 				</motion.h1>
 				<motion.p
 					key="subtitle"
 					layout="position"
 					className="text-[16px] text-gray-10"
 				>
-					Beautiful screen recordings, owned by you.
+					Gravações de tela bonitas, no seu controle.
 				</motion.p>
 			</motion.div>
 			<motion.div layout="position" className="flex flex-col space-y-3">
@@ -330,7 +330,7 @@ export function LoginForm() {
 												getEmailCodeCooldownSeconds(lastEmailSentTime);
 											if (remainingSeconds > 0) {
 												toast.error(
-													`Please wait ${remainingSeconds} seconds before requesting a new code.`,
+													`Aguarde ${remainingSeconds} segundos antes de pedir um novo código.`,
 												);
 												return;
 											}
@@ -358,7 +358,7 @@ export function LoginForm() {
 											} catch {
 												setEmailSent(false);
 												toast.error(
-													"Sign in is taking longer than expected. Check your connection or browser extensions, then try again.",
+													"O login está demorando mais que o esperado. Verifique sua conexão ou extensões do navegador e tente de novo.",
 												);
 											} finally {
 												setLoading(false);
@@ -383,22 +383,22 @@ export function LoginForm() {
 							layout="position"
 							className="pt-3 text-xs text-center text-gray-9"
 						>
-							By typing your email and clicking continue, you acknowledge that
-							you have both read and agree to Ghost Cap's{" "}
+							Ao digitar seu e-mail e clicar em continuar, você confirma que
+							leu e concorda com os{" "}
 							<Link
 								href="/terms"
 								target="_blank"
 								className="text-xs font-semibold text-gray-12 hover:text-blue-300"
 							>
-								Terms of Service
+								Termos de Serviço
 							</Link>{" "}
-							and{" "}
+							e{" "}
 							<Link
 								href="/privacy"
 								target="_blank"
 								className="text-xs font-semibold text-gray-12 hover:text-blue-300"
 							>
-								Privacy Policy
+								Política de Privacidade
 							</Link>
 							.
 						</motion.p>
@@ -430,17 +430,17 @@ const LoginWithSSO = ({
 		>
 			<MotionInput
 				id={organizationIdInputId}
-				placeholder="Enter your Organization ID..."
+				placeholder="Digite o ID da sua organização..."
 				value={organizationId}
 				onChange={(e) => setOrganizationId(e.target.value)}
 				className="w-full max-w-full"
 			/>
 			{organizationName && (
-				<p className="text-sm text-gray-1">Signing in to: {organizationName}</p>
+				<p className="text-sm text-gray-1">Entrando em: {organizationName}</p>
 			)}
 			<div>
 				<Button type="submit" variant="dark" className="w-full max-w-full">
-					Continue with SSO
+					Continuar com SSO
 				</Button>
 			</div>
 		</motion.form>
@@ -495,7 +495,7 @@ const NormalLogin = ({
 						)
 					}
 				>
-					{loading ? "Sending code..." : "Login with email"}
+					{loading ? "Enviando código..." : "Entrar com e-mail"}
 				</MotionButton>
 				{/* {NODE_ENV === "development" && (
                   <div className="flex justify-center items-center px-6 py-3 mt-3 bg-red-600 rounded-xl">
@@ -512,12 +512,12 @@ const NormalLogin = ({
 				layout="position"
 				className="mt-3 mb-2 text-xs text-center text-gray-9"
 			>
-				Don't have an account?{" "}
+				Ainda não tem conta?{" "}
 				<Link
 					href="/signup"
 					className="text-xs font-semibold text-blue-9 hover:text-blue-8"
 				>
-					Sign up here
+					Cadastre-se aqui
 				</Link>
 			</motion.p>
 
@@ -525,7 +525,7 @@ const NormalLogin = ({
 				<>
 					<div className="flex gap-4 items-center mt-4 mb-4">
 						<span className="flex-1 h-px bg-gray-5" />
-						<p className="text-sm text-center text-gray-10">OR</p>
+						<p className="text-sm text-center text-gray-10">OU</p>
 						<span className="flex-1 h-px bg-gray-5" />
 					</div>
 					<motion.div
@@ -541,7 +541,7 @@ const NormalLogin = ({
 								disabled={loading || emailSent}
 							>
 								<Image src="/google.svg" alt="Google" width={16} height={16} />
-								Login with Google
+								Entrar com Google
 							</MotionButton>
 						)}
 
@@ -552,8 +552,8 @@ const NormalLogin = ({
 									icon={faExclamationCircle}
 								/>
 								<p className="text-xs leading-5 text-gray-50">
-									It looks like you've previously used this email to sign up via
-									email login. Please enter your email.
+									Parece que você já usou este e-mail para se cadastrar via
+									login por e-mail. Digite seu e-mail.
 								</p>
 							</div>
 						)}
@@ -567,7 +567,7 @@ const NormalLogin = ({
 								disabled={loading || emailSent}
 							>
 								<LucideArrowUpRight size={20} />
-								Login with SAML SSO
+								Entrar com SAML SSO
 							</MotionButton>
 						)}
 					</motion.div>

@@ -33,7 +33,7 @@ export async function requestEmailCode({
 	const normalizedEmail = email.trim().toLowerCase();
 
 	if (!normalizedEmail || !emailPattern.test(normalizedEmail)) {
-		toast.error("Please enter a valid email address.");
+		toast.error("Digite um endereço de e-mail válido.");
 		return null;
 	}
 
@@ -65,8 +65,8 @@ export async function requestEmailCode({
 
 	toast.error(
 		response?.error === "EmailSignin"
-			? "Please wait 30 seconds before requesting a new code."
-			: "We could not send a code. Please try again.",
+			? "Aguarde 30 segundos antes de pedir um novo código."
+			: "Não conseguimos enviar o código. Tente novamente.",
 	);
 
 	return null;

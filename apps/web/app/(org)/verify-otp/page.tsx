@@ -6,7 +6,7 @@ import { getSafeNextPath } from "../safe-next";
 import { VerifyOTPForm } from "./form";
 
 export const metadata = {
-	title: "Verify Code | Cap",
+	title: "Verificar código | Ghost Cap",
 };
 
 export default async function VerifyOTPPage(props: {

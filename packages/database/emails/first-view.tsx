@@ -30,7 +30,7 @@ export function FirstView({
 	return (
 		<Html>
 			<Head />
-			<Preview>Your Cap "{videoName}" just got its first view!</Preview>
+			<Preview>Sua gravação "{videoName}" acabou de ter sua primeira visualização!</Preview>
 			<Tailwind>
 				<Body className="mx-auto my-auto bg-gray-1 font-sans">
 					<Container className="mx-auto my-10 max-w-[500px] rounded border border-solid border-gray-200 px-10 py-5">
@@ -39,30 +39,30 @@ export function FirstView({
 								src={CAP_LOGO_URL}
 								width="40"
 								height="40"
-								alt="Cap"
+								alt="Ghost Cap"
 								className="mx-auto my-0"
 							/>
 						</Section>
 						<Heading className="mx-0 my-7 p-0 text-center text-xl font-semibold text-black">
-							Your Cap just got its first view!
+							Sua gravação acabou de ter sua primeira visualização!
 						</Heading>
 						<Text className="text-sm leading-6 text-black">
-							Your video "{videoName}" was just viewed by{" "}
+							Seu vídeo "{videoName}" acabou de ser visto por{" "}
 							<span className="font-medium">{viewerName}</span>.
 						</Text>
 						<Text className="text-sm leading-6 text-black">
-							Click the button below to see your Cap.
+							Clique no botão abaixo para ver sua gravação.
 						</Text>
 						<Section className="my-8 text-center">
 							<Link
 								className="rounded-full bg-black px-6 py-3 text-center text-[12px] font-semibold text-white no-underline"
 								href={url}
 							>
-								View Your Cap
+								Ver sua gravação
 							</Link>
 						</Section>
 						<Text className="text-sm leading-6 text-black">
-							or copy and paste this URL into your browser:
+							ou copie e cole este link no seu navegador:
 						</Text>
 						<Text className="max-w-sm flex-wrap break-words font-medium text-purple-600 no-underline">
 							{url.replace(/^https?:\/\//, "")}

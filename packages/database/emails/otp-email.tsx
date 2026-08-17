@@ -23,7 +23,7 @@ export function OTPEmail({
 	return (
 		<Html>
 			<Head />
-			<Preview>Your Ghost Cap Verification Code: {code}</Preview>
+			<Preview>Seu código de verificação Ghost Cap: {code}</Preview>
 			<Tailwind>
 				<Body className="mx-auto my-auto bg-gray-1 font-sans">
 					<Container className="mx-auto my-10 max-w-[500px] rounded border border-solid border-gray-200 px-10 py-5">
@@ -37,14 +37,13 @@ export function OTPEmail({
 							/>
 						</Section>
 						<Heading className="mx-0 my-7 p-0 text-center text-xl font-semibold text-black">
-							Your Verification Code
+							Seu código de verificação
 						</Heading>
 						<Text className="text-sm leading-6 text-black">
-							Welcome to Ghost Cap!
+							Bem-vindo ao Ghost Cap!
 						</Text>
 						<Text className="text-sm leading-6 text-black">
-							Please use the following verification code to sign in to your
-							account:
+							Use o código de verificação abaixo para entrar na sua conta:
 						</Text>
 						<Section className="my-8 text-center">
 							<div className="rounded-lg bg-gray-100 px-8 py-6">
@@ -54,8 +53,8 @@ export function OTPEmail({
 							</div>
 						</Section>
 						<Text className="text-sm leading-6 text-black">
-							This code will expire in 10 minutes. If you didn't request this
-							code, you can safely ignore this email.
+							Este código expira em 10 minutos. Se você não solicitou este
+							código, pode ignorar este e-mail com segurança.
 						</Text>
 						<Footer email={email} />
 					</Container>
