@@ -118,8 +118,8 @@ export function MoveItemsDialog({
 			const count = item.type === "videos" ? item.videoIds.length : 1;
 			toast.success(
 				item.type === "folder"
-					? "Folder moved"
-					: `${count} Cap${count === 1 ? "" : "s"} moved`,
+					? "Pasta movida"
+					: `${count} ${count === 1 ? "gravação movida" : "gravações movidas"}`,
 			);
 			onMoved?.();
 			if (item.type === "folder") {
@@ -131,15 +131,15 @@ export function MoveItemsDialog({
 			router.refresh();
 		},
 		onError: (error) => {
-			toast.error(error instanceof Error ? error.message : "Move failed");
+			toast.error(error instanceof Error ? error.message : "Falha ao mover");
 		},
 	});
 
 	const itemCount = item.type === "videos" ? item.videoIds.length : 1;
 	const title =
 		item.type === "folder"
-			? "Move folder"
-			: `Move ${itemCount} Cap${itemCount === 1 ? "" : "s"}`;
+			? "Mover pasta"
+			: `Mover ${itemCount} ${itemCount === 1 ? "gravação" : "gravações"}`;
 	const destinationChanged = selectedFolderId !== currentDestinationId;
 
 	return (
@@ -160,7 +160,7 @@ export function MoveItemsDialog({
 						<Input
 							value={search}
 							onChange={(event) => setSearch(event.target.value)}
-							placeholder="Search folders"
+							placeholder="Buscar pastas"
 							className="pl-9"
 						/>
 					</div>
@@ -172,13 +172,13 @@ export function MoveItemsDialog({
 							</div>
 						) : destinations.isError ? (
 							<div className="flex flex-col gap-3 justify-center items-center px-6 h-64 text-center">
-								<p className="text-sm text-gray-11">Unable to load folders.</p>
+								<p className="text-sm text-gray-11">Não foi possível carregar as pastas.</p>
 								<Button
 									variant="gray"
 									size="sm"
 									onClick={() => destinations.refetch()}
 								>
-									Retry
+									Tentar novamente
 								</Button>
 							</div>
 						) : (
@@ -249,7 +249,7 @@ export function MoveItemsDialog({
 
 								{filteredRows.length === 0 && normalizedSearch && (
 									<div className="flex justify-center items-center px-5 h-24 text-sm text-gray-10">
-										No folders found
+										Nenhuma pasta encontrada
 									</div>
 								)}
 							</div>
@@ -264,7 +264,7 @@ export function MoveItemsDialog({
 						disabled={moveMutation.isPending}
 						onClick={() => onOpenChange(false)}
 					>
-						Cancel
+						Cancelar
 					</Button>
 					<Button
 						variant="dark"
@@ -278,7 +278,7 @@ export function MoveItemsDialog({
 						}
 						onClick={() => moveMutation.mutate()}
 					>
-						{moveMutation.isPending ? "Moving..." : "Move"}
+						{moveMutation.isPending ? "Movendo..." : "Mover"}
 					</Button>
 				</DialogFooter>
 			</DialogContent>
