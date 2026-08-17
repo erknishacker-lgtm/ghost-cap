@@ -78,16 +78,16 @@ export const PasswordDialog: React.FC<PasswordDialogProps> = ({
 					icon={<FontAwesomeIcon icon={faLock} className="size-3.5" />}
 					description={
 						hasPassword
-							? "Update or remove the password for this video"
-							: "Restrict access to this video with a password"
+							? "Atualize ou remova a senha deste vídeo"
+							: "Restrinja o acesso a este vídeo com uma senha"
 					}
 				>
-					<DialogTitle>Password Protection</DialogTitle>
+					<DialogTitle>Proteção por senha</DialogTitle>
 				</DialogHeader>
 				<div className="p-5 space-y-4">
 					<Input
 						type="password"
-						placeholder={hasPassword ? "Enter new password" : "Password"}
+						placeholder={hasPassword ? "Digite a nova senha" : "Senha"}
 						value={password}
 						onChange={(e) => setPassword(e.target.value)}
 					/>
@@ -100,7 +100,7 @@ export const PasswordDialog: React.FC<PasswordDialogProps> = ({
 							onClick={() => removePassword.mutate()}
 							disabled={pending}
 						>
-							Remove
+							Remover
 						</Button>
 					)}
 					<Button
@@ -110,7 +110,7 @@ export const PasswordDialog: React.FC<PasswordDialogProps> = ({
 						spinner={pending}
 						disabled={pending}
 					>
-						Save
+						Salvar
 					</Button>
 				</DialogFooter>
 			</DialogContent>

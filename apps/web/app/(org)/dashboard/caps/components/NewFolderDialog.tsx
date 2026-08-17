@@ -30,9 +30,9 @@ interface Props {
 
 const FolderOptions = [
 	{ value: "normal", label: "Normal", color: "#9ca3af" },
-	{ value: "blue", label: "Blue", color: "#3b82f6" },
-	{ value: "red", label: "Red", color: "#ef4444" },
-	{ value: "yellow", label: "Yellow", color: "#eab308" },
+	{ value: "blue", label: "Azul", color: "#3b82f6" },
+	{ value: "red", label: "Vermelho", color: "#ef4444" },
+	{ value: "yellow", label: "Amarelo", color: "#eab308" },
 ] as const;
 
 export const NewFolderDialog: React.FC<Props> = ({
@@ -75,10 +75,10 @@ export const NewFolderDialog: React.FC<Props> = ({
 			setSelectedColor(null);
 			onOpenChange(false);
 			router.refresh();
-			toast.success("Folder created successfully");
+			toast.success("Pasta criada com sucesso");
 		},
 		onError: () => {
-			toast.error("Failed to create folder");
+			toast.error("Falha ao criar a pasta");
 		},
 	});
 
@@ -88,14 +88,14 @@ export const NewFolderDialog: React.FC<Props> = ({
 				<DialogHeader
 					icon={<FontAwesomeIcon icon={faFolderPlus} className="size-3.5" />}
 				>
-					<DialogTitle>New Folder</DialogTitle>
+					<DialogTitle>Nova pasta</DialogTitle>
 				</DialogHeader>
 				<div className="p-5">
 					<Input
 						value={folderName}
 						onChange={(e) => setFolderName(e.target.value)}
 						required
-						placeholder="Folder name"
+						placeholder="Nome da pasta"
 					/>
 					<div className="flex flex-wrap gap-2 mt-3">
 						{FolderOptions.map((option) => {
@@ -142,7 +142,7 @@ export const NewFolderDialog: React.FC<Props> = ({
 				</div>
 				<DialogFooter>
 					<Button size="sm" variant="gray" onClick={() => onOpenChange(false)}>
-						Cancel
+						Cancelar
 					</Button>
 					<Button
 						onClick={() => {
@@ -162,7 +162,7 @@ export const NewFolderDialog: React.FC<Props> = ({
 							createFolder.isPending
 						}
 					>
-						{createFolder.isPending ? "Creating..." : "Create"}
+						{createFolder.isPending ? "Criando..." : "Criar"}
 					</Button>
 				</DialogFooter>
 			</DialogContent>
