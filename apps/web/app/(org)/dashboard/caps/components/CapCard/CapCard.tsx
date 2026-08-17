@@ -69,11 +69,11 @@ function getProgressStatusText(
 ) {
 	switch (status) {
 		case "processing":
-			return "Processing";
+			return "Processando";
 		case "generating_thumbnail":
-			return "Finishing up";
+			return "Finalizando";
 		default:
-			return "Uploading";
+			return "Enviando";
 	}
 }
 
@@ -203,7 +203,7 @@ export const CapCard = ({
 
 					window.URL.revokeObjectURL(blobUrl);
 				} else {
-					throw new Error("Failed to get download URL");
+					throw new Error("Falha ao obter o link de download");
 				}
 			}),
 	});
@@ -332,7 +332,7 @@ export const CapCard = ({
 	const handleCopy = (text: string) => {
 		copyRichVideoLink({
 			url: text,
-			title: cap.name || "Cap Recording",
+			title: cap.name || "Gravação",
 			previewImageUrl: videoPreviewImageUrl(webUrl, cap.id),
 		});
 		setCopyPressed(true);
@@ -345,13 +345,13 @@ export const CapCard = ({
 		if (downloadMutation.isPending) return;
 
 		toast.promise(downloadMutation.mutateAsync(), {
-			loading: "Preparing download...",
-			success: "Download started successfully",
+			loading: "Preparando download...",
+			success: "Download iniciado com sucesso",
 			error: (error) => {
 				if (error instanceof Error) {
 					return error.message;
 				}
-				return "Failed to download video - please try again.";
+				return "Falha ao baixar o vídeo - tente novamente.";
 			},
 		});
 	};
@@ -473,11 +473,11 @@ export const CapCard = ({
 					)}
 				>
 					<CapCardButton
-						tooltipContent="Copy link"
+						tooltipContent="Copiar link"
 						onClick={(e) => {
 							e.stopPropagation();
 							copyLinkHandler();
-							toast.success("Link copied to clipboard");
+							toast.success("Link copiado para a área de transferência");
 						}}
 						className="delay-0"
 						icon={
@@ -507,7 +507,7 @@ export const CapCard = ({
 					/>
 					{isOwner && (
 						<CapCardButton
-							tooltipContent="Share"
+							tooltipContent="Compartilhar"
 							onClick={(e) => {
 								e.stopPropagation();
 								setIsSharingDialogOpen(true);
@@ -521,7 +521,7 @@ export const CapCard = ({
 						<DropdownMenuTrigger asChild suppressHydrationWarning>
 							<div>
 								<CapCardButton
-									tooltipContent="More options"
+									tooltipContent="Mais opções"
 									className="delay-75"
 									icon={<FontAwesomeIcon icon={faEllipsis} />}
 								/>
@@ -570,12 +570,12 @@ export const CapCard = ({
 								onClick={(e) => {
 									e.stopPropagation();
 									copyLinkHandler();
-									toast.success("Link copied to clipboard");
+									toast.success("Link copiado para a área de transferência");
 								}}
 								className="flex gap-2 items-center rounded-lg"
 							>
 								<FontAwesomeIcon className="size-3" icon={faLink} />
-								<p className="text-sm text-gray-12">Copy link</p>
+								<p className="text-sm text-gray-12">Copiar link</p>
 							</DropdownMenuItem>
 							{moveEnabled && (
 								<DropdownMenuItem
@@ -586,7 +586,7 @@ export const CapCard = ({
 									className="flex gap-2 items-center rounded-lg"
 								>
 									<FolderInput className="size-3" />
-									<p className="text-sm text-gray-12">Move</p>
+									<p className="text-sm text-gray-12">Mover</p>
 								</DropdownMenuItem>
 							)}
 							{isOwner && (
@@ -594,9 +594,9 @@ export const CapCard = ({
 									<DropdownMenuItem
 										onClick={() => {
 											toast.promise(duplicateMutation.mutateAsync(), {
-												loading: "Duplicating cap...",
-												success: "Cap duplicated successfully",
-												error: "Failed to duplicate cap",
+												loading: "Duplicando gravação...",
+												success: "Gravação duplicada com sucesso",
+												error: "Falha ao duplicar a gravação",
 											});
 										}}
 										disabled={
@@ -605,7 +605,7 @@ export const CapCard = ({
 										className="flex gap-2 items-center rounded-lg"
 									>
 										<FontAwesomeIcon className="size-3" icon={faCopy} />
-										<p className="text-sm text-gray-12">Duplicate</p>
+										<p className="text-sm text-gray-12">Duplicar</p>
 									</DropdownMenuItem>
 									{canEditVideo && (
 										<DropdownMenuItem
@@ -616,7 +616,7 @@ export const CapCard = ({
 											className="flex gap-2 items-center rounded-lg"
 										>
 											<FontAwesomeIcon className="size-3" icon={faScissors} />
-											<p className="text-sm text-gray-12">Edit video</p>
+											<p className="text-sm text-gray-12">Editar vídeo</p>
 										</DropdownMenuItem>
 									)}
 									<DropdownMenuItem
@@ -631,7 +631,7 @@ export const CapCard = ({
 											icon={effectivePasswordProtected ? faLock : faUnlock}
 										/>
 										<p className="text-sm text-gray-12">
-											{passwordProtected ? "Edit password" : "Add password"}
+											{passwordProtected ? "Editar senha" : "Adicionar senha"}
 										</p>
 									</DropdownMenuItem>
 									<DropdownMenuItem
@@ -642,7 +642,7 @@ export const CapCard = ({
 										className="flex gap-2 items-center rounded-lg"
 									>
 										<FontAwesomeIcon className="size-3" icon={faTrash} />
-										<p className="text-sm text-gray-12">Delete Cap</p>
+										<p className="text-sm text-gray-12">Excluir gravação</p>
 									</DropdownMenuItem>
 								</>
 							)}
@@ -652,10 +652,10 @@ export const CapCard = ({
 					<ConfirmationDialog
 						open={confirmOpen}
 						icon={<FontAwesomeIcon icon={faVideo} />}
-						title="Delete Cap"
-						description={`Are you sure you want to delete the cap "${cap.name}"? This action cannot be undone.`}
-						confirmLabel={deleteMutation.isPending ? "Deleting..." : "Delete"}
-						cancelLabel="Cancel"
+						title="Excluir gravação"
+						description={`Tem certeza que deseja excluir a gravação "${cap.name}"? Esta ação não pode ser desfeita.`}
+						confirmLabel={deleteMutation.isPending ? "Excluindo..." : "Excluir"}
+						cancelLabel="Cancelar"
 						loading={deleteMutation.isPending}
 						onConfirm={() => deleteMutation.mutate()}
 						onCancel={() => setConfirmOpen(false)}
@@ -665,7 +665,7 @@ export const CapCard = ({
 				{!sharedCapCard && onSelectToggle && (
 					<button
 						type="button"
-						aria-label={isSelected ? "Deselect cap" : "Select cap"}
+						aria-label={isSelected ? "Desmarcar gravação" : "Selecionar gravação"}
 						className={clsx(
 							"absolute top-2 left-2 z-[49] duration-200",
 							isSelected || anyCapSelected || isDropdownOpen
@@ -712,8 +712,8 @@ export const CapCard = ({
 									uploadProgress.status === "error" ? (
 										<span className="text-sm font-semibold text-red-400">
 											{uploadProgress.status === "error"
-												? "Processing failed"
-												: "Upload failed"}
+												? "Falha no processamento"
+												: "Falha no envio"}
 										</span>
 									) : (
 										<>
@@ -827,7 +827,7 @@ export const CapCard = ({
 						/>
 						{cap.isScreenshot === true && !hasVisibleUploadProgress && (
 							<span
-								title="Screenshot"
+								title="Captura de tela"
 								className="absolute bottom-3 left-3 z-30 flex size-6 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-sm"
 							>
 								<FontAwesomeIcon icon={faImage} className="size-3" />
@@ -839,8 +839,8 @@ export const CapCard = ({
 								className="absolute right-2 top-2 z-10 flex size-7 items-center justify-center rounded-full bg-black/70 text-white"
 								title={
 									cap.hasInheritedPassword
-										? "Password required by space"
-										: "Password protected"
+										? "Senha exigida pelo espaço"
+										: "Protegido por senha"
 								}
 							>
 								<FontAwesomeIcon icon={faLock} className="size-3" />
