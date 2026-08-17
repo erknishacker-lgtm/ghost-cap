@@ -29,7 +29,7 @@ export default async function LoginPage(props: {
 					icon={faArrowLeft}
 				/>
 				<Link className="text-gray-12" href="/">
-					Home
+					Início
 				</Link>
 			</div>
 			<LoginForm />

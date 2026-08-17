@@ -26,7 +26,7 @@ export function WelcomePage() {
 			});
 		},
 		onError: () => {
-			toast.error("An error occurred, please try again");
+			toast.error("Ocorreu um erro, tente novamente");
 		},
 	});
 
@@ -37,8 +37,8 @@ export function WelcomePage() {
 
 	return (
 		<Base
-			title="Welcome to Cap"
-			description="Let's get you started"
+			title="Bem-vindo ao Ghost Cap"
+			description="Vamos começar"
 			hideBackButton
 		>
 			<form className="space-y-7" onSubmit={handleSubmit}>
@@ -48,7 +48,7 @@ export function WelcomePage() {
 						disabled={welcomeMutation.isPending}
 						onChange={(e) => setFirstName(e.target.value)}
 						type="text"
-						placeholder="First name"
+						placeholder="Nome"
 						name="firstName"
 						required
 					/>
@@ -57,7 +57,7 @@ export function WelcomePage() {
 						disabled={welcomeMutation.isPending}
 						onChange={(e) => setLastName(e.target.value)}
 						type="text"
-						placeholder="Last name (optional)"
+						placeholder="Sobrenome (opcional)"
 						name="lastName"
 					/>
 				</div>
@@ -69,7 +69,7 @@ export function WelcomePage() {
 					variant="dark"
 					className="mx-auto w-full"
 				>
-					Continue
+					Continuar
 				</Button>
 			</form>
 		</Base>

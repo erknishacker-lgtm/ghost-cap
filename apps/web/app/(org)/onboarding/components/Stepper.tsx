@@ -19,33 +19,33 @@ export default function Stepper({
 }) {
 	const currentPath = usePathname();
 	const currentStep = useMemo(() => {
-		if (currentPath === "/onboarding/welcome") return "Welcome";
+		if (currentPath === "/onboarding/welcome") return "Bem-vindo";
 		if (currentPath === "/onboarding/organization-setup")
-			return "Organization Setup";
-		if (currentPath === "/onboarding/custom-domain") return "Custom Domain";
-		if (currentPath === "/onboarding/invite-team") return "Invite your team";
+			return "Configurar organização";
+		if (currentPath === "/onboarding/custom-domain") return "Domínio personalizado";
+		if (currentPath === "/onboarding/invite-team") return "Convide sua equipe";
 		if (currentPath === "/onboarding/download") return "Download";
 	}, [currentPath]);
 
 	const steps = [
 		{
 			id: "1",
-			name: "Welcome",
+			name: "Bem-vindo",
 			completed: completedSteps.welcome || false,
 		},
 		{
 			id: "2",
-			name: "Organization Setup",
+			name: "Configurar organização",
 			completed: completedSteps.organizationSetup || false,
 		},
 		{
 			id: "3",
-			name: "Custom Domain",
+			name: "Domínio personalizado",
 			completed: completedSteps.customDomain || false,
 		},
 		{
 			id: "4",
-			name: "Invite your team",
+			name: "Convide sua equipe",
 			completed: completedSteps.inviteTeam || false,
 		},
 		{
@@ -141,7 +141,7 @@ const MobileStepper = ({
 			</div>
 			<div>
 				<p className="text-[13px] text-gray-10">
-					Step <span className="text-gray-11">{activeStep.id}/5</span>
+					Passo <span className="text-gray-11">{activeStep.id}/5</span>
 				</p>
 			</div>
 		</div>

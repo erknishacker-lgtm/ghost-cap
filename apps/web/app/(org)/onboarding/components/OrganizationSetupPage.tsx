@@ -17,7 +17,7 @@ export function OrganizationSetupPage({
 	firstName: string | null | undefined;
 }) {
 	const [organizationName, setOrganizationName] = useState(
-		firstName ? `${firstName}'s organization` : "",
+		firstName ? `Organização de ${firstName}` : "",
 	);
 	const [selectedFile, setSelectedFile] = useState<File | null>(null);
 	const fileInputRef = useRef<HTMLInputElement>(null);
@@ -68,7 +68,7 @@ export function OrganizationSetupPage({
 		},
 		onError: (error) => {
 			console.error(error);
-			toast.error("An error occurred, please try again");
+			toast.error("Ocorreu um erro, tente novamente");
 		},
 	});
 
@@ -82,8 +82,8 @@ export function OrganizationSetupPage({
 
 	return (
 		<Base
-			title="Organization Setup"
-			description="Let's get your dashboard setup with your organization"
+			title="Configurar organização"
+			description="Vamos preparar seu painel com sua organização"
 		>
 			<form onSubmit={handleSubmit} className="space-y-7">
 				<div className="space-y-3">
@@ -92,20 +92,20 @@ export function OrganizationSetupPage({
 						disabled={orgSetupMutation.isPending}
 						value={organizationName}
 						onChange={(e) => setOrganizationName(e.target.value)}
-						placeholder="Organization Name"
+						placeholder="Nome da organização"
 						name="organizationName"
 						required
 					/>
 					<div className="rounded-xl border bg-gray-1 h-fit border-gray-4">
 						<h3 className="px-3 py-3 text-sm font-medium border-b border-gray-4 text-gray-12">
-							Organization Logo
+							Logo da organização
 						</h3>
 						<div className="flex gap-5 p-5">
 							<div className="flex justify-center items-center rounded-full border border-dashed size-14 bg-gray-3 border-gray-6">
 								{selectedFile ? (
 									<Image
 										src={URL.createObjectURL(selectedFile)}
-										alt="Selected File"
+										alt="Arquivo selecionado"
 										width={56}
 										className="object-cover rounded-full size-14"
 										height={56}
@@ -132,10 +132,10 @@ export function OrganizationSetupPage({
 									size="xs"
 									onClick={() => fileInputRef.current?.click()}
 								>
-									Upload Image
+									Enviar imagem
 								</Button>
 								<p className="text-xs text-gray-10">
-									Recommended size: 120x120
+									Tamanho recomendado: 120x120
 								</p>
 							</div>
 						</div>
@@ -149,7 +149,7 @@ export function OrganizationSetupPage({
 					spinner={orgSetupMutation.isPending}
 					disabled={orgSetupMutation.isPending}
 				>
-					Create Organization
+					Criar organização
 				</Button>
 			</form>
 		</Base>

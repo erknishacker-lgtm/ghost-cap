@@ -26,7 +26,7 @@ export const Bottom = () => {
 			});
 		},
 		onError: () => {
-			toast.error("An error occurred, please try again");
+			toast.error("Ocorreu um erro, tente novamente");
 		},
 	});
 
@@ -41,7 +41,7 @@ export const Bottom = () => {
 					signOut();
 				}}
 			>
-				Sign out
+				Sair
 			</Button>
 			<Button
 				className="px-0 w-fit"
@@ -53,7 +53,7 @@ export const Bottom = () => {
 				size="sm"
 				onClick={() => skipToDashboard.mutate()}
 			>
-				{skipToDashboard.isPending ? "Skipping..." : "Skip to dashboard"}
+				{skipToDashboard.isPending ? "Pulando..." : "Pular para o painel"}
 			</Button>
 		</div>
 	);

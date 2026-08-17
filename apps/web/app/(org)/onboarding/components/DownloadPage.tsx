@@ -12,13 +12,13 @@ import {
 
 const recordingModes = [
 	{
-		name: "Instant Mode",
+		name: "Modo Instantâneo",
 		icon: <Zap fill="yellow" className="mb-4 size-8" strokeWidth={1.5} />,
 		description:
-			"Hit record, stop, share link. Your video is live in seconds with automatically generated captions, a title, summary, chapters, and more. Perfect for quick feedback, bug reports, or when you just need to show something fast.",
+			"Aperte gravar, pare, compartilhe o link. Seu vídeo fica no ar em segundos, com legendas, título, resumo e capítulos gerados automaticamente. Perfeito para feedback rápido, relatar bugs ou mostrar algo na hora.",
 	},
 	{
-		name: "Studio Mode",
+		name: "Modo Estúdio",
 		icon: (
 			<Clapperboard
 				fill="var(--blue-9)"
@@ -27,7 +27,7 @@ const recordingModes = [
 			/>
 		),
 		description:
-			"Professional recordings with local editing, custom backgrounds, and export options. When you need pixel-perfect demos, tutorials, or presentations that represent your brand.",
+			"Gravações profissionais com edição local, fundos personalizados e opções de exportação. Para demos, tutoriais e apresentações impecáveis que representam sua marca.",
 	},
 ];
 
@@ -42,9 +42,9 @@ export function DownloadPage() {
 				<div className="flex flex-col gap-6 justify-center items-center">
 					<LogoBadge className="mx-auto w-auto h-12" />
 					<div className="space-y-1 text-center">
-						<h1 className="text-3xl font-medium text-gray-12">Download Cap</h1>
+						<h1 className="text-3xl font-medium text-gray-12">Baixar o Ghost Cap</h1>
 						<p className="text-lg text-center text-gray-11 text-pretty">
-							Start recording beautiful screen recordings today
+							Comece a gravar sua tela com qualidade hoje mesmo
 						</p>
 					</div>
 				</div>
@@ -81,7 +81,7 @@ export function DownloadPage() {
 					variant="dark"
 					size="lg"
 				>
-					Continue
+					Continuar
 				</Button>
 			</div>
 		</div>
