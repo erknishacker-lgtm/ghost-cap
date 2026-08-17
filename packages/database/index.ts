@@ -19,7 +19,9 @@ export const db = () => {
 	if (!_cached) {
 		_cached = createDrizzle();
 
-		instrumentDrizzleClient(_cached);
+		if (!process.env.DEBUG_DISABLE_OTEL_DRIZZLE) {
+			instrumentDrizzleClient(_cached);
+		}
 	}
 	return _cached;
 };
