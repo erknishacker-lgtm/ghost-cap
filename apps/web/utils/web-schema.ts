@@ -1,23 +1,17 @@
 export const createOrganizationSchema = () => ({
 	"@context": "https://schema.org",
 	"@type": "Organization",
-	"@id": "https://cap.so/#organization",
-	name: "Cap",
-	url: "https://cap.so",
+	"@id": "https://cap.zghost.uk/#organization",
+	name: "Ghost Cap",
+	url: "https://cap.zghost.uk",
 	logo: {
 		"@type": "ImageObject",
-		url: "https://cap.so/cap-logo.png",
+		url: "https://cap.zghost.uk/cap-logo.png",
 		width: 512,
 		height: 512,
 	},
 	description:
-		"Cap is the open source alternative to Loom. Lightweight, powerful, and cross-platform screen recorder.",
-	sameAs: [
-		"https://github.com/capsoftware/cap",
-		"https://twitter.com/cap",
-		"https://x.com/cap",
-		"https://www.producthunt.com/products/cap-3",
-	],
+		"Ghost Cap is a powerful alternative to Loom. Lightweight, secure, and cross-platform screen recorder.",
 	contactPoint: {
 		"@type": "ContactPoint",
 		email: "hello@cap.so",
@@ -28,13 +22,12 @@ export const createOrganizationSchema = () => ({
 export const createWebSiteSchema = () => ({
 	"@context": "https://schema.org",
 	"@type": "WebSite",
-	"@id": "https://cap.so/#website",
-	url: "https://cap.so",
-	name: "Cap",
-	description:
-		"Beautiful screen recordings, owned by you. The open source alternative to Loom.",
+	"@id": "https://cap.zghost.uk/#website",
+	url: "https://cap.zghost.uk",
+	name: "Ghost Cap",
+	description: "Beautiful screen recordings, owned by you.",
 	publisher: {
-		"@id": "https://cap.so/#organization",
+		"@id": "https://cap.zghost.uk/#organization",
 	},
 });
 
@@ -76,19 +69,19 @@ export const createSoftwareApplicationSchema = (
 	return {
 		"@context": "https://schema.org",
 		"@type": "SoftwareApplication",
-		"@id": "https://cap.so/#software",
-		name: "Cap",
+		"@id": "https://cap.zghost.uk/#software",
+		name: "Ghost Cap",
 		applicationCategory: "MultimediaApplication",
 		operatingSystem: ["macOS", "Windows"],
 		description:
-			"Cap is a powerful, open-source screen recording software that offers instant sharing, studio mode, and privacy-focused features.",
-		url: "https://cap.so",
-		downloadUrl: "https://cap.so/download",
+			"Ghost Cap is a powerful screen recording platform that offers instant sharing, studio mode, and privacy-focused features.",
+		url: "https://cap.zghost.uk",
+		downloadUrl: "https://cap.zghost.uk/download",
 		screenshot: [
 			{
 				"@type": "ImageObject",
-				url: "https://cap.so/og.png",
-				caption: "Cap screen recorder interface",
+				url: "https://cap.zghost.uk/og.png",
+				caption: "Ghost Cap screen recorder interface",
 			},
 		],
 		featureList: [
@@ -100,7 +93,6 @@ export const createSoftwareApplicationSchema = (
 			"Custom domain support",
 			"Bring your own storage (Google Drive & S3)",
 			"Cross-platform (Mac & Windows)",
-			"Open source",
 			"Privacy-focused",
 		],
 		offers: [
@@ -133,7 +125,7 @@ export const createSoftwareApplicationSchema = (
 		},
 		review: reviews,
 		creator: {
-			"@id": "https://cap.so/#organization",
+			"@id": "https://cap.zghost.uk/#organization",
 		},
 	};
 };
@@ -168,7 +160,7 @@ export const createVideoObjectSchema = (video: {
 	duration: video.duration || "PT2M",
 	embedUrl: video.embedUrl,
 	publisher: {
-		"@id": "https://cap.so/#organization",
+		"@id": "https://cap.zghost.uk/#organization",
 	},
 });
 
@@ -190,12 +182,12 @@ export const createFAQSchema = (
 export const createProductSchema = () => ({
 	"@context": "https://schema.org",
 	"@type": "Product",
-	name: "Cap Screen Recorder",
+	name: "Ghost Cap Screen Recorder",
 	description:
-		"Open-source screen recording software with instant sharing and studio mode capabilities",
+		"Screen recording software with instant sharing and studio mode capabilities",
 	brand: {
 		"@type": "Brand",
-		name: "Cap",
+		name: "Ghost Cap",
 	},
 	offers: {
 		"@type": "AggregateOffer",
@@ -214,37 +206,27 @@ export const createProductSchema = () => ({
 export const createComparisonTableSchema = () => ({
 	"@context": "https://schema.org",
 	"@type": "Table",
-	about: "Feature comparison between Cap and Loom screen recorders",
+	about: "Feature comparison between Ghost Cap and Loom screen recorders",
 	mainEntity: {
 		"@type": "ItemList",
 		itemListElement: [
 			{
 				"@type": "ListItem",
 				position: 1,
-				name: "Open Source",
-				item: {
-					"@type": "PropertyValue",
-					name: "Cap",
-					value: "Yes",
-				},
-			},
-			{
-				"@type": "ListItem",
-				position: 2,
 				name: "Pricing",
 				item: {
 					"@type": "PropertyValue",
-					name: "Cap",
+					name: "Ghost Cap",
 					value: "$8.16/month per user",
 				},
 			},
 			{
 				"@type": "ListItem",
-				position: 3,
+				position: 2,
 				name: "4K Recording",
 				item: {
 					"@type": "PropertyValue",
-					name: "Cap",
+					name: "Ghost Cap",
 					value: "Available in free & paid plans",
 				},
 			},
@@ -274,10 +256,10 @@ export const createHowToSchema = (params: {
 export const createLocalBusinessSchema = () => ({
 	"@context": "https://schema.org",
 	"@type": "LocalBusiness",
-	name: "Cap",
-	image: "https://cap.so/og.png",
-	"@id": "https://cap.so",
-	url: "https://cap.so",
+	name: "Ghost Cap",
+	image: "https://cap.zghost.uk/og.png",
+	"@id": "https://cap.zghost.uk",
+	url: "https://cap.zghost.uk",
 	priceRange: "$0-$8.16",
 	address: {
 		"@type": "PostalAddress",
