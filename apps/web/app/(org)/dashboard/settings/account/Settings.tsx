@@ -73,24 +73,24 @@ export const Settings = () => {
 			);
 		},
 		onSuccess: () => {
-			toast.success("Name updated successfully");
+			toast.success("Nome atualizado com sucesso");
 			router.refresh();
 		},
 		onError: () => {
-			toast.error("Failed to update name");
+			toast.error("Falha ao atualizar o nome");
 		},
 	});
 
 	const signOutAllDevicesMutation = useMutation({
 		mutationFn: signOutAllDevices,
 		onSuccess: () => {
-			toast.success("Signed out of all devices");
+			toast.success("Sessão encerrada em todos os dispositivos");
 			setSignOutAllDevicesOpen(false);
 			resetUser();
 			signOut({ callbackUrl: "/login" });
 		},
 		onError: () => {
-			toast.error("Failed to sign out of all devices");
+			toast.error("Falha ao encerrar sessão em todos os dispositivos");
 		},
 	});
 
@@ -123,7 +123,7 @@ export const Settings = () => {
 		}),
 		onSuccess: () => {
 			setProfileImageOverride(undefined);
-			toast.success("Profile image updated successfully");
+			toast.success("Imagem de perfil atualizada com sucesso");
 			router.refresh();
 		},
 		onError: (error) => {
@@ -132,7 +132,7 @@ export const Settings = () => {
 			toast.error(
 				error instanceof Error
 					? error.message
-					: "Failed to upload profile image",
+					: "Falha ao enviar a imagem de perfil",
 			);
 		},
 	});
@@ -141,7 +141,7 @@ export const Settings = () => {
 		mutationFn: () => rpc.UserUpdate({ id: user.id, image: Option.none() }),
 		onSuccess: () => {
 			setProfileImageOverride(null);
-			toast.success("Profile image removed");
+			toast.success("Imagem de perfil removida");
 			router.refresh();
 		},
 		onError: (error) => {
@@ -150,7 +150,7 @@ export const Settings = () => {
 			toast.error(
 				error instanceof Error
 					? error.message
-					: "Failed to remove profile image",
+					: "Falha ao remover a imagem de perfil",
 			);
 		},
 	});
@@ -185,9 +185,9 @@ export const Settings = () => {
 				<div className="grid gap-6 w-full md:grid-cols-2">
 					<Card className="space-y-4">
 						<div className="space-y-1">
-							<CardTitle>Profile image</CardTitle>
+							<CardTitle>Imagem de perfil</CardTitle>
 							<CardDescription>
-								This image appears in your profile, comments, and shared caps.
+								Essa imagem aparece no seu perfil, comentários e gravações compartilhadas.
 							</CardDescription>
 						</div>
 						<ProfileImage
@@ -202,17 +202,17 @@ export const Settings = () => {
 					</Card>
 					<Card className="space-y-4">
 						<div className="space-y-1">
-							<CardTitle>Your name</CardTitle>
+							<CardTitle>Seu nome</CardTitle>
 							<CardDescription>
-								Changing your name below will update how your name appears when
-								sharing a Cap, and in your profile.
+								Alterar seu nome abaixo atualiza como ele aparece ao
+								compartilhar uma gravação e no seu perfil.
 							</CardDescription>
 						</div>
 						<div className="flex flex-col flex-wrap gap-3 w-full">
 							<div className="flex-1">
 								<Input
 									type="text"
-									placeholder="First name"
+									placeholder="Nome"
 									onChange={(e) => setFirstName(e.target.value)}
 									defaultValue={firstName as string}
 									id={firstNameId}
@@ -222,7 +222,7 @@ export const Settings = () => {
 							<div className="flex-1 space-y-2">
 								<Input
 									type="text"
-									placeholder="Last name"
+									placeholder="Sobrenome"
 									onChange={(e) => setLastName(e.target.value)}
 									defaultValue={lastName as string}
 									id={lastNameId}
@@ -233,9 +233,9 @@ export const Settings = () => {
 					</Card>
 					<Card className="flex flex-col gap-4">
 						<div className="space-y-1">
-							<CardTitle>Contact email address</CardTitle>
+							<CardTitle>E-mail de contato</CardTitle>
 							<CardDescription>
-								This is the email address you used to sign up to Cap with.
+								Este é o e-mail que você usou para se cadastrar no Ghost Cap.
 							</CardDescription>
 						</div>
 						<Input
@@ -248,14 +248,14 @@ export const Settings = () => {
 					</Card>
 					<Card className="flex flex-col gap-4">
 						<div className="space-y-1">
-							<CardTitle>Default organization</CardTitle>
+							<CardTitle>Organização padrão</CardTitle>
 							<CardDescription>
-								This is the default organization
+								Esta é a organização padrão
 							</CardDescription>
 						</div>
 
 						<Select
-							placeholder="Default organization"
+							placeholder="Organização padrão"
 							value={
 								defaultOrgId ??
 								user?.defaultOrgId ??
@@ -287,15 +287,15 @@ export const Settings = () => {
 					variant="dark"
 					spinner={updateNamePending}
 				>
-					{updateNamePending ? "Saving..." : "Save"}
+					{updateNamePending ? "Salvando..." : "Salvar"}
 				</Button>
 			</form>
 			<Card className="flex flex-col gap-4 mt-6 md:flex-row md:items-center md:justify-between">
 				<div className="space-y-1">
-					<CardTitle>Sign out of all devices</CardTitle>
+					<CardTitle>Encerrar sessão em todos os dispositivos</CardTitle>
 					<CardDescription>
-						Invalidate every Cap web session, desktop app authentication token,
-						and CLI API key connected to your account.
+						Invalida toda sessão web, token de autenticação do app desktop e
+						chave de API do CLI conectados à sua conta.
 					</CardDescription>
 				</div>
 				<Button
@@ -305,7 +305,7 @@ export const Settings = () => {
 					icon={<LogOut className="size-4" />}
 					onClick={() => setSignOutAllDevicesOpen(true)}
 				>
-					Sign out all devices
+					Encerrar em todos os dispositivos
 				</Button>
 			</Card>
 			<Dialog
@@ -315,17 +315,17 @@ export const Settings = () => {
 				<DialogContent>
 					<DialogHeader
 						icon={<LogOut className="size-4" />}
-						description="This will immediately invalidate existing Cap web sessions, desktop session tokens, desktop API keys, and CLI API keys for your account."
+						description="Isso invalida imediatamente as sessões web, tokens de sessão do desktop, chaves de API do desktop e do CLI da sua conta."
 					>
-						<DialogTitle>Sign out of all devices?</DialogTitle>
+						<DialogTitle>Encerrar sessão em todos os dispositivos?</DialogTitle>
 					</DialogHeader>
 					<div className="p-5 space-y-3 text-sm text-gray-11">
 						<p>
-							You will be signed out of this browser after the reset completes.
+							Sua sessão neste navegador também será encerrada após a redefinição.
 						</p>
 						<p>
-							The Cap desktop app may need you to click Sign out, then sign in
-							again before uploads and settings sync work.
+							O app desktop do Ghost Cap pode pedir que você clique em Sair e
+							entre novamente para que uploads e configurações voltem a sincronizar.
 						</p>
 					</div>
 					<DialogFooter>
@@ -335,7 +335,7 @@ export const Settings = () => {
 							variant="gray"
 							onClick={() => setSignOutAllDevicesOpen(false)}
 						>
-							Cancel
+							Cancelar
 						</Button>
 						<Button
 							type="button"
@@ -347,8 +347,8 @@ export const Settings = () => {
 							disabled={signOutAllDevicesMutation.isPending}
 						>
 							{signOutAllDevicesMutation.isPending
-								? "Signing out..."
-								: "Sign out all devices"}
+								? "Encerrando..."
+								: "Encerrar em todos os dispositivos"}
 						</Button>
 					</DialogFooter>
 				</DialogContent>

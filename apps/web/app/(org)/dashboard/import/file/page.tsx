@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ImportFilePage } from "./ImportFilePage";
 
 export const metadata: Metadata = {
-	title: "Upload File — Cap",
+	title: "Enviar Arquivo — Ghost Cap",
 };
 
 export default function Page() {
