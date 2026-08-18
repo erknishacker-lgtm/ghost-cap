@@ -103,7 +103,7 @@ export const ProCard = () => {
 
 			<div className="flex gap-1.5 items-baseline mt-6">
 				<span className="text-4xl font-semibold tracking-tight tabular-nums text-gray-12">
-					$<NumberFlow value={perUser} />
+					R$<NumberFlow value={perUser} />
 				</span>
 				<span className="text-sm text-gray-10">/ user / month</span>
 			</div>
@@ -132,7 +132,7 @@ export const ProCard = () => {
 				<p className="text-sm text-gray-10">
 					Total:{" "}
 					<span className="font-medium text-gray-12">
-						$<NumberFlow value={isAnnually ? yearlyTotal : monthlyTotal} />
+						R$<NumberFlow value={isAnnually ? yearlyTotal : monthlyTotal} />
 					</span>{" "}
 					{isAnnually ? "/ year" : "/ month"}
 				</p>

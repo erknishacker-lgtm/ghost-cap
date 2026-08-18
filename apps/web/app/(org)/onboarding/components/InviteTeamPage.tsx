@@ -116,7 +116,7 @@ export function InviteTeamPage() {
 		>
 			<div className="text-center">
 				<span className="mr-2 text-2xl tabular-nums lg:text-3xl text-gray-12">
-					$<NumberFlow suffix="/mo" value={currentTotalPrice} />
+					R$<NumberFlow suffix="/mês" value={currentTotalPrice} />
 				</span>
 				<span className="text-base tabular-nums text-gray-10">
 					{" "}
@@ -131,9 +131,9 @@ export function InviteTeamPage() {
 							format={{
 								notation: "compact",
 								style: "currency",
-								currency: "USD",
+								currency: "BRL",
 							}}
-							suffix="/mo"
+							suffix="/mês"
 						/>{" "}
 						{users === 1 ? (
 							"por usuário, "
@@ -155,9 +155,9 @@ export function InviteTeamPage() {
 							format={{
 								notation: "compact",
 								style: "currency",
-								currency: "USD",
+								currency: "BRL",
 							}}
-							suffix="/mo"
+							suffix="/mês"
 						/>{" "}
 						{users === 1 ? (
 							"por usuário, "

@@ -343,13 +343,13 @@ export const homepageCopy: HomePageCopy = {
 			],
 			cta: "Get Started",
 			pricing: {
-				annual: 8.16,
-				monthly: 12,
+				annual: 32.9,
+				monthly: 47.9,
 			},
 			labels: {
-				users: "Per user",
-				monthly: "Monthly",
-				annually: "Annual (save 32%)",
+				users: "Por usuário",
+				monthly: "Mensal",
+				annually: "Anual (economize 32%)",
 			},
 		},
 	},
