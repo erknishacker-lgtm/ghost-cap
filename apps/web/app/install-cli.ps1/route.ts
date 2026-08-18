@@ -161,11 +161,8 @@ if ($sessionEntries -contains $installDir) {
 }
 `;
 
+// We don't ship a desktop app / CLI of our own yet, so there's nothing for
+// this script to link against.
 export async function GET() {
-	return new Response(script, {
-		headers: {
-			"Content-Type": "text/plain; charset=utf-8",
-			"Cache-Control": "public, max-age=3600",
-		},
-	});
+	return new Response("Not available.\n", { status: 404 });
 }

@@ -1,14 +1,8 @@
 "use client";
 
 import { Button, LogoBadge } from "@cap/ui";
-import { useDetectPlatform } from "hooks/useDetectPlatform";
 import { Clapperboard, Zap } from "lucide-react";
 import { useRouter } from "next/navigation";
-import {
-	getDownloadButtonText,
-	getDownloadUrl,
-	getPlatformIcon,
-} from "@/utils/platform";
 
 const recordingModes = [
 	{
@@ -32,8 +26,6 @@ const recordingModes = [
 ];
 
 export function DownloadPage() {
-	const { platform, isIntel } = useDetectPlatform();
-	const loading = platform === null;
 	const router = useRouter();
 
 	return (
@@ -42,9 +34,9 @@ export function DownloadPage() {
 				<div className="flex flex-col gap-6 justify-center items-center">
 					<LogoBadge className="mx-auto w-auto h-12" />
 					<div className="space-y-1 text-center">
-						<h1 className="text-3xl font-medium text-gray-12">Baixar o Ghost Cap</h1>
+						<h1 className="text-3xl font-medium text-gray-12">Tudo pronto!</h1>
 						<p className="text-lg text-center text-gray-11 text-pretty">
-							Comece a gravar sua tela com qualidade hoje mesmo
+							Comece a gravar sua tela direto do navegador ou pela extensão do Chrome
 						</p>
 					</div>
 				</div>
@@ -66,15 +58,6 @@ export function DownloadPage() {
 				</div>
 			</div>
 			<div className="flex flex-wrap gap-4 justify-center">
-				<Button
-					variant="blue"
-					size="lg"
-					href={getDownloadUrl(platform, isIntel)}
-					className="hidden justify-center items-center py-6 font-medium text-white lg:flex"
-				>
-					{!loading && getPlatformIcon(platform)}
-					{getDownloadButtonText(platform, loading, isIntel)}
-				</Button>
 				<Button
 					onClick={() => router.push("/dashboard/caps")}
 					className="min-w-[120px]"

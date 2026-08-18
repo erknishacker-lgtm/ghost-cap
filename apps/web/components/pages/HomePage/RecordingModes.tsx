@@ -2,14 +2,8 @@
 
 import { Button } from "@cap/ui";
 import clsx from "clsx";
-import { useDetectPlatform } from "hooks/useDetectPlatform";
 import { Clapperboard, Zap } from "lucide-react";
 import { type JSX, useState } from "react";
-import {
-	getDownloadButtonText,
-	getDownloadUrl,
-	getPlatformIcon,
-} from "@/utils/platform";
 import { homepageCopy } from "../../../data/homepage-copy";
 import UpgradeToPro from "../_components/UpgradeToPro";
 
@@ -46,8 +40,6 @@ const RecordingModes = () => {
 	];
 
 	const [activeMode, setActiveMode] = useState<Mode | undefined>(modes[0]);
-	const { platform, isIntel } = useDetectPlatform();
-	const loading = platform === null;
 
 	const handleModeSwitch = (mode: Mode) => {
 		setActiveMode(mode);
@@ -151,16 +143,11 @@ const RecordingModes = () => {
 					<div className="flex flex-col items-center space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4 sm:justify-center">
 						<Button
 							variant="dark"
-							href={
-								platform === "windows"
-									? "/download"
-									: getDownloadUrl(platform, isIntel)
-							}
+							href="/signup"
 							size="lg"
 							className="flex justify-center items-center font-medium w-fit"
 						>
-							{!loading && getPlatformIcon(platform)}
-							{getDownloadButtonText(platform, loading, isIntel)}
+							Começar agora
 						</Button>
 						<UpgradeToPro text={homepageCopy.header.cta.primaryButton} />
 					</div>

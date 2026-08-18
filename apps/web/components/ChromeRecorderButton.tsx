@@ -31,7 +31,7 @@ export function ChromeRecorderButton({
 	return (
 		<ChromeExtensionButton
 			href={isInstalled ? null : undefined}
-			label={isInstalled ? "Record with Chrome" : "Add to Chrome"}
+			label={isInstalled ? "Gravar com o Chrome" : "Adicionar ao Chrome"}
 			size={size}
 			variant={variant}
 			className={className}

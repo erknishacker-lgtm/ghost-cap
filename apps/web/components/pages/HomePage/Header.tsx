@@ -10,8 +10,7 @@ import { useDetectPlatform } from "hooks/useDetectPlatform";
 import { useIsChromium } from "hooks/useIsChromium";
 import Image from "next/image";
 import Link from "next/link";
-import { Fragment, useEffect, useState, useTransition } from "react";
-import { sendDownloadLink } from "@/actions/send-download-link";
+import { Fragment, useEffect, useState } from "react";
 import { ChromeExtensionButton } from "@/components/ChromeExtensionButton";
 import { LoomMark } from "@/components/icons/LoomMark";
 import { LogoMarquee } from "@/components/ui/LogoMarquee";
@@ -19,12 +18,6 @@ import {
 	CAP_CHROME_EXTENSION_URL,
 	CHROME_EXTENSION_BUTTON_CLASS,
 } from "@/lib/chrome-extension";
-import {
-	getDownloadButtonText,
-	getDownloadUrl,
-	getPlatformIcon,
-	PlatformIcons,
-} from "@/utils/platform";
 import { homepageCopy } from "../../../data/homepage-copy";
 import UpgradeToPro from "../_components/UpgradeToPro";
 import { InstantIcon, ScreenshotIcon, StudioIcon } from "./modeIcons";
@@ -119,40 +112,6 @@ const Header = ({ serverHomepageCopyVariant = "" }: HeaderProps) => {
 	// once the platform resolves: the label is "Download for free" for every
 	// platform and the icon is always the same size, so defaulting the display to
 	// macOS (also the default download target) keeps width stable.
-	const displayPlatform = platform ?? "macos";
-	const [email, setEmail] = useState("");
-	const [emailStatus, setEmailStatus] = useState<
-		"idle" | "sending" | "sent" | "error"
-	>("idle");
-	const [emailError, setEmailError] = useState("");
-	const [isPending, startTransition] = useTransition();
-	const primaryDownloadUrl =
-		platform === "windows" ? "/download" : getDownloadUrl(platform, isIntel);
-
-	const handleEmailSubmit = (e: React.FormEvent) => {
-		e.preventDefault();
-		setEmailStatus("sending");
-		setEmailError("");
-		trackHomepageEvent("download_cta_clicked", {
-			source_page: "home_header",
-			cta_location: "mobile_email_link",
-			target: "email_download_link",
-			target_url: "/download",
-			detected_platform: platform ?? "unknown",
-			is_intel: Boolean(isIntel),
-		});
-
-		startTransition(async () => {
-			const result = await sendDownloadLink(email);
-			if (result.success) {
-				setEmailStatus("sent");
-			} else {
-				setEmailStatus("error");
-				setEmailError(result.error ?? "Something went wrong.");
-			}
-		});
-	};
-
 	const getHeaderContent = () => {
 		const variant =
 			serverHomepageCopyVariant as keyof typeof homepageCopy.header.variants;
@@ -184,21 +143,17 @@ const Header = ({ serverHomepageCopyVariant = "" }: HeaderProps) => {
 	const downloadButton = (
 		<Button
 			variant="dark"
-			href={primaryDownloadUrl}
+			href="/signup"
 			onClick={() =>
-				trackHomepageEvent("download_cta_clicked", {
+				trackHomepageEvent("signup_cta_clicked", {
 					source_page: "home_header",
 					cta_location: "primary",
-					target_url: primaryDownloadUrl,
-					detected_platform: platform ?? "unknown",
-					is_intel: Boolean(isIntel),
 				})
 			}
 			size="lg"
 			className="flex justify-center items-center font-medium max-w-fit"
 		>
-			{getPlatformIcon(displayPlatform)}
-			{getDownloadButtonText(displayPlatform, false, isIntel)}
+			Começar agora
 		</Button>
 	);
 
@@ -335,7 +290,7 @@ const Header = ({ serverHomepageCopyVariant = "" }: HeaderProps) => {
 						<div className="hidden md:flex flex-col gap-4 mb-5">
 							<div className="flex flex-wrap gap-4 items-center">
 								{downloadButton}
-								<span className="text-sm font-medium text-gray-500">or</span>
+								<span className="text-sm font-medium text-gray-500">ou</span>
 								<ChromeExtensionButton
 									variant="white"
 									onClick={() =>
@@ -370,38 +325,20 @@ const Header = ({ serverHomepageCopyVariant = "" }: HeaderProps) => {
 					)}
 
 					<div className="flex md:hidden flex-col gap-3 mb-5">
-						{emailStatus === "sent" ? (
-							<div className="rounded-xl bg-green-50 border border-green-200 px-4 py-3">
-								<p className="text-sm font-medium text-green-800">
-									Check your inbox! We've sent the download links to{" "}
-									<strong>{email}</strong>.
-								</p>
-							</div>
-						) : (
-							<form
-								onSubmit={handleEmailSubmit}
-								className="flex flex-col gap-2"
-							>
-								<input
-									type="email"
-									value={email}
-									onChange={(e) => setEmail(e.target.value)}
-									placeholder="you@email.com"
-									required
-									className="w-full rounded-full border border-gray-300 bg-white px-4 py-2.5 text-sm text-black placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-								/>
-								<button
-									type="submit"
-									disabled={isPending}
-									className="w-full rounded-full bg-black px-5 py-2.5 text-sm font-medium text-white transition-opacity disabled:opacity-60"
-								>
-									{isPending ? "Sending..." : "Email me the download link"}
-								</button>
-								{emailStatus === "error" && (
-									<p className="text-xs text-red-600">{emailError}</p>
-								)}
-							</form>
-						)}
+						<Button
+							variant="dark"
+							href="/signup"
+							size="lg"
+							className="flex justify-center items-center font-medium"
+							onClick={() =>
+								trackHomepageEvent("signup_cta_clicked", {
+									source_page: "home_header",
+									cta_location: "mobile_primary",
+								})
+							}
+						>
+							Começar agora
+						</Button>
 						<div className="flex flex-col gap-2 items-center mt-1">
 							<UpgradeToPro
 								text={homepageCopy.header.cta.primaryButton}
@@ -414,8 +351,8 @@ const Header = ({ serverHomepageCopyVariant = "" }: HeaderProps) => {
 								}
 							/>
 							<span className="text-xs text-center text-gray-10">
-								Cap Pro gives you unlimited cloud sharing, AI summaries &amp;
-								team features
+								O Ghost Cap Pro te dá compartilhamento em nuvem ilimitado,
+								resumos com IA e recursos de equipe
 							</span>
 						</div>
 					</div>
@@ -437,26 +374,6 @@ const Header = ({ serverHomepageCopyVariant = "" }: HeaderProps) => {
 					<p className="text-sm text-gray-10 text-center md:text-left">
 						{homepageCopy.header.cta.freeVersionText}
 					</p>
-
-					<div className="hidden md:block mt-6 mb-10">
-						<PlatformIcons source="home_header" />
-
-						<Link
-							href="/download"
-							onClick={() =>
-								trackHomepageEvent("download_cta_clicked", {
-									source_page: "home_header",
-									cta_location: "see_other_options",
-									target_url: "/download",
-									detected_platform: platform ?? "unknown",
-									is_intel: Boolean(isIntel),
-								})
-							}
-							className="mt-2 text-sm underline text-gray-10 hover:text-gray-12"
-						>
-							{homepageCopy.header.cta.seeOtherOptionsText}
-						</Link>
-					</div>
 
 					<div className="mt-14">
 						<p className="mb-4 text-sm italic text-gray-10 text-center md:text-left">
