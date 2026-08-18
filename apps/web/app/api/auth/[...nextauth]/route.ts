@@ -1,6 +1,8 @@
 import { db } from "@cap/database";
 import { users } from "@cap/database/schema";
 import { authOptions } from "@cap/database/auth/auth-options";
+import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { eq } from "drizzle-orm";
 import NextAuth from "next-auth";
 
@@ -22,6 +24,32 @@ async function debugImage(email: string) {
 		.from(users)
 		.where(eq(users.email, email.toLowerCase()));
 
+	let presignedUrl: string | null = null;
+	let presignError: string | null = null;
+	if (user?.image) {
+		try {
+			const client = new S3Client({
+				endpoint: process.env.S3_PUBLIC_ENDPOINT,
+				region: process.env.CAP_AWS_REGION,
+				credentials: {
+					accessKeyId: process.env.CAP_AWS_ACCESS_KEY ?? "",
+					secretAccessKey: process.env.CAP_AWS_SECRET_KEY ?? "",
+				},
+				forcePathStyle: process.env.S3_PATH_STYLE === "true",
+			});
+			presignedUrl = await getSignedUrl(
+				client,
+				new GetObjectCommand({
+					Bucket: process.env.CAP_AWS_BUCKET,
+					Key: user.image,
+				}),
+				{ expiresIn: 3600 },
+			);
+		} catch (error) {
+			presignError = (error as Error)?.message ?? String(error);
+		}
+	}
+
 	return {
 		userImage: user?.image ?? null,
 		S3_PUBLIC_ENDPOINT: process.env.S3_PUBLIC_ENDPOINT ?? null,
@@ -29,6 +57,8 @@ async function debugImage(email: string) {
 		CAP_AWS_ENDPOINT: process.env.CAP_AWS_ENDPOINT ?? null,
 		CAP_AWS_BUCKET: process.env.CAP_AWS_BUCKET ?? null,
 		S3_PATH_STYLE: process.env.S3_PATH_STYLE ?? null,
+		presignedUrl,
+		presignError,
 	};
 }
 
