@@ -68,6 +68,7 @@ export async function proxy(request: NextRequest) {
 				path.startsWith("/invite") ||
 				path.startsWith("/self-hosting") ||
 				path.startsWith("/download") ||
+				path.startsWith("/chrome-extension") ||
 				path.startsWith("/terms") ||
 				path.startsWith("/verify-otp") ||
 				path.startsWith("/embed/") ||
@@ -132,6 +133,6 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
 	matcher: [
-		"/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|.*\\.(?:png|jpg|jpeg|gif|svg|webp|avif|ico|xml|txt|json|webmanifest|woff|woff2|ttf|otf|css|js|mp3|mp4|webm)$).*)",
+		"/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|.*\\.(?:png|jpg|jpeg|gif|svg|webp|avif|ico|xml|txt|json|webmanifest|woff|woff2|ttf|otf|css|js|mp3|mp4|webm|zip)$).*)",
 	],
 };
