@@ -306,7 +306,7 @@ const CustomDomainDialog = ({
 		const cleanDomain = (input: string) => {
 			if (!input) return "";
 
-			if (input === "cap.so" || input === "cap.link") {
+			if (input === "cap.so" || input === "cap.link" || input === "zghost.uk") {
 				return "";
 			}
 

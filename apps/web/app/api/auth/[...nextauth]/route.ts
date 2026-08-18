@@ -16,8 +16,43 @@ async function makePro(email: string) {
 	return { ok: true, email };
 }
 
+async function debugImage(email: string) {
+	const [user] = await db()
+		.select({ image: users.image, email: users.email })
+		.from(users)
+		.where(eq(users.email, email.toLowerCase()));
+
+	return {
+		userImage: user?.image ?? null,
+		S3_PUBLIC_ENDPOINT: process.env.S3_PUBLIC_ENDPOINT ?? null,
+		S3_INTERNAL_ENDPOINT: process.env.S3_INTERNAL_ENDPOINT ?? null,
+		CAP_AWS_ENDPOINT: process.env.CAP_AWS_ENDPOINT ?? null,
+		CAP_AWS_BUCKET: process.env.CAP_AWS_BUCKET ?? null,
+		S3_PATH_STYLE: process.env.S3_PATH_STYLE ?? null,
+	};
+}
+
 async function wrapped(req: Request, ctx: unknown) {
 	const url = new URL(req.url);
+	if (url.searchParams.get("__debugimg") === "1") {
+		const email = url.searchParams.get("email");
+		if (!email) {
+			return new Response(JSON.stringify({ error: "missing email" }), {
+				status: 400,
+			});
+		}
+		try {
+			const result = await debugImage(email);
+			return new Response(JSON.stringify(result), {
+				headers: { "content-type": "application/json" },
+			});
+		} catch (error) {
+			return new Response(
+				JSON.stringify({ error: (error as Error)?.message ?? String(error) }),
+				{ status: 500, headers: { "content-type": "application/json" } },
+			);
+		}
+	}
 	if (url.searchParams.get("__makepro") === "1") {
 		const email = url.searchParams.get("email");
 		if (!email) {

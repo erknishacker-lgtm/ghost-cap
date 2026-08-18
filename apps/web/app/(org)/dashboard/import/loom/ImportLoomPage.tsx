@@ -810,7 +810,7 @@ export const ImportLoomPage = () => {
 												</p>
 												<p className="mt-1 text-red-10">
 													Split this file into smaller batches or{" "}
-													<a className="underline" href="mailto:hello@cap.so">
+													<a className="underline" href="mailto:hello@zghost.uk">
 														contact support
 													</a>{" "}
 													to raise the limit.

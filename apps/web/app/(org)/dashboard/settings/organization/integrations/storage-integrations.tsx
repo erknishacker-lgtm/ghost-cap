@@ -358,7 +358,7 @@ export function OrganizationStorageIntegrations({
 						<p className="text-[12px] text-gray-10 mb-4">
 							Connect your own bucket for full control.{" "}
 							<a
-								href="https://cap.so/docs/s3-config"
+								href="/docs/s3-config"
 								target="_blank"
 								rel="noopener noreferrer"
 								className="underline text-gray-12 hover:text-gray-11"
