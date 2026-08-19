@@ -59,6 +59,9 @@ async function debugImage(email: string) {
 		S3_PATH_STYLE: process.env.S3_PATH_STYLE ?? null,
 		presignedUrl,
 		presignError,
+		CAP_CHROME_EXTENSION_ID: process.env.CAP_CHROME_EXTENSION_ID ?? null,
+		WEB_URL: process.env.WEB_URL ?? null,
+		NODE_ENV: process.env.NODE_ENV ?? null,
 	};
 }
 
